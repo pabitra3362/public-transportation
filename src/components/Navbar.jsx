@@ -8,13 +8,15 @@ const Navbar = () => {
 
   return (
     <nav className="nav w-full bg-white h-16 md:h-20 lg:h-24 flex items-center">
-      <div className="w-full md:w-[90vw] lg:w-[80vw] px-3 mx-auto flex justify-between items-center">
+      {/* left */}
+      <div className="w-full md:w-[90vw] lg:w-[70vw] px-3 mx-auto flex justify-between items-center">
         <div className="left flex justify-center items-center">
           <div className="font-bold text-lg text-black uppercase">logo</div>
         </div>
 
+        {/* middle */}
         <div className="middle hidden lg:block">
-          <ul className="flex justify-center items-center gap-3">
+          <ul className="flex justify-center items-center gap-6">
             <li>
               <NavLink
                 className={(e) =>
@@ -101,6 +103,8 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
+
+        {/* right */}
         <div className="right hidden lg:flex justify-center items-center gap-3">
           <div className="flex justify-center items-center gap-1 text-lg font-bold">
             <div className="text-yellow-400">+91 123</div>
@@ -108,7 +112,7 @@ const Navbar = () => {
           </div>
           <div>
             <Button
-              onClick={() => navigate("/gettaxi")}
+              onClick={() => navigate("/taxi")}
               className="px-4 py-2 border-black rounded-sm"
             >
               Book A Ride
