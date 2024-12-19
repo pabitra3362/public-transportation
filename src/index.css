@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#card{
+    background-color: rgba(4, 34, 75, 0.941);
+}
+
+
+#maindiv::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
