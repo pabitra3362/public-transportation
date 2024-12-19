@@ -14,12 +14,12 @@ const Input = forwardRef(function Myinput(
         )}
         <input
           type={type}
-          className={`w-full pl-10 text-black font-bold ${className}`} // Padding on left to create space for the icon
+          className={`w-80 md:w-80 lg:w-[35vw] pl-10 text-black font-bold ${className}`} // Padding on left to create space for the icon
           placeholder={placeholder}
           id={id}
           aria-label={label}
           ref={ref}
-          {...props}
+          {...props} // Spread all the props, including value, onChange, etc.
         />
       </div>
     </div>
