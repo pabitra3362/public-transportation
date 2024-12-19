@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const Button = ({ children, onClick, className = "", type="button", ref, ...props }) => {
+const Button = ({ children, className = "", type="button", ref, ...props }) => {
   return (
     <motion.button
     whileTap={{
@@ -12,7 +12,6 @@ const Button = ({ children, onClick, className = "", type="button", ref, ...prop
     }}
       ref={ref}
       type={type}
-      onClick={onClick}
       className={`group relative border z-0 bg-transparent overflow-hidden font-bold hover:text-white ${className}`}
       {...props}
     >
