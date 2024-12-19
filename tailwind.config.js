@@ -11,6 +11,9 @@ export default {
     extend: {
       colors:{
         "custom-yellow": "rgba(255, 250, 0, 0.8)"
+      },
+      fontFamily:{
+        custom:["DM Serif Text", "serif"],
       }
     },
   },
