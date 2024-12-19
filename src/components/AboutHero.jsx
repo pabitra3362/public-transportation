@@ -32,7 +32,7 @@ const AboutHero = () => {
             What we offer
           </h3>
           <h1 className="text-center  text-3xl mb-5">
-            We’re a Company of Talented
+            We&apos;re a Company of Talented
           </h1>
         </div>
  
