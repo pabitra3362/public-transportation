@@ -5,6 +5,7 @@ import { MdEmojiTransportation } from "react-icons/md";
 import { BsFillBuildingsFill } from "react-icons/bs";
 import { FaTaxi } from "react-icons/fa";
 import HomeCard from "../components/HomeCard";
+import { motion } from "framer-motion";
 
 const Home = () => {
   const homeCardArray = [
@@ -63,17 +64,28 @@ const Home = () => {
 
   const PlanCard = ({ title, phase, price }) => {
     return (
-      <div className="grid h-48 md:h-32 bg-white md:bg-transparent lg:bg-white mx-auto md:flex md:justify-between items-center gap-5 px-3 md:px-6 py-2 w-80 md:w-screen lg:w-[42vw] my-3 rounded-lg">
-        <div className="info grid gap-4 text-black">
-          <p className="title text-lg md:text-xl font-bold text-black ">
+      <motion.div 
+      initial={{
+        rotate: 0,
+      }}
+      whileHover={{
+        rotate:[0, -2, 2, -2, 2, 0],
+      }}
+      whileInView={{
+        opacity: [0,1],
+        transition: {duration: 1}
+      }}
+      className="grid h-48 md:h-32 hover:bg-yellow-400 group bg-white md:bg-transparent lg:bg-white mx-auto md:flex md:justify-between items-center gap-5 px-3 md:px-6 py-2 w-80 md:w-screen lg:w-[42vw] my-3 rounded-lg">
+        <div className="info grid gap-4 text-black group-hover:text-white">
+          <p className="title text-lg md:text-xl font-bold ">
             {title}
           </p>
-          <p className="phase md:text-lg text-black">{phase}</p>
+          <p className="phase md:text-lg">{phase}</p>
         </div>
-        <div className="price text-yellow-400 text-lg">
+        <div className="price text-yellow-400 group-hover:text-white text-lg">
           <span className="text-2xl font-bold">Rs {price}</span>/km
         </div>
-      </div>
+      </motion.div>
     );
   };
 
@@ -106,7 +118,11 @@ const Home = () => {
       </div>
 
       {/* Plans */}
-      <div className="bg-slate-200">
+      <div className="bg-slate-200 py-16 lg:pb-24">
+        <p className="text-yellow-400 text-center text-2xl font-bold py-3">Let&apos;s Go With Us</p>
+        <h2 className="text-3xl text-center tracking-wider font-bold font-custom my-3 lg:my-5">
+          Our Best Plans
+        </h2>
         <div className="grid justify-items-center items-center lg:grid-cols-2 lg:w-[90vw] mx-auto">
           {planCardArray.map((item, index) => (
             <PlanCard
