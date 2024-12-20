@@ -89,6 +89,8 @@ const Home = () => {
     );
   };
 
+
+
   return (
     <div>
       {/* Hero section */}
@@ -120,10 +122,10 @@ const Home = () => {
       {/* Plans */}
       <div className="bg-slate-200 py-16 lg:pb-24">
         <p className="text-yellow-400 text-center text-2xl font-bold py-3">Let&apos;s Go With Us</p>
-        <h2 className="text-3xl text-center tracking-wider font-bold font-custom my-3 lg:my-5">
+        <h2 className="text-3xl lg:text-5xl text-center tracking-wider font-bold font-custom my-3 lg:my-5">
           Our Best Plans
         </h2>
-        <div className="grid justify-items-center items-center lg:grid-cols-2 lg:w-[90vw] mx-auto">
+        <div className="grid justify-items-center items-center lg:grid-cols-2 lg:w-[90vw] mx-auto my-5 lg:my-10">
           {planCardArray.map((item, index) => (
             <PlanCard
               key={index}
