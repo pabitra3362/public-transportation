@@ -10,9 +10,9 @@ const AboutHero = () => {
         className="hero min-h-screen"
         style={{
           backgroundImage:
-            "url(https://as2.ftcdn.net/v2/jpg/09/43/24/41/1000_F_943244109_tSESbUFgllfs7JpR3fmcz2dmrWObFU6D.jpg)",
-        }}
-      >
+            "url(https://as2.ftcdn.net/v2/jpg/09/43/24/41/1000_F_943244109_tSESbUFgllfs7JpR3fmcz2dmrWObFU6D.jpg)", }} >
+
+              
         <div className="hero-overlay bg-opacity-60"></div>
         <div className="hero-content text-neutral-content text-center px-5 md:px-10 lg:px-20">
           <div className="max-w-md">

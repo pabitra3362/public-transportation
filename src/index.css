@@ -3,6 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 #card {
   background-color: rgba(4, 34, 75, 0.941);
 }
