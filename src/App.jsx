@@ -11,6 +11,7 @@ import News from "./pages/News";
 import Contacts from "./pages/Contacts";
 import Footer from "./components/Footer";
 
+
 const App = () => {
   return (
     <div>
