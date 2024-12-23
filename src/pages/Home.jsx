@@ -31,36 +31,37 @@ const Home = () => {
 
   const planCardArray = [
     {
-      title: "How to get discount with mobile application",
-      phase: "Remember when did you lose it.",
-      price: 30,
+      "title": "Free Cab On Friday, 70% Cashback",
+      "phase": "On Luxury Cab Bookings.",
+      "price": 48
     },
     {
-      title: "Get the Best Price Of Taxi In Your Place",
-      phase: "We will bring you quickly and comfortably in your place.",
-      price: 54,
+      "title": "Weekend Special: 50% Off on All Rides",
+      "phase": "Offer valid for both Regular and Premium Cabs.",
+      "price": 25
     },
     {
-      title: "Get the Best Price Of Taxi In Your Available Area",
-      phase: "Come to our storage and pick your item",
-      price: 20,
+      "title": "Get 20% Off on Your First Ride",
+      "phase": "Welcome offer for new users only.",
+      "price": 15
     },
     {
-      title: "Taxi drivers for hire in your city",
-      phase: "Come to our storage and pick your item.",
-      price: 40,
+      "title": "Book a Ride, Earn 100 Loyalty Points",
+      "phase": "Redeem points for discounts on future bookings.",
+      "price": 30
     },
     {
-      title: "Get the Best Price Of Taxi In Your Place",
-      phase: "New bigger & better F.A.Q. section.",
-      price: 15,
+      "title": "Free Festive Offer",
+      "phase": "Share your referral code and enjoy the perks.",
+      "price": 0
     },
     {
-      title: "Choose Advertising Position",
-      phase: "Come to our storage and pick your item.",
-      price: 55,
-    },
-  ];
+      "title": "Surge Pricing Alert: 10% Off",
+      "phase": "Book during peak hours to enjoy discounts.",
+      "price": 35
+    }
+  ]
+  
 
   const PlanCard = ({ title, phase, price }) => {
     return (
@@ -136,6 +137,7 @@ const Home = () => {
           ))}
         </div>
       </div>
+          
     </div>
   );
 };
