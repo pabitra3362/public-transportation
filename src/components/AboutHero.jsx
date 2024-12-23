@@ -32,8 +32,8 @@ const AboutHero = () => {
           <h3 className="text-orange-400 text-xl md:text-2xl py-5">
             What we offer
           </h3>
-          <h1 className="text-2xl md:text-3xl lg:text-4xl mb-5">
-            We’re a Company of Talented
+          <h1 className="text-center  text-3xl mb-5">
+            We&apos;re a Company of Talented
           </h1>
         </div>
 

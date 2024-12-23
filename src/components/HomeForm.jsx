@@ -101,7 +101,7 @@ const HomeForm = () => {
   return (
     <div>
       <div className="w-full bg-slate-200 py-1 md:py-5 lg:py-16">
-        <div className="w-full md:w-[80vw] lg:w-[70vw] mx-auto px-3 py-7 md:py-10 overflow-hidden grid md:flex justify-items-center md:justify-between items-center gap-8 lg:gap-2 bg-white rounded-lg hover:shadow-lg transition duration-200">
+        <div className="w-full md:w-[80vw] lg:w-[70vw] mx-auto px-3 py-7 md:py-10 overflow-hidden grid md:flex justify-items-center md:justify-between items-center gap-8 lg:gap-2 bg-white rounded-lg hover:shadow-2xl transition duration-200">
           <div className="left bg-custom-yellow w-80 h-96 md:h-[40vh] lg:w-[35vw] lg:h-[50vh] flex justify-center items-center relative">
             <video
               className="absolute top-0 left-0 w-full h-full object-cover"
@@ -123,7 +123,7 @@ const HomeForm = () => {
                     selectedClass === cls
                       ? "border-b-2 border-yellow-400 text-yellow-400"
                       : "text-black"
-                  } transition duration-200 font-bold text-sm cursor-pointer`}
+                  } transition duration-200 font-bold text-sm text cursor-pointer`}
                 >
                   {cls.toUpperCase()}
                 </div>
