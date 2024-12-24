@@ -10,8 +10,8 @@ const About = () => {
     <div>
       <AboutHero />
       <Team />
-      <div className="mt-40 mb-16 p-20">
-       <SlidingTestimonials  />
+      <div className="mt-40 mb-16">
+        <SlidingTestimonials />
       </div>
       <Phone />
     </div>

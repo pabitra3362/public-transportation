@@ -44,35 +44,27 @@ const SlidingTestimonials = () => {
   };
 
   useEffect(() => {
-    // ScrollTrigger animation for background image parallax effect
+    
     gsap.to(".hero", {
-      backgroundPosition: "center center",
+      backgroundPosition: "center bottom",
       scrollTrigger: {
-        trigger: ".hero", // Trigger animation when the hero section is in view
-        start: "top top", // Start when the top of the hero section hits the top of the viewport
-        end: "bottom top", // End when the bottom of the hero section reaches the top of the viewport
-        scrub: true, // Smoothly follow scroll position
-        markers: false, // Optional: Enable markers for debugging
-        onUpdate: (self) => {
-          const backgroundPos = self.progress * 100; // Create a dynamic background position based on scroll progress
-          gsap.to(".hero", {
-            backgroundPosition: `center ${backgroundPos}%`,
-            ease: "none",
-          });
-        },
+        trigger: ".hero",
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
       },
     });
 
-    // GSAP animation for testimonials as you scroll
+    
     gsap.fromTo(
       ".testimonial-block",
       {
         opacity: 0,
-        y: 100, // Start from 100px below
+        y: 50, 
       },
       {
         opacity: 1,
-        y: 0, // Animate to original position
+        y: 0, 
         duration: 1.5,
         scrollTrigger: {
           trigger: ".testimonial-block",
@@ -92,11 +84,10 @@ const SlidingTestimonials = () => {
           "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        transform: "scale(1.1)", // Zoom in by 10%
-        transition: "transform 0.5s ease-in-out",
+        backgroundAttachment: "fixed", 
       }}
     >
-      <div className="hero-overlay absolute inset-0 bg-blue-950 bg-opacity-80"></div>
+      <div className="hero-overlay absolute w-full"></div>
       <div className="hero-content text-neutral-content text-center relative z-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl w-full">
           <h1 className="mb-8 text-3xl md:text-4xl lg:text-5xl font-bold text-white">
@@ -113,7 +104,6 @@ const SlidingTestimonials = () => {
                 <blockquote className="lg:text-lg leading-relaxed text-white lg:px-8 max-w-full sm:text-sm text-sm">
                   {testimonial.text}
                 </blockquote>
-
                 <p className="mt-4 text-sm md:text-base lg:text-lg text-gray-300">
                   <strong>{testimonial.name}</strong>, {testimonial.role}
                 </p>
