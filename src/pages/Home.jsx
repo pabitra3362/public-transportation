@@ -1,11 +1,13 @@
 import React, { useRef, useState } from "react";
 import Hero from "../components/Hero";
 import HomeForm from "../components/HomeForm";
-import { MdEmojiTransportation } from "react-icons/md";
+import { MdEmojiTransportation, MdOutlineMiscellaneousServices, MdHomeRepairService } from "react-icons/md";
 import { BsFillBuildingsFill } from "react-icons/bs";
-import { FaTaxi } from "react-icons/fa";
+import { FaTaxi, FaGlobeAmericas } from "react-icons/fa";
 import HomeCard from "../components/HomeCard";
 import { motion } from "framer-motion";
+import homeBg from '../assets/homeBg.jpg'
+import driverIcon from '../assets/driverIcon.png'
 
 const Home = () => {
   const homeCardArray = [
@@ -26,6 +28,33 @@ const Home = () => {
       title: "Your Ride, Your Way",
       description:
         "Customize your travel experience with our taxi service, offering safe, affordable, and convenient rides tailored to your needs.",
+    },
+  ];
+
+  const FeatureCardArray = [
+    {
+      icon: <MdOutlineMiscellaneousServices className="size-16" />,
+      title: "100% Pleasure",
+      description:
+        "Experience smooth, comfortable rides with our 100% pleasure guarantee—your satisfaction is our top priority.",
+    },
+    {
+      icon: <FaGlobeAmericas className="size-16" />,
+      title: "Lots of locations",
+      description:
+        "Access a wide range of locations with our extensive network, ensuring convenience wherever you go.",
+    },
+    {
+      icon: <FaTaxi className="size-16" />,
+      title: "Luxury Cars",
+      description:
+        "Travel in style and comfort with our fleet of premium, luxury cars for an unforgettable ride.",
+    },
+    {
+      icon: <MdHomeRepairService  className="size-16" />,
+      title: "Additional Services",
+      description:
+        "Enjoy extra conveniences like airport transfers, priority booking, and personalized assistance for a seamless journey.",
     },
   ];
 
@@ -61,6 +90,8 @@ const Home = () => {
       "price": 35
     }
   ]
+
+
   
 
   const PlanCard = ({ title, phase, price }) => {
@@ -137,7 +168,41 @@ const Home = () => {
           ))}
         </div>
       </div>
-          
+
+      {/* Reliable Taxi Service */}
+      <div className="relative w-screen h-[50vh] my-10 lg:my-20">
+          <img className="absolute w-[100%] h-[100%] z-10 brightness-[50%]" src={homeBg} alt={homeBg} />
+          <div className="absolute w-[100%] h-[100%] z-20 bg-[#cfaf21] opacity-80 grid justify-items-center content-center items-center gap-6 md:gap-10">
+              <div className="w-36 h-36 rounded-full flex justify-center items-center bg-white">
+                <img src={driverIcon} alt={driverIcon} />
+              </div>
+              <p className="text-white text-2xl md:text-4xl font-bold">24/7 Reliable Taxi Service</p>
+              <p className="text-white font-custom text-xl md:text-2xl text-center">Ride in Comfort and Convenience with Our Taxi Services</p>
+          </div>
+      </div>
+
+
+      {/* Main Features */}
+      <div className="w-full bg-slate-200  grid justify-items-center items-center gap-5 lg:gap-10 py-10 lg:py-24">
+        <h2 className="uppercase tracking-[0.25rem] text-yellow-400 font-bold text-lg lg:text-xl">
+          Main Features
+        </h2>
+        <p className="font-bold text-4xl lg:text-5xl text-center font-custom">
+          Our Advantages
+        </p>
+        <div className="grid items-center gap-5 md:w-[80vw] md:grid-cols-2 lg:flex md:justify-center lg:justify-center lg:gap-10">
+          {FeatureCardArray.map((item, index) => (
+            <HomeCard
+              key={index}
+              icon={item.icon}
+              title={item.title}
+              description={item.description}
+              gridAlign="justify-items-start"
+              textAlign="text-start"
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
