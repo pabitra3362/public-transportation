@@ -170,9 +170,9 @@ const Home = () => {
       </div>
 
       {/* Reliable Taxi Service */}
-      <div className="relative w-screen h-[50vh] my-10 lg:my-20">
-          <img className="absolute w-[100%] h-[100%] z-10 brightness-[50%]" src={homeBg} alt={homeBg} />
-          <div className="absolute w-[100%] h-[100%] z-20 bg-[#cfaf21] opacity-80 grid justify-items-center content-center items-center gap-6 md:gap-10">
+      <div className="relative w-full h-[50vh] my-10 lg:my-20">
+          <img className="absolute w-full h-full z-10 brightness-[50%]" src={homeBg} alt={homeBg} />
+          <div className="absolute w-full h-full z-20 bg-[#cfaf21] opacity-80 grid justify-items-center content-center items-center gap-6 md:gap-10">
               <div className="w-36 h-36 rounded-full flex justify-center items-center bg-white">
                 <img src={driverIcon} alt={driverIcon} />
               </div>
