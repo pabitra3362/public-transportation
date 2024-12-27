@@ -1,4 +1,4 @@
-import React from 'react'
+/* eslint-disable react/prop-types */
 
 const HomeCard = ({icon,title,description,gridAlign="justify-items-center",textAlign="text-center"}) => {
   return (
