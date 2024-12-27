@@ -8,6 +8,9 @@ import HomeCard from "../components/HomeCard";
 import { motion } from "framer-motion";
 import homeBg from '../assets/homeBg.jpg'
 import driverIcon from '../assets/driverIcon.png'
+import Phone from '../components/Phone'
+import SlidingTestimonials from "../components/SlidingTestimonials";
+import ContactForm from "../components/ContactForm";
 
 const Home = () => {
   const homeCardArray = [
@@ -170,7 +173,8 @@ const Home = () => {
       </div>
 
       {/* Reliable Taxi Service */}
-      <div className="relative w-full h-[50vh] my-10 lg:my-20">
+      <div className="py-10 lg:py-20 bg-slate-200">
+      <div className="relative w-full h-[50vh] border-2 border-cyan-500">
           <img className="absolute w-full h-full z-10 brightness-[50%]" src={homeBg} alt={homeBg} />
           <div className="absolute w-full h-full z-20 bg-[#cfaf21] opacity-80 grid justify-items-center content-center items-center gap-6 md:gap-10">
               <div className="w-36 h-36 rounded-full flex justify-center items-center bg-white">
@@ -179,6 +183,7 @@ const Home = () => {
               <p className="text-white text-2xl md:text-4xl font-bold">24/7 Reliable Taxi Service</p>
               <p className="text-white font-custom text-xl md:text-2xl text-center">Ride in Comfort and Convenience with Our Taxi Services</p>
           </div>
+      </div>
       </div>
 
 
@@ -202,6 +207,23 @@ const Home = () => {
             />
           ))}
         </div>
+      </div>
+
+      
+      {/* Call Us To Book A Taxi */}
+      <div>
+        <Phone />
+      </div>
+
+      
+      {/* Feedback */}
+      <div>
+        <SlidingTestimonials />
+      </div>
+
+      {/* Contact Us */}
+      <div>
+        <ContactForm />
       </div>
     </div>
   );
