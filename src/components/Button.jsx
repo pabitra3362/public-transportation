@@ -5,7 +5,7 @@ const Button = ({ children, className = "", type="button", ref, ...props }) => {
   return (
     <motion.button
     whileTap={{
-      scale:0.8,
+      scale:0.9,
       transition:{
         duration:0.1
       }
