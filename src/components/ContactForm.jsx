@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "./Button";
 import Input from "./Input";
@@ -6,6 +6,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { MdEmail, MdOutlineEventNote } from "react-icons/md";
 import { FaMessage } from "react-icons/fa6";
 import TextArea from "./TextArea";
+import toast, { Toaster } from "react-hot-toast";
 
 const ContactForm = () => {
   const {
@@ -14,18 +15,40 @@ const ContactForm = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data, event) => {
+    // event.preventDefault();
+    const formData = new FormData(event.target);
+
+    formData.append("access_key", "7c8cb446-ff39-47d0-99fa-9c3d6bdfafd1");
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    });
+
+    const apiData = await response.json();
+
+    if (apiData.success) {
+      toast.success("Form Submitted Successfully");
+      event.target.reset();
+    } else {
+      console.log("Error", apiData);
+      toast.error(apiData.message);
+    }
   };
 
   return (
     <div className="grid gap-10">
+      {/* Toaster for Toast */}
+      <Toaster position="top-center" />
+
+      {/* Main Content */}
       <div className="grid justify-items-center items-center gap-4">
         <p className="text-yellow-400 text-center text-2xl">
           How Can We Help You?
         </p>
         <p className=" text-black font-bold text-center text-3xl">
-          Have Any Question?
+          Have Any Questions?
         </p>
       </div>
       <form
@@ -122,9 +145,14 @@ const ContactForm = () => {
         <div className="w-80 lg:w-[35vw]">
           <Button
             type="submit"
+            disabled={isSubmitting}
             className="w-full py-3 border border-black rounded-lg"
           >
-            Book Now!
+            {isSubmitting ? (
+              <span className="loading loading-dots loading-lg"></span>
+            ) : (
+              "Submit"
+            )}
           </Button>
         </div>
       </form>
