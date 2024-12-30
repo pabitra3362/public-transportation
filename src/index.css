@@ -16,3 +16,10 @@
 .card::-webkit-scrollbar {
   display: none; /* Chrome, Safari, and Opera */
 }
+
+
+.logo-image{
+  width: 100px; 
+  height: 90px;
+  border-radius: 50px;
+}

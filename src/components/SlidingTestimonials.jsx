@@ -78,7 +78,7 @@ const SlidingTestimonials = () => {
 
   return (
     <div
-      className="hero h-screen flex items-center justify-center"
+      className="hero  hidden md:flex items-center justify-center"
       style={{
         backgroundImage:
           "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
@@ -87,7 +87,7 @@ const SlidingTestimonials = () => {
         backgroundAttachment: "fixed", 
       }}
     >
-      <div className="hero-overlay absolute w-full"></div>
+      <div className="hero-overlay absolute w-full h-[65%]"></div>
       <div className="hero-content text-neutral-content text-center relative z-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl w-full">
           <h1 className="mb-8 text-3xl md:text-4xl lg:text-5xl font-bold text-white">
@@ -101,10 +101,10 @@ const SlidingTestimonials = () => {
                   src={testimonial.image}
                   className="mx-auto h-20 w-20 md:h-28 md:w-28 rounded-full mb-5"
                 />
-                <blockquote className="lg:text-lg leading-relaxed text-white lg:px-8 max-w-full sm:text-sm text-sm">
+                <blockquote className="lg:text-lg  leading-relaxed text-white lg:px-8 max-w-full sm:text-sm text-sm">
                   {testimonial.text}
                 </blockquote>
-                <p className="mt-4 text-sm md:text-base lg:text-lg text-gray-300">
+                <p className="mt-20 text-sm md:text-base mb-20 lg:text-lg text-gray-300">
                   <strong>{testimonial.name}</strong>, {testimonial.role}
                 </p>
               </div>

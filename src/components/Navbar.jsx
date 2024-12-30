@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React, { useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { MyDrawer } from "./Drawer";
+import Logo from "../assets/Logo.jpg";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -11,7 +13,9 @@ const Navbar = () => {
       {/* left */}
       <div className="w-full md:w-[90vw] lg:w-[70vw] px-3 mx-auto flex justify-between items-center">
         <div className="left flex justify-center items-center">
-          <div className="font-bold text-lg text-black uppercase">logo</div>
+          <div className="font-bold text-lg text-black uppercase">
+            <img src={Logo} alt="Logo" className="logo-image" />
+          </div>
         </div>
 
         {/* middle */}
