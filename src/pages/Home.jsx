@@ -222,9 +222,9 @@ const Home = () => {
       </div>
 
       {/* Contact Us */}
-      <div className="bg-slate-200 py-10 lg:py-20 grid gap-10 lg:gap-10 md:flex md:justify-center items-center md:gap-2">
+      <div className=" py-10 lg:py-20 grid gap-10 lg:gap-10 md:flex md:justify-center items-center md:gap-2">
         <div>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.815203677499!2d72.83883427597932!3d21.15975128326525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e2fe47b1ee1%3A0x504c1d61b4e6e422!2sudhna%20college!5e0!3m2!1sen!2sin!4v1735398344280!5m2!1sen!2sin"  className="border-0 w-full md:w-96 lg:w-[45vw] mx-auto h-[70vh] md:h-[55vh] lg:h-[75vh]" allowFullScreen={true} loading="lazy"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.815203677499!2d72.83883427597932!3d21.15975128326525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e2fe47b1ee1%3A0x504c1d61b4e6e422!2sudhna%20college!5e0!3m2!1sen!2sin!4v1735398344280!5m2!1sen!2sin"  className="border-0 w-full md:w-96 lg:w-[45vw] mx-auto h-[70vh] md:h-[55vh] lg:h-[65vh]" allowFullScreen={true} loading="lazy"></iframe>
         </div>
         <ContactForm />
       </div>
