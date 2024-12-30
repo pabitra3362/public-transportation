@@ -15,8 +15,7 @@ const ContactForm = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = async (data, event) => {
-    // event.preventDefault();
+  const onSubmit = async (data,event) => {
     const formData = new FormData(event.target);
 
     formData.append("access_key", "7c8cb446-ff39-47d0-99fa-9c3d6bdfafd1");
