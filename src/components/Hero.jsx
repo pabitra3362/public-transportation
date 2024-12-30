@@ -15,7 +15,7 @@ const Hero = () => {
         <p className="text-base md:text-lg text-slate-700 my-4 md:my-6">
         Book a ride in seconds and get to your destination with ease. Our reliable drivers are ready to take you wherever you need to go, anytime, anywhere.
         </p>
-        <button className="bg-indigo-500 text-white font-medium py-2 px-4 rounded transition-all hover:bg-indigo-600 active:scale-95">
+        <button className="bg-black rounded-sm  text-white font-medium py-2 px-4 hover:rounded-lg transition-all hover:bg-slate-900 active:scale-95">
           Get Taxi
         </button>
       </div>
