@@ -195,7 +195,7 @@ const Home = () => {
         <p className="font-bold text-4xl lg:text-5xl text-center font-custom">
           Our Advantages
         </p>
-        <div className="grid items-center gap-5 md:w-[80vw] md:grid-cols-2 lg:flex md:justify-center lg:justify-center lg:gap-10">
+        <div className="grid items-center gap-5 md:w-[80vw] md:grid-cols-2  md:justify-items-center lg:flex lg:justify-center lg:gap-10">
           {FeatureCardArray.map((item, index) => (
             <HomeCard
               key={index}
@@ -204,6 +204,7 @@ const Home = () => {
               description={item.description}
               gridAlign="justify-items-start"
               textAlign="text-start"
+              topLine={false}
             />
           ))}
         </div>

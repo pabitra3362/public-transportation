@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 
-const HomeCard = ({icon,title,description,gridAlign="justify-items-center",textAlign="text-center"}) => {
+const HomeCard = ({icon,title,description,gridAlign="justify-items-center",textAlign="text-center",topLine="true"}) => {
   return (
     <div className={`group w-80 bg-white md:bg-slate-200  rounded-lg h-80 hover:shadow-2xl hover:-translate-y-5 transition duration-300 relative grid ${gridAlign} items-center gap-2 px-3 p-5`}>
-      <div className='absolute w-80 top-0 left-0 h-1 bg-yellow-400 hidden group-hover:block transition duration-200'></div>
+      {
+        topLine && <div className='absolute w-80 top-0 left-0 h-1 bg-yellow-400 hidden group-hover:block transition duration-200'></div>
+      }
         <div className='icon flex justify-center items-center'>
             {icon}
         </div>
