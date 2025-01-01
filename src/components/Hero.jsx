@@ -1,26 +1,38 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import Button from "./Button";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
+  
   return (
     <div className="bg-yellow-400">
       <section className="w-full px-8 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 lg:gap-36 md:w-[90vw] lg:w-[70vw] rounded-lg mx-auto md:bg-yellow-400">
-      <div>
-        <span className="block mb-4 text-slate-700 font-medium">
-          Be on time
-        </span>
-        <h3 className="text-4xl md:text-6xl font-semibold md:text-custom-yellow ">
-        Ride with Ease, Wherever You Need to Be!
-        </h3>
-        <p className="text-base md:text-lg text-slate-700 my-4 md:my-6">
-        Book a ride in seconds and get to your destination with ease. Our reliable drivers are ready to take you wherever you need to go, anytime, anywhere.
-        </p>
-        <button className="bg-black rounded-sm  text-white font-medium py-2 px-4 hover:rounded-lg transition-all hover:bg-slate-900 active:scale-95">
-          Get Taxi
-        </button>
-      </div>
-      <ShuffleGrid />
-    </section>
+        <div>
+          <span className="block mb-4 text-slate-700 font-medium">
+            Be on time
+          </span>
+          <h3 className="text-4xl md:text-6xl font-semibold md:text-custom-yellow ">
+            Ride with Ease, Wherever You Need to Be!
+          </h3>
+          <p className="text-base md:text-lg text-slate-700 my-4 md:my-6">
+            Book a ride in seconds and get to your destination with ease. Our
+            reliable drivers are ready to take you wherever you need to go,
+            anytime, anywhere.
+          </p>
+          <div>
+            <Button
+              onClick={() => navigate("/taxi")}
+              className="px-4 py-2 border-black rounded-sm"
+              bgColor="bg-black"
+            >
+              Get Taxi
+            </Button>
+          </div>
+        </div>
+        <ShuffleGrid />
+      </section>
     </div>
   );
 };

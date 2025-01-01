@@ -142,7 +142,7 @@ const Home = () => {
         <p className="font-bold text-3xl text-center font-custom">
           We&apos;re a Company Of Talented
         </p>
-        <div className="grid items-center gap-5 md:w-[80vw] md:grid-cols-2 lg:flex md:justify-center lg:justify-center lg:gap-10">
+        <div className="grid items-center gap-5 md:w-[80vw] md:grid-cols-2 lg:flex lg:w-[70vw] md:justify-center lg:justify-between lg:gap-10">
           {homeCardArray.map((item, index) => (
             <HomeCard
               key={index}

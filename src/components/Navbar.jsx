@@ -1,13 +1,15 @@
 import React, { useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import Button from "./Button";
 import { MyDrawer } from "./Drawer";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar = () => {
-  const navigate = useNavigate();
+
+  const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
 
   return (
-    <nav className="nav w-full bg-white h-16 md:h-20 lg:h-24 flex items-center">
+    <div>
+      <nav className="nav w-full bg-white h-16 md:h-20 lg:h-24 flex items-center">
       {/* left */}
       <div className="w-full md:w-[90vw] lg:w-[70vw] px-3 mx-auto flex justify-between items-center">
         <div className="left flex justify-center items-center">
@@ -111,12 +113,18 @@ const Navbar = () => {
             <div className="text-black">4567890</div>
           </div>
           <div>
-            <Button
-              onClick={() => navigate("/taxi")}
-              className="px-4 py-2 border-black rounded-sm"
-            >
-              Book A Ride
-            </Button>
+          {
+              isAuthenticated ?
+                <button 
+                onClick={logout}
+                className='border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-yellow-400 hover:text-white hover:border-opacity-0 duration-200'>
+                  Logout
+                </button>
+                :
+                <button
+                  onClick={loginWithRedirect}
+                  className='border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-yellow-400 hover:text-white hover:border-opacity-0 duration-200'>Login / Sign Up</button>
+            }
           </div>
         </div>
         <div className="lg:hidden">
@@ -124,6 +132,7 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
+    </div>
   );
 };
 
