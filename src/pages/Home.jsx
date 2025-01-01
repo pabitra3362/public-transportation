@@ -204,7 +204,6 @@ const Home = () => {
               description={item.description}
               gridAlign="justify-items-start"
               textAlign="text-start"
-              topLine={false}
             />
           ))}
         </div>
