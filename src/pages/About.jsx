@@ -10,7 +10,7 @@ const About = () => {
     <div>
       <AboutHero />
       <Team />
-      <div className="mt-40 mb-16">
+      <div className="">
         <SlidingTestimonials />
       </div>
       <Phone />

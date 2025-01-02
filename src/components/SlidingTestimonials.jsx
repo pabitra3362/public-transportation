@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -44,7 +44,6 @@ const SlidingTestimonials = () => {
   };
 
   useEffect(() => {
-    
     gsap.to(".hero", {
       backgroundPosition: "center bottom",
       scrollTrigger: {
@@ -55,16 +54,15 @@ const SlidingTestimonials = () => {
       },
     });
 
-    
     gsap.fromTo(
       ".testimonial-block",
       {
         opacity: 0,
-        y: 50, 
+        y: 50,
       },
       {
         opacity: 1,
-        y: 0, 
+        y: 0,
         duration: 1.5,
         scrollTrigger: {
           trigger: ".testimonial-block",
@@ -76,18 +74,20 @@ const SlidingTestimonials = () => {
     );
   }, []);
 
+  const [size, setSize] = useState({ width: 800, height: 1080 });
+
   return (
     <div
-      className="hero  hidden md:flex items-center justify-center"
+      className="hero   hidden md:flex items-center justify-center"
       style={{
         backgroundImage:
           "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundAttachment: "fixed", 
+        backgroundAttachment: "fixed",
       }}
     >
-      <div className="hero-overlay absolute w-full h-[65%]"></div>
+      <div className="hero-overlay absolute md:h-[65%] "></div>
       <div className="hero-content text-neutral-content text-center relative z-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl w-full">
           <h1 className="mb-8 text-3xl md:text-4xl lg:text-5xl font-bold text-white">
