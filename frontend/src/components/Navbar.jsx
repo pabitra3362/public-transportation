@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import Button from "./Button";
 import { MyDrawer } from "./Drawer";
 import Logo from "../assets/Logo.jpg";
 import { useAuth0 } from "@auth0/auth0-react";
