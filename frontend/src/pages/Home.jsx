@@ -10,8 +10,11 @@ import { BsFillBuildingsFill } from "react-icons/bs";
 import { FaTaxi, FaGlobeAmericas } from "react-icons/fa";
 import HomeCard from "../components/HomeCard";
 import { motion } from "framer-motion";
-import homeBg from "../assets/homeBg.jpg";
-import driverIcon from "../assets/driverIcon.png";
+import homeBg from '../assets/homeBg.jpg'
+import driverIcon from '../assets/driverIcon.png'
+import Phone from '../components/Phone'
+import SlidingTestimonials from "../components/SlidingTestimonials";
+import ContactForm from "../components/ContactForm";
 
 const Home = () => {
   const homeCardArray = [
@@ -137,7 +140,7 @@ const Home = () => {
         <p className="font-bold text-3xl text-center font-custom">
           We&apos;re a Company Of Talented
         </p>
-        <div className="grid items-center gap-5 md:w-[80vw] md:grid-cols-2 lg:flex md:justify-center lg:justify-center lg:gap-10">
+        <div className="grid items-center gap-5 md:w-[80vw] md:grid-cols-2 lg:flex lg:w-[70vw] md:justify-center lg:justify-between lg:gap-10">
           {homeCardArray.map((item, index) => (
             <HomeCard
               key={index}
@@ -170,23 +173,17 @@ const Home = () => {
       </div>
 
       {/* Reliable Taxi Service */}
-      <div className="relative w-screen h-[50vh] my-10 lg:my-20">
-        <img
-          className="absolute w-[100%] h-[100%] z-10 brightness-[50%]"
-          src={homeBg}
-          alt={homeBg}
-        />
-        <div className="absolute w-[100%] h-[100%] z-20 bg-[#e9ac32] opacity-80 grid justify-items-center content-center items-center gap-6 md:gap-10">
-          <div className="w-36 h-36 rounded-full flex justify-center items-center bg-white">
-            <img src={driverIcon} alt={driverIcon} />
+      <div className="py-10 lg:py-20 bg-slate-200">
+      <div className="relative w-full h-[50vh] border-2 border-cyan-500">
+          <img className="absolute w-full h-full z-10 brightness-[50%]" src={homeBg} alt={homeBg} />
+          <div className="absolute w-full h-full z-20 bg-[#cfaf21] opacity-80 grid justify-items-center content-center items-center gap-6 md:gap-10">
+              <div className="w-36 h-36 rounded-full flex justify-center items-center bg-white">
+                <img src={driverIcon} alt={driverIcon} />
+              </div>
+              <p className="text-white text-2xl md:text-4xl font-bold">24/7 Reliable Taxi Service</p>
+              <p className="text-white font-custom text-xl md:text-2xl text-center">Ride in Comfort and Convenience with Our Taxi Services</p>
           </div>
-          <p className="text-white text-2xl md:text-4xl font-bold">
-            24/7 Reliable Taxi Service
-          </p>
-          <p className="text-white font-custom text-xl md:text-2xl text-center">
-            Ride in Comfort and Convenience with Our Taxi Services
-          </p>
-        </div>
+      </div>
       </div>
 
       {/* Main Features */}
@@ -197,7 +194,7 @@ const Home = () => {
         <p className="font-bold text-4xl lg:text-5xl text-center font-custom">
           Our Advantages
         </p>
-        <div className="grid items-center gap-5 md:w-[90vw] md:grid-cols-2 lg:flex md:justify-center lg:justify-center lg:gap-10">
+        <div className="grid items-center gap-5 md:w-[80vw] md:grid-cols-2  md:justify-items-center lg:flex lg:justify-center lg:gap-10">
           {FeatureCardArray.map((item, index) => (
             <HomeCard
               key={index}
@@ -209,6 +206,26 @@ const Home = () => {
             />
           ))}
         </div>
+      </div>
+
+      
+      {/* Call Us To Book A Taxi */}
+      <div>
+        <Phone />
+      </div>
+
+      
+      {/* Feedback */}
+      <div>
+        <SlidingTestimonials />
+      </div>
+
+      {/* Contact Us */}
+      <div className=" py-10 lg:py-20 grid gap-10 lg:gap-10 md:flex md:justify-center items-center md:gap-2">
+        <div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.815203677499!2d72.83883427597932!3d21.15975128326525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e2fe47b1ee1%3A0x504c1d61b4e6e422!2sudhna%20college!5e0!3m2!1sen!2sin!4v1735398344280!5m2!1sen!2sin"  className="border-0 w-full md:w-96 lg:w-[45vw] mx-auto h-[70vh] md:h-[55vh] lg:h-[65vh] rounded-lg" allowFullScreen={true}></iframe>
+        </div>
+        <ContactForm />
       </div>
     </div>
   );
