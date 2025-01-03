@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react/prop-types */
+
 import { motion } from "framer-motion";
 
 const Button = ({ children, className = "", type="button", ref, bgColor='bg-yellow-400', ...props }) => {

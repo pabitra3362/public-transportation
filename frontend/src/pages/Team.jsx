@@ -33,7 +33,7 @@ const Team = () => {
         {profiles1.map((profile, index) => (
           <div
             key={index}
-            className="card bg-base-100 shadow-xl rounded-lg overflow-hidden"
+            className="card bg-base-100 shadow-xl  rounded-lg overflow-hidden"
           >
             <figure className="px-10 pt-10">
               <img

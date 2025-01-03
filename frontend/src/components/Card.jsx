@@ -1,62 +1,59 @@
-/* eslint-disable no-unused-vars */
-import React from "react";
+/* eslint-disable react/prop-types */
+import MapIcon from '@mui/icons-material/Map';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 
 const cards = [
   {
-    logo: "🌟",
-    title: "Card One",
-    paragraph: "We are using cookies for no reason.",
+    icon: <MapIcon className="text-yellow-400" sx={{ fontSize: 90 }} />,
+    title: "Fast And Easy Transport",
+    description:
+      "Experience fast, easy, and reliable transport with our taxi booking service, ensuring comfort and convenience anytime, anywhere.",
   },
   {
-    logo: "🚀",
-    title: "Card Two",
-    paragraph: "Explore new possibilities with us.",
+    icon: <ApartmentIcon className="text-yellow-400" sx={{ fontSize: 90 }} />,
+    title: "Move Anywhere You Want",
+    description:
+      "Move anywhere you want with our seamless taxi booking service, offering flexibility, comfort, and reliability for every journey.",
   },
   {
-    logo: "🔥",
-    title: "Card Three",
-    paragraph: "Stay ahead with blazing-fast performance.",
-  },
-  {
-    logo: "💡",
-    title: "Card Four",
-    paragraph: "Innovative solutions for a brighter future.",
-  },
-  {
-    logo: "🌐",
-    title: "Card Five",
-    paragraph: "Connecting the world, one step at a time.",
-  },
-
-  {
-    logo: "🌐",
-    title: "Card six",
-    paragraph: "Connecting the world, one step at a time.",
+    icon: <DirectionsCarIcon className="text-yellow-400" sx={{ fontSize: 90 }} />,
+    title: "Your Ride, Your Way",
+    description:
+      "Customize your travel experience with our taxi service, offering safe, affordable, and convenient rides tailored to your needs.",
   },
 ];
 
-
-const Card = () => {
+const Card = ({ icon, title, description }) => {
   return (
-    <div
-      id="maindiv"
-      className="w-screen grid grid-cols-1 mt-20 items-center justify-items-center gap-5 md:grid-cols-2 lg:grid-cols-3 "
-    >
+    <div className="group w-full max-w-xs bg-white rounded-lg h-72 hover:bg-slate-100 hover:shadow-2xl hover:-translate-y-5 transition duration-300 relative items-center gap-5 px-3 p-5 flex flex-col justify-center py-5">
+      <div className="absolute w-full top-0 left-0 h-1 bg-yellow-400 hidden group-hover:block transition duration-200"></div>
+      <div className="icon flex justify-center items-center text-3xl md:text-5xl">
+        {icon}
+      </div>
+      <div className="title text-black text-xl text-center font-bold">
+        {title}
+      </div>
+      <div className="description text-center text-slate-500 text-sm md:text-base">
+        {description}
+      </div>
+    </div>
+  );
+};
+
+const CardList = () => {
+  return (
+    <div className="flex flex-col sm:flex-row justify-center items-center w-full mx-auto mt-20 gap-6 md:gap-10 lg:gap-20">
       {cards.map((card, index) => (
-        <div
+        <Card
           key={index}
-          id="card"
-          className="card bg-neutral text-neutral-content w-80 h-60 flex-shrink-0 p-5 rounded-lg shadow-lg"
-        >
-          <div className="card-body flex flex-col items-center text-center">
-            <h1 className="card-title text-4xl mb-2">{card.logo}</h1>
-            <h2 className="text-2xl font-semibold mb-2">{card.title}</h2>
-            <p className="text-base">{card.paragraph}</p>
-          </div>
-        </div>
+          icon={card.icon}
+          title={card.title}
+          description={card.description}
+        />
       ))}
     </div>
   );
 };
 
-export default Card;
+export default CardList;
