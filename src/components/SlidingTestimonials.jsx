@@ -78,7 +78,7 @@ const SlidingTestimonials = () => {
 
   return (
     <div
-      className="hero   hidden md:flex items-center justify-center"
+      className="hero   hidden md:flex items-center justify-center brightness-75"
       style={{
         backgroundImage:
           "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
@@ -87,7 +87,7 @@ const SlidingTestimonials = () => {
         backgroundAttachment: "fixed",
       }}
     >
-      <div className="hero-overlay absolute md:h-[65%] "></div>
+      <div className=" absolute md:h-[35%] "></div>
       <div className="hero-content text-neutral-content text-center relative z-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl w-full">
           <h1 className="mb-8 text-3xl md:text-4xl lg:text-5xl font-bold text-white">
