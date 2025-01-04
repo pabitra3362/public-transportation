@@ -24,7 +24,19 @@ const Navbar = () => {
         {/* Middle Section */}
         <div className="middle hidden lg:block">
           <ul className="flex justify-center items-center gap-6">
-            {["Home", "About", "Service", "Team", "News", "Contact"].map((item) => (
+          <li>
+                <NavLink
+                  to={`/`}
+                  className={({ isActive }) =>
+                    `font-bold text-black hover:text-yellow-400 transition duration-200 text-lg ${
+                      isActive ? "border-b-2 border-yellow-400 text-yellow-400" : ""
+                    }`
+                  }
+                >
+                  Home
+                </NavLink>
+              </li>
+            {["About", "Service", "Team", "News", "Contact"].map((item) => (
               <li key={item}>
                 <NavLink
                   to={`/${item.toLowerCase()}`}
