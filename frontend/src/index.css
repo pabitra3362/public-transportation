@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+#card {
+  background-color: rgba(4, 34, 75, 0.941);
+}
+
+#maindiv::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+.card::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+
+.logo-image{
+  width: 100px; 
+  height: 90px;
+  border-radius: 50px;
+}
