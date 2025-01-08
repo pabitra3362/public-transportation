@@ -28,16 +28,18 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.methods.generateAuthToken = () => {
+userSchema.methods.generateAuthToken = function() {
   return jwt.sign({ _id: this._id }, config.jwtSecret);
 };
 
-userSchema.methods.hashPassword = async function(password) {
-  return await bcrypt.hash(password, 10);
-};
-
-userSchema.statics.comparePassword = async function (hashPassword) {
+userSchema.methods.comparePassword = async function (hashPassword) {
   return await bcrypt.compare(hashPassword, this.password);
 };
 
-export default model("User", userSchema);
+userSchema.statics.hashPassword = async function(password) {
+  return await bcrypt.hash(password, 10);
+};
+
+const User = model("User", userSchema);
+
+export default User;

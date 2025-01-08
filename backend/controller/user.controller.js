@@ -1,25 +1,41 @@
-import User from '../models/user.model.js';
-import {validationResult} from 'express-validator';
-import createUser from '../services/user.service.js';
+import User from "../models/user.model.js";
+import { validationResult } from "express-validator";
+import { createUser } from "../services/user.service.js";
 
+// controller for userRegister
+async function userRegister(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
-export default async function userRegister (req,res,next) {
-    const errors=validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json({errors:errors.array()});
-    }
+  const { email, username, password } = req.body;
+  const hashedPassword = await User.hashPassword(password);
 
-    const {email,username,password}=req.body;
-    const tempuser=new User();
-    const hashedPassword=await tempuser.hashPassword(password)
+  try {
+    const user = await createUser({
+      email,
+      username,
+      password: hashedPassword,
+    });
 
-    try{
-        const user=await createUser({email,username,password:hashedPassword});
-        res.status(201).json({user});
-    }catch(err){
-        res.status(500).json({error:err.message});
-        console.log("error while registering user: ",err.message);
-    }
+    const token = user.generateAuthToken();
+    res.status(201).json({ token, user });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+    console.log("error in userRegister controller: ", err.message);
+  }
 }
 
+// controller for userLogin
+async function userLogin(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400), json({ errors: errors.array() });
+  }
 
+  const { email, password } = req.body;
+}
+
+export { userRegister };
