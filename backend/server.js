@@ -3,6 +3,7 @@ import config from './config/config.js'
 import connectDB from './db/connection.js'
 import cors from 'cors'
 import userRoutes from './routes/user.route.js'
+import cookieParser from 'cookie-parser'
 
 
 connectDB();
@@ -10,9 +11,10 @@ connectDB();
 const port = config.port
 const app = express()
 
-app.use(express.json())
-app.use(cors())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 
 

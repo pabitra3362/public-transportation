@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import { validationResult } from "express-validator";
-import { createUser } from "../services/user.service.js";
+import { createUser, loginUser } from "../services/user.service.js";
 
 // controller for userRegister
 async function userRegister(req, res) {
@@ -21,12 +21,12 @@ async function userRegister(req, res) {
 
     const token = user.generateAuthToken();
     res.status(201).json({ token, user });
-
   } catch (err) {
     res.status(500).json({ error: err.message });
     console.log("error in userRegister controller: ", err.message);
   }
 }
+
 
 // controller for userLogin
 async function userLogin(req, res) {
@@ -36,6 +36,34 @@ async function userLogin(req, res) {
   }
 
   const { email, password } = req.body;
+  
+  
+  try {
+    const user = await loginUser({ email });   
+    if(!user){
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+    
+    const isMatch = await user.comparePassword(password);
+    if(!isMatch){
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    const token = user.generateAuthToken();
+
+    res.cookie('token',token);
+    res.status(200).json({token,user});
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+    console.log("error in userLogin controller: ", err.message);
+  }
 }
 
-export { userRegister };
+
+//controller for getUserProfile
+async function getUserProfile(req,res) {
+  res.status(200).json(req.user);
+}
+
+export { userRegister, userLogin, getUserProfile };

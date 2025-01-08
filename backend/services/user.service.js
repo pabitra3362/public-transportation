@@ -17,21 +17,14 @@ async function createUser({ email, username, password }) {
 
 
 //service for loginUser
-async function loginUser({email,password}){
-  if(!email || !password){
+async function loginUser({email}){
+  if(!email){
     throw new Error ("All fields are required")
   }
 
-  const user = await User.findOne({email})
-  if(user){
-    if(bcrypt.compareSync(user.password,password)){
-      return user;
-    }else{
-      throw new Error("Invalid password")
-    }
-  }else{
-    throw new Error("User doesn't exist")
-  }
+  const user = await User.findOne({email}).select('+password');
+  return user;
+  
 }
 
-export {createUser}
+export {createUser, loginUser}

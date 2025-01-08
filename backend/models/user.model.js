@@ -32,8 +32,8 @@ userSchema.methods.generateAuthToken = function() {
   return jwt.sign({ _id: this._id }, config.jwtSecret);
 };
 
-userSchema.methods.comparePassword = async function (hashPassword) {
-  return await bcrypt.compare(hashPassword, this.password);
+userSchema.methods.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
 };
 
 userSchema.statics.hashPassword = async function(password) {
