@@ -1,11 +1,10 @@
-import mongoose, { model } from "mongoose";
+import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
 import bcrypt from "bcrypt";
 
-const {Schema} = mongoose;
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     require: true,
@@ -40,6 +39,6 @@ userSchema.statics.hashPassword = async function(password) {
   return await bcrypt.hash(password, 10);
 };
 
-const User = model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
 export default User;

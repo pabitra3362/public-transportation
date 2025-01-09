@@ -1,8 +1,7 @@
-import mongoose,{model} from 'mongoose';
+import mongoose from 'mongoose';
 
-const {Schema}=mongoose;
 
-const blacklistedTokenSchema = new Schema({
+const blacklistedTokenSchema = new mongoose.Schema({
   token: {
     type: String,
     required: true,
@@ -15,6 +14,6 @@ const blacklistedTokenSchema = new Schema({
   }
 });
 
-const BlacklistedToken = model('BlacklistedToken', blacklistedTokenSchema);
+const BlacklistedToken = mongoose.model('BlacklistedToken', blacklistedTokenSchema);
 
 export default BlacklistedToken;

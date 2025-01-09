@@ -4,15 +4,15 @@ This is the backend API for the public transportation system. It provides endpoi
 
 ## Endpoints
 
-### User Registration
+### User API Endpoints
 
-* **Endpoint:** `/register`
+#### User Registration
+* **Endpoint:** `/api/user/register`
 * **Method:** `POST`
 * **Request Body:**
 	+ `email`: User's email address (required)
 	+ `username`: User's username (required, must be between 5 and 10 characters long)
 	+ `password`: User's password (required, must be between 7 and 12 characters long)
-* **Note:** Password must be between 7 and 12 characters long.
 * **Response:**
 	+ `token`: JWT token for authentication
 	+ `user`: User object with id, email, username, and password
@@ -37,14 +37,12 @@ This is the backend API for the public transportation system. It provides endpoi
     }
     ```
 
-### User Login
-
-* **Endpoint:** `/login`
+#### User Login
+* **Endpoint:** `/api/user/login`
 * **Method:** `POST`
 * **Request Body:**
 	+ `email`: User's email address (required)
 	+ `password`: User's password (required, must be between 7 and 12 characters long)
-* **Note:** Password must be between 7 and 12 characters long.
 * **Response:**
 	+ `token`: JWT token for authentication
 	+ `user`: User object with id, email, username, and password
@@ -68,9 +66,8 @@ This is the backend API for the public transportation system. It provides endpoi
     }
     ```
 
-### User Profile
-
-* **Endpoint:** `/profile`
+#### User Profile
+* **Endpoint:** `/api/user/profile`
 * **Method:** `GET`
 * **Headers:**
     + `Authorization`: Bearer token (required)
@@ -78,7 +75,7 @@ This is the backend API for the public transportation system. It provides endpoi
     + `user`: User object with id, email, username
 * **Request Example:**
     ```http
-    GET /profile HTTP/1.1
+    GET /api/user/profile HTTP/1.1
     Authorization: Bearer your_jwt_token
     ```
 * **Response Example:**
@@ -92,17 +89,16 @@ This is the backend API for the public transportation system. It provides endpoi
     }
     ```
 
-### Logout
-
-* **Endpoint:** `/logout`
-* **Method:** `POST`
+#### User Logout
+* **Endpoint:** `/api/user/logout`
+* **Method:** `GET`
 * **Headers:**
     + `Authorization`: Bearer token (required)
 * **Response:**
     + `message`: Confirmation message
 * **Request Example:**
     ```http
-    POST /logout HTTP/1.1
+    GET /api/user/logout HTTP/1.1
     Authorization: Bearer your_jwt_token
     ```
 * **Response Example:**
