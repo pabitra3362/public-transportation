@@ -68,6 +68,50 @@ This is the backend API for the public transportation system. It provides endpoi
     }
     ```
 
+### User Profile
+
+* **Endpoint:** `/profile`
+* **Method:** `GET`
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + `user`: User object with id, email, username
+* **Request Example:**
+    ```http
+    GET /profile HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    {
+      "user": {
+        "id": "1",
+        "email": "user@example.com",
+        "username": "user123"
+      }
+    }
+    ```
+
+### Logout
+
+* **Endpoint:** `/logout`
+* **Method:** `POST`
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + `message`: Confirmation message
+* **Request Example:**
+    ```http
+    POST /logout HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    {
+      "message": "Successfully logged out"
+    }
+    ```
+
 ## Validation Errors
 
 * If the username is less than 5 characters or more than 10 characters, a 400 error will be returned with a JSON response containing the error message: "Username must be between 5 and 10 characters long".

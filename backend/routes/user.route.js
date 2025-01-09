@@ -1,6 +1,6 @@
 import express from "express";
 import {body} from 'express-validator';
-import {userRegister, userLogin, getUserProfile} from '../controller/user.controller.js';
+import {userRegister, userLogin, getUserProfile, userLogout} from '../controller/user.controller.js';
 import { authUser } from "../middlewares/auth.middleware.js";
 
 const router=express.Router();
@@ -20,8 +20,12 @@ router.post('/login',[
 ], userLogin)
 
 
-//GEt request for user profile
+// GET request for user profile
 router.get('/profile', authUser, getUserProfile)
+
+
+// GET request for user logout
+router.get('/logout',authUser,userLogout)
 
 
 

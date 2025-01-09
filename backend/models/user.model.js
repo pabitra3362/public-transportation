@@ -29,7 +29,7 @@ const userSchema = new Schema({
 });
 
 userSchema.methods.generateAuthToken = function() {
-  return jwt.sign({ _id: this._id }, config.jwtSecret);
+  return jwt.sign({ _id: this._id }, config.jwtSecret, { expiresIn: '24h' });
 };
 
 userSchema.methods.comparePassword = async function (password) {
