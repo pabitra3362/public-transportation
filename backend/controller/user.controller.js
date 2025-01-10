@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import { validationResult } from "express-validator";
 import { createUser, loginUser } from "../services/user.service.js";
 import BlacklistedToken from "../models/blacklistToken.model.js";
+import emailSender from "../services/email.service.js";
 
 // controller for userRegister
 async function userRegister(req, res) {
@@ -19,6 +20,8 @@ async function userRegister(req, res) {
       username,
       password: hashedPassword,
     });
+
+    await emailSender({username,email});
 
     const token = user.generateAuthToken();
     res.status(201).json({ token, user });
