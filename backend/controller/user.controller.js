@@ -24,7 +24,6 @@ async function userRegister(req, res) {
     res.status(201).json({ token, user });
   } catch (err) {
     res.status(500).json({ error: err.message });
-    console.log("error in userRegister controller: ", err.message);
   }
 }
 
