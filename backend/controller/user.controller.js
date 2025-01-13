@@ -11,18 +11,18 @@ async function userRegister(req, res) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { email, username, password } = req.body;
+  const { email, name, password } = req.body;
   const hashedPassword = await User.hashPassword(password);
 
   try {
     const user = await createUser({
       email,
-      username,
+      name,
       password: hashedPassword,
     });
 
     
-      await emailSender({username,email});
+      await emailSender({name,email});
     
 
     const token = user.generateAuthToken();

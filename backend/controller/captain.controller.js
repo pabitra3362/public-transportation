@@ -10,13 +10,13 @@ const captainRegister = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { email, username, password, vehicle } = req.body;
+  const { email, name, password, vehicle } = req.body;
   const hashedPassword = await Captain.hashPassword(password);
 
   try {
     const captain = await createCaptain({
       email,
-      username,
+      name,
       password: hashedPassword,
       vehicle,
     });

@@ -2,8 +2,8 @@ import User from "../models/user.model.js";
 import bcrypt from 'bcrypt';
 
 // service for createUser
-async function createUser({ email, username, password }) {
-  if (!email || !username || !password) {
+async function createUser({ email, name, password }) {
+  if (!email || !name || !password) {
     throw new Error("All fields are required");
 
   }
@@ -11,7 +11,7 @@ async function createUser({ email, username, password }) {
   if(existUser){
     throw new Error("Email is already exist")
   }
-  const user = await User.create({ email, username, password });
+  const user = await User.create({ email, name, password });
   return user;
 };
 
