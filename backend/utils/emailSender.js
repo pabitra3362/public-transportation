@@ -38,7 +38,7 @@ export default async function emailSender({ email, username }) {
     from: "pmohanty2344@gmail.com",
     to: email,
     subject: "Welcome to safar!",
-    text: `Hi ${username},\n\nThank you for registering. We're excited to have you on board!`,
+    text: `Hi ${username},\n\nA warm welcome to our community! We're thrilled to have you on board. Your registration is now complete, and you're all set to explore our platform. If you have any questions or need assistance, feel free to reply to this email or reach out to our support team. We're always here to help. Best regards, The Team.`,
   };
 
   const info = await transporter.sendMail(mailOptions);
