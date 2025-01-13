@@ -16,7 +16,7 @@ async function createUser({ email, name, password }) {
 };
 
 
-//service for loginUser
+// service for loginUser
 async function loginUser({email}){
   if(!email){
     throw new Error ("All fields are required")
@@ -27,4 +27,19 @@ async function loginUser({email}){
   
 }
 
-export {createUser, loginUser}
+// service for forget user password
+async function forgetPassword({email}){
+  if(!email){
+    throw new Error ("All fields are required")
+  }
+  const user = await User.findOne({email})
+  if(!user){
+    throw new Error("User with this email does not exist")
+  }
+  
+  return user;
+}
+
+
+
+export {createUser, loginUser, forgetPassword }
