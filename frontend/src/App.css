@@ -1,21 +1,20 @@
-.text{
-    position: relative;
+.text {
+  position: relative;
 }
 
-.text::before{
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0%;
-    height: 2px;
-    background-color: rgba(172, 128, 9, 0.911);
-    perspective: 0px;
+.text::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: white;
+  perspective: 0px;
 }
 
-.text:hover::before{
-    width: 100%;
-    transition: all 0.3s linear;
-    perspective: 1000px;
+.text:hover::before {
+  width: 100%;
+  transition: all 0.3s linear;
+  perspective: 1000px;
 }
-

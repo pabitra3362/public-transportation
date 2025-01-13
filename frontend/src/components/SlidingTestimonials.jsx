@@ -77,16 +77,16 @@ const SlidingTestimonials = () => {
   const [size, setSize] = useState({ width: 800, height: 1080 });
 
   return (
-    <div
-      className="hero   hidden md:flex items-center justify-center brightness-75"
-      style={{
-        backgroundImage:
-          "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
-    >
+<div
+  className="hero hidden md:flex items-center justify-center"
+  style={{
+    backgroundImage:
+      "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)), url(https://plus.unsplash.com/premium_photo-1728723439562-5de7a032b6bc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundAttachment: "fixed",
+  }}
+>
       <div className=" absolute md:h-[35%] "></div>
       <div className="hero-content text-neutral-content text-center relative z-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl w-full">
@@ -104,7 +104,7 @@ const SlidingTestimonials = () => {
                 <blockquote className="lg:text-lg  leading-relaxed text-white lg:px-8 max-w-full sm:text-sm text-sm">
                   {testimonial.text}
                 </blockquote>
-                <p className="mt-20 text-sm md:text-base mb-20 lg:text-lg text-gray-300">
+                <p className="mt-20 text-sm md:text-base mb-20 lg:text-lg text-white">
                   <strong>{testimonial.name}</strong>, {testimonial.role}
                 </p>
               </div>
