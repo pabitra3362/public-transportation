@@ -10,7 +10,7 @@ import Team from "./pages/Team";
 import News from "./pages/News";
 import Contacts from "./pages/Contacts";
 import Footer from "./components/Footer";
-
+import SignUp from "./pages/SignUp";
 
 const App = () => {
   return (
@@ -24,6 +24,7 @@ const App = () => {
           <Route path="/team" element={<Team />} />
           <Route path="/news" element={<News />} />
           <Route path="/contact" element={<Contacts />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
         <Footer />
       </Router>

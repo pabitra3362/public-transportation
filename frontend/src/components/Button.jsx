@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-const Button = ({ children, className = "", type="button", ref, bgColor='bg-yellow-400', ...props }) => {
+const Button = ({ children, className = "", type="button", ref, bgColor='bg-yellow-300', ...props }) => {
   return (
     <motion.button
     whileTap={{

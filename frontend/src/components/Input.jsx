@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { forwardRef } from "react";
 
 const Input = forwardRef(function Myinput(
@@ -10,7 +12,7 @@ const Input = forwardRef(function Myinput(
       
       <div className="flex items-center border-b-2 border-gray-300">
         {icon && (
-          <span className="absolute left-3 text-yellow-400">{icon}</span> // Icon container
+          <span className="absolute left-3 text-yellow-300">{icon}</span> // Icon container
         )}
         <input
           type={type}

@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react/no-unescaped-entities */
+
 import bgimg from "../assets/contactBg.jpg";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdPhoneAndroid, MdOutlineMailOutline } from "react-icons/md";
@@ -25,7 +26,7 @@ const Contacts = () => {
               <a href="/">Home</a>
             </li>
             <li>
-              <a href="/contact" className="text-yellow-400">
+              <a href="/contact" className="text-yellow-300">
                 Contact
               </a>
             </li>
@@ -56,7 +57,7 @@ const Contacts = () => {
             <div className="address grid gap-5">
               <div className="first-item flex justify-start items-start gap-3">
                 <div className="icon">
-                  <IoLocationOutline className="size-10 text-yellow-400" />
+                  <IoLocationOutline className="size-10 text-yellow-300" />
                 </div>
                 <div className="details grid gap-2">
                   <p className="font-bold text-black text-xl">Address:</p>
@@ -70,11 +71,11 @@ const Contacts = () => {
 
               <div className="second-item flex justify-start items-start gap-3">
                 <div className="icon">
-                  <MdPhoneAndroid className="size-10 text-yellow-400" />
+                  <MdPhoneAndroid className="size-10 text-yellow-300" />
                 </div>
                 <div className="details grid gap-2">
                   <p className="font-bold text-black text-xl">Phone:</p>
-                  <p className="text-lg hover:text-yellow-400 duration-200">
+                  <p className="text-lg hover:text-yellow-300 duration-200">
                     <a href="tel:+911234567890">+91 1234567890</a>
                   </p>
                 </div>
@@ -82,11 +83,11 @@ const Contacts = () => {
 
               <div className="third-item flex justify-start items-start gap-3">
                 <div className="icon">
-                  <MdOutlineMailOutline className="size-10 text-yellow-400" />
+                  <MdOutlineMailOutline className="size-10 text-yellow-300" />
                 </div>
                 <div className="details grid gap-3">
                   <p className="font-bold text-black text-xl">Email:</p>
-                  <p className="text-lg hover:text-yellow-400 duration-200">
+                  <p className="text-lg hover:text-yellow-300 duration-200">
                     <a href="mailto:safar24@gmail.com">Safar24@gmail.com</a>
                   </p>
                 </div>
@@ -98,28 +99,28 @@ const Contacts = () => {
             <div className="icons flex justify-start items-center gap-3">
 
               {/* facebook */}
-              <div className=" w-fit group border border-black border-opacity-60 p-3 rounded-full hover:bg-yellow-400 hover:border-opacity-0 duration-300">
+              <div className=" w-fit group border border-black border-opacity-60 p-3 rounded-full hover:bg-yellow-300 hover:border-opacity-0 duration-300">
                 <a href="#">
                   <RiFacebookLine className="size-5 group-hover:text-white duration-200" />
                 </a>
               </div>
 
               {/* twitter */}
-              <div className=" w-fit group border border-black border-opacity-60 p-3 rounded-full hover:bg-yellow-400 hover:border-opacity-0 duration-300">
+              <div className=" w-fit group border border-black border-opacity-60 p-3 rounded-full hover:bg-yellow-300 hover:border-opacity-0 duration-300">
                 <a href="#">
                   <RiTwitterXFill className="size-5 group-hover:text-white duration-200" />
                 </a>
               </div>
 
               {/* instagram */}
-              <div className=" w-fit group border border-black border-opacity-60 p-3 rounded-full hover:bg-yellow-400 hover:border-opacity-0 duration-300">
+              <div className=" w-fit group border border-black border-opacity-60 p-3 rounded-full hover:bg-yellow-300 hover:border-opacity-0 duration-300">
                 <a href="#">
                   <FiInstagram className="size-5 group-hover:text-white duration-200" />
                 </a>
               </div>
 
               {/* pininterest */}
-              <div className=" w-fit group border border-black border-opacity-60 p-3 rounded-full hover:bg-yellow-400 hover:border-opacity-0 duration-300">
+              <div className=" w-fit group border border-black border-opacity-60 p-3 rounded-full hover:bg-yellow-300 hover:border-opacity-0 duration-300">
                 <a href="#">
                   <FaPinterestP className="size-5 group-hover:text-white duration-200" />
                 </a>

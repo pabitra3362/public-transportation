@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "./Button";
@@ -43,7 +44,7 @@ const ContactForm = () => {
 
       {/* Main Content */}
       <div className="grid justify-items-center items-center gap-4">
-        <p className="text-yellow-400 text-center text-2xl">
+        <p className="text-yellow-300 text-center text-2xl">
           How Can We Help You?
         </p>
         <p className=" text-black font-bold text-center text-3xl">

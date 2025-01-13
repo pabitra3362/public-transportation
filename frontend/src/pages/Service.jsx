@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React from "react";
 import bgimg from "../assets/serviceBg.jpg";
 import HomeCard from "../components/HomeCard";
@@ -13,19 +15,19 @@ import { motion } from "framer-motion";
 const Service = () => {
   const homeCardArray = [
     {
-      icon: <MdEmojiTransportation className="size-24 text-yellow-400" />,
+      icon: <MdEmojiTransportation className="size-24 text-yellow-300" />,
       title: "Fast And Easy Transport",
       description:
         "Experience fast, easy, and reliable transport with our taxi booking service, ensuring comfort and convenience anytime, anywhere.",
     },
     {
-      icon: <BsFillBuildingsFill className="size-24 text-yellow-400" />,
+      icon: <BsFillBuildingsFill className="size-24 text-yellow-300" />,
       title: "Move Anywhere You Want",
       description:
         "Move anywhere you want with our seamless taxi booking service, offering flexibility, comfort, and reliability for every journey.",
     },
     {
-      icon: <FaTaxi className="size-24 text-yellow-400" />,
+      icon: <FaTaxi className="size-24 text-yellow-300" />,
       title: "Your Ride, Your Way",
       description:
         "Customize your travel experience with our taxi service, offering safe, affordable, and convenient rides tailored to your needs.",
@@ -105,13 +107,13 @@ const Service = () => {
           opacity: [0, 1],
           transition: { duration: 1 },
         }}
-        className="grid h-48 md:h-32 hover:bg-yellow-400 group bg-white md:bg-transparent lg:bg-white mx-auto md:flex md:justify-between items-center gap-5 px-3 md:px-6 py-2 w-80 md:w-screen lg:w-[42vw] my-3 rounded-lg"
+        className="grid h-48 md:h-32 hover:bg-yellow-300 group bg-white md:bg-transparent lg:bg-white mx-auto md:flex md:justify-between items-center gap-5 px-3 md:px-6 py-2 w-80 md:w-screen lg:w-[42vw] my-3 rounded-lg"
       >
         <div className="info grid gap-4 text-black group-hover:text-white">
           <p className="title text-lg md:text-xl font-bold ">{title}</p>
           <p className="phase md:text-lg">{phase}</p>
         </div>
-        <div className="price text-yellow-400 group-hover:text-white text-lg">
+        <div className="price text-yellow-300 group-hover:text-white text-lg">
           <span className="text-2xl font-bold">Rs {price}</span>/km
         </div>
       </motion.div>
@@ -136,7 +138,7 @@ const Service = () => {
               <a href="/">Home</a>
             </li>
             <li>
-              <a href="/service" className="text-yellow-400">
+              <a href="/service" className="text-yellow-300">
                 Service
               </a>
             </li>
@@ -148,7 +150,7 @@ const Service = () => {
       <div className="service-content bg-white min-h-screen w-full">
         {/* What we Offer */}
         <div className="w-full bg-slate-200  grid justify-items-center items-center gap-5 lg:gap-10 py-10 lg:py-24">
-          <h2 className="uppercase tracking-[0.25rem] text-yellow-400 font-bold text-lg lg:text-2xl">
+          <h2 className="uppercase tracking-[0.25rem] text-yellow-300 font-bold text-lg lg:text-2xl">
             what we offer
           </h2>
           <p className="font-bold text-3xl text-center font-custom">
@@ -168,7 +170,7 @@ const Service = () => {
 
         {/* Plans */}
         <div className="bg-slate-200 py-16 lg:pb-24">
-          <p className="text-yellow-400 text-center text-2xl font-bold py-3">
+          <p className="text-yellow-300 text-center text-2xl font-bold py-3">
             Let&apos;s Go With Us
           </p>
           <h2 className="text-3xl lg:text-5xl text-center tracking-wider font-bold font-custom my-3 lg:my-5">
@@ -189,7 +191,7 @@ const Service = () => {
 
       {/* Main Features */}
       <div className="w-full bg-slate-200  grid justify-items-center items-center gap-5 lg:gap-10 py-10 lg:py-24">
-        <h2 className="uppercase tracking-[0.25rem] text-yellow-400 font-bold text-lg lg:text-xl">
+        <h2 className="uppercase tracking-[0.25rem] text-yellow-300 font-bold text-lg lg:text-xl">
           Main Features
         </h2>
         <p className="font-bold text-4xl lg:text-5xl text-center font-custom">

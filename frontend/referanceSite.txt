@@ -1,1 +1,82 @@
 https://preview.themeforest.net/item/pickme-modern-taxi-cab-rental-service-html-template/full_screen_preview/23216434
+
+
+
+
+
+/* eslint-disable no-unused-vars */
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { MyDrawer } from "./Drawer";
+import Logo from "../assets/Logo.jpg";
+
+const Navbar = () => {
+  
+
+  return (
+    <nav className="nav w-full bg-yellow-300 h-16 md:h-20 lg:h-24 flex items-center sticky top-0 z-40">
+      {/* Container */}
+      <div className="w-full md:w-[90vw] lg:w-[70vw] px-3 mx-auto flex justify-between items-center">
+        {/* Left Section */}
+        <div className="left flex items-center">
+          <img
+            src={Logo}
+            alt="Logo"
+            className="logo-image h-14 w-14 md:h-16 md:w-16 lg:h-20 lg:w-20 rounded-full object-cover"
+          />
+        </div>
+
+        {/* Middle Section */}
+        <div className="middle hidden lg:block">
+          <ul className="flex justify-center items-center gap-6">
+            <li>
+              <NavLink
+                to={`/`}
+                className={({ isActive }) =>
+                  `font-bold text text-black hover:text-white transition duration-500 text-lg ${
+                    isActive ? "border-b-2 border-white text-white" : ""
+                  }`
+                }
+              >
+                Home
+              </NavLink>
+            </li>
+            {["About", "Service", "Team", "News", "Contact"].map((item) => (
+              <li key={item}>
+                <NavLink
+                  to={`/${item.toLowerCase()}`}
+                  className={({ isActive }) =>
+                    `font-bold text text-black hover:text-white transition duration-500 text-lg ${
+                      isActive ? "border-b-2 border-white text-white" : ""
+                    }`
+                  }
+                >
+                  {item}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Right Section */}
+        <div className="right hidden lg:flex items-center gap-3">
+          <div className="flex items-center gap-1 text-lg font-bold">
+            <div className="text-custom-white">+91 123</div>
+            <div className="text-black">4567890</div>
+          </div>
+          <button
+             className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200">
+             Sign-Up
+          </button>
+        </div>
+
+        {/* Drawer for Mobile */}
+        <div className="lg:hidden">
+          <MyDrawer />
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

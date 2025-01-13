@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import vdo from "../assets/Taxi booking.mp4";
 import { motion } from "framer-motion";
@@ -121,7 +122,7 @@ const HomeForm = () => {
                   onClick={() => setSelectedClass(cls)}
                   className={`${
                     selectedClass === cls
-                      ? "border-b-2 border-yellow-400 text-yellow-400"
+                      ? "border-b-2 border-yellow-300 text-yellow-300"
                       : "text-black"
                   } transition duration-200 font-bold text-sm text cursor-pointer`}
                 >
