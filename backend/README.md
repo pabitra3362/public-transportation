@@ -149,15 +149,20 @@ This is the backend API for the public transportation system. It provides endpoi
 * **Response Example:**
     ```json
     {
-      "token": "your_jwt_token",
+      "token": "your_jwt_secret",
       "captain": {
-        "id": "1",
-        "email": "driver@example.com",
         "name": "John Doe",
-        "color": "red",
-        "plate": "ABC123",
-        "vehicleType": "car",
-        "capacity": 4
+        "email": "driver@example.com",
+        "password": "securepassword",
+        "status": "inactive",
+        "vehicle": {
+            "color": "red",
+            "plate": "ABC123",
+            "vehicleType": "car",
+            "capacity": 4
+        },
+        "_id": "1",
+        "__v": 0
       }
     }
     ```
