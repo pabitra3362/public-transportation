@@ -60,7 +60,6 @@ async function userLogin(req, res) {
     res.status(200).json({ token, user });
   } catch (err) {
     res.status(500).json({ error: err.message });
-    console.log("error in userLogin controller: ", err.message);
   }
 }
 
@@ -90,10 +89,9 @@ async function forgetUserPassword(req, res) {
   try {
     const user = await forgetPassword({ email });
     const emailService = await FPES({ email, name: user.name, id: user._id });
-    res.status(201).json({ message: "Email sent successfully" });
+    res.status(200).json({ message: "Email sent successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
-    console.log("error in forgetUserPassword controller: ", err.message);
   }
 }
 
@@ -116,7 +114,6 @@ async function setPassword(req, res) {
     res.status(200).json({ message: "Password updated successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
-    console.log("error in setPassword controller: ", err.message);
   }
 }
 

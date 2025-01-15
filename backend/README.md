@@ -127,11 +127,10 @@ This is the backend API for the public transportation system. It provides endpoi
 	+ `email`: Captain's email address (required)
 	+ `name`: Captain's name (required, must be between 5 and 11 characters long)
 	+ `password`: Captain's password (required, must be at least 7 characters long)
-	+ `vehicle`: Object containing vehicle details (required)
-		- `color`: Vehicle color (required, must be at least 3 characters long)
-		- `plate`: Vehicle plate number (required, must be at least 3 characters long)
-		- `vehicleType`: Type of vehicle (required, must be one of 'car', 'motorcycle', 'bike')
-		- `capacity`: Seating capacity of the vehicle (required, must be at least 1)
+	+ `color`: Vehicle color (required, must be at least 3 characters long)
+	+ `plate`: Vehicle plate number (required, must be at least 3 characters long)
+	+ `vehicleType`: Type of vehicle (required, must be one of 'car', 'motorcycle', 'bike')
+	+ `capacity`: Seating capacity of the vehicle (required, must be at least 1)
 * **Response:**
 	+ `token`: JWT token for authentication
 	+ `captain`: Captain object with id, email, name, and vehicle details
@@ -141,12 +140,10 @@ This is the backend API for the public transportation system. It provides endpoi
       "email": "driver@example.com",
       "name": "John Doe",
       "password": "securepassword",
-      "vehicle": {
-        "color": "red",
-        "plate": "ABC123",
-        "vehicleType": "car",
-        "capacity": 4
-      }
+      "color": "red",
+      "plate": "ABC123",
+      "vehicleType": "car",
+      "capacity": 4
     }
     ```
 * **Response Example:**
@@ -157,12 +154,10 @@ This is the backend API for the public transportation system. It provides endpoi
         "id": "1",
         "email": "driver@example.com",
         "name": "John Doe",
-        "vehicle": {
-          "color": "red",
-          "plate": "ABC123",
-          "vehicleType": "car",
-          "capacity": 4
-        }
+        "color": "red",
+        "plate": "ABC123",
+        "vehicleType": "car",
+        "capacity": 4
       }
     }
     ```
@@ -175,4 +170,3 @@ This is the backend API for the public transportation system. It provides endpoi
 
 ### Error Handling
 * If an internal server error occurs during captain registration, a 500 error will be returned with a JSON response containing the error message.
-</create_file>
