@@ -56,8 +56,10 @@ async function userLogin(req, res) {
 
     const token = user.generateAuthToken();
 
-    res.cookie("token", token);
+    // res.cookie("token", token);
+
     res.status(200).json({ token, user });
+    
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -175,3 +175,44 @@ This is the backend API for the public transportation system. It provides endpoi
 
 ### Error Handling
 * If an internal server error occurs during captain registration, a 500 error will be returned with a JSON response containing the error message.
+
+#### Captain Login
+* **Endpoint:** `/api/captain/login`
+* **Method:** `POST`
+* **Request Body:**
+	+ `email`: Captain's email address (required)
+	+ `password`: Captain's password (required, must be between 7 and 12 characters long)
+* **Response:**
+	+ `token`: JWT token for authentication
+	+ `captain`: Captain object with id, email, name, and vehicle details
+* **Request Example:**
+    ```json
+    {
+      "email": "driver@example.com",
+      "password": "securepassword"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "token": "your_jwt_token",
+      "captain": {
+        "id": "1",
+        "email": "driver@example.com",
+        "name": "John Doe",
+        "vehicle": {
+            "color": "red",
+            "plate": "ABC123",
+            "vehicleType": "car",
+            "capacity": 4
+        }
+      }
+    }
+    ```
+
+### Validation Errors for Captain Login
+* If the email is not a valid email address, a 400 error will be returned with a JSON response containing the error message: "Email is not valid".
+* If the password is less than 7 characters or more than 12 characters, a 400 error will be returned with a JSON response containing the error message: "Password must be between 7 and 12 characters long".
+
+### Error Handling
+* If an internal server error occurs during captain login, a 500 error will be returned with a JSON response containing the error message.

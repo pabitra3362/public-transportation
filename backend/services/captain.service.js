@@ -1,5 +1,7 @@
 import Captain from "../models/captain.model.js";
 
+
+// service for create captain
 async function createCaptain({ email, name, password, color, plate, vehicleType, capacity }) {
 
   if (!email || !name || !password || !color || !plate || !vehicleType || !capacity ) {
@@ -28,4 +30,22 @@ async function createCaptain({ email, name, password, color, plate, vehicleType,
   
 }
 
-export { createCaptain };
+
+// service for login captian
+async function loginCaptain({ email }){
+
+  if( !email ){
+    throw new Error("All fields are required.")
+  }
+
+  const captain =  await Captain.findOne({ email }).select('+password');
+
+  if(!captain){
+    throw new Error("Driver with this email does not exist")
+  }
+
+  return captain;
+
+}
+
+export { createCaptain, loginCaptain };

@@ -1,10 +1,10 @@
 import express from "express";
 import { body } from "express-validator";
-import { captainRegister } from '../controller/captain.controller.js';
+import { captainRegister , captainLogin } from '../controller/captain.controller.js';
 
 const router = express.Router();
 
-// route for captain register
+// POST route for captain register
 router.post("/register", [
   body("email").isEmail().withMessage("Email is not valid"),
   body("name").isLength({ min: 5, max: 10 }).withMessage("Name must be between 5 to 10 characters long"),
@@ -14,5 +14,13 @@ router.post("/register", [
   body('vehicleType').isIn(['car','motorcycle','auto']).withMessage('Invalid vehicle type'),
   body('capacity').isInt({min:1}).withMessage('Capacity must be at least 1'),
 ], captainRegister );
+
+
+
+// POST route for captain login
+router.post("/login",[
+  body('email').isEmail().withMessage("Email is not valid"),
+  body('password').isLength({ min:7, max:12 }).withMessage("Password must be between 7 to 12 characters long"),
+], captainLogin);
 
 export default router;
