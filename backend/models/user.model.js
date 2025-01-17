@@ -1,16 +1,15 @@
-import mongoose, { model } from "mongoose";
+import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
 import bcrypt from "bcrypt";
 
-const {Schema} = mongoose;
 
-const userSchema = new Schema({
-  username: {
+const userSchema = new mongoose.Schema({
+  name: {
     type: String,
     require: true,
-    minlength: [5, "Username must be atleast 5 charcters long"],
-    maxlength: [11, "Username must be less than 11 characters long"],
+    minlength: [5, "Name must be atleast 5 charcters long"],
+    maxlength: [11, "Name must be less than 11 characters long"],
   },
   email: {
     type: String,
@@ -28,16 +27,18 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.methods.generateAuthToken = () => {
-  return jwt.sign({ _id: this._id }, config.jwtSecret);
+userSchema.methods.generateAuthToken = function() {
+  return jwt.sign({ _id: this._id }, config.jwtSecret, { expiresIn: '24h' });
 };
 
-userSchema.methods.hashPassword = async function(password) {
+userSchema.methods.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
+userSchema.statics.hashPassword = async function(password) {
   return await bcrypt.hash(password, 10);
 };
 
-userSchema.statics.comparePassword = async function (hashPassword) {
-  return await bcrypt.compare(hashPassword, this.password);
-};
+const User = mongoose.model("User", userSchema);
 
-export default model("User", userSchema);
+export default User;
