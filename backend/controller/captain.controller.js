@@ -1,4 +1,5 @@
 import Captain from "../models/captain.model.js";
+import BlacklistedToken from "../models/blacklistToken.model.js";
 import { validationResult } from "express-validator";
 import { createCaptain, loginCaptain } from "../services/captain.service.js";
 
@@ -57,7 +58,7 @@ const captainLogin = async (req, res) => {
 
     const token = captain.generateAuthToken();
 
-    // res.cookie("token",token)
+    res.cookie("token",token)
 
     res.status(200).json({ token, captain });
 
@@ -66,4 +67,32 @@ const captainLogin = async (req, res) => {
   }
 };
 
-export { captainRegister , captainLogin };
+
+
+// controller for getCaptainProfile
+async function getCaptainProfile( req , res ) {
+
+  return res.status(200).json(req.captain);
+
+}
+
+// controller for logout captain
+async function logoutCaptain(req,res) {
+
+  res.clearCookie('token');
+
+  const token =  await req.cookies.token || await req.headers.authorization?.split(" ")[1];
+
+  try {
+    
+    await BlacklistedToken.create({ token })
+    
+    res.status(200).json({message:"Logged out successfully"})
+    
+  } catch (error) {
+    res.status(500).json({error:"Internal server error"})
+  }
+
+}
+
+export { captainRegister , captainLogin , getCaptainProfile , logoutCaptain };

@@ -56,7 +56,7 @@ async function userLogin(req, res) {
 
     const token = user.generateAuthToken();
 
-    // res.cookie("token", token);
+    res.cookie("token", token);
 
     res.status(200).json({ token, user });
     
@@ -72,12 +72,20 @@ async function getUserProfile(req, res) {
 
 // controller for userLogout
 async function userLogout(req, res) {
+  
   res.clearCookie("token");
+
   const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
 
+ try {
+  
   await BlacklistedToken.create({ token });
 
   res.status(200).json({ message: "Logged out successfully" });
+  
+ } catch (error) {
+  return res.status(500).json({error:"Internal server error"})
+ }
 }
 
 // controller for forget password
