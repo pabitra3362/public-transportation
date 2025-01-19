@@ -88,7 +88,13 @@ async function userLogout(req, res) {
  }
 }
 
-// controller for forget password
+/**
+ * @route POST /forgetPassword
+ * @param {string} email.body.required - The email of the user requesting password reset
+ * @returns {object} 200 - Email sent successfully
+ * @returns {object} 400 - Validation errors
+ * @returns {object} 500 - Internal server error
+ */
 async function forgetUserPassword(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -105,7 +111,14 @@ async function forgetUserPassword(req, res) {
   }
 }
 
-// controller for set new password
+/**
+ * @route POST /setNewPassword
+ * @param {string} id.body.required - The ID of the user
+ * @param {string} password.body.required - The new password
+ * @returns {object} 200 - Password updated successfully
+ * @returns {object} 400 - Validation errors
+ * @returns {object} 500 - Internal server error
+ */
 async function setPassword(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

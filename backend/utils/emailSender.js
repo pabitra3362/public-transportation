@@ -18,7 +18,6 @@ oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 // email service for new user registration
  async function registrationEmailService({ email, name }) {
   const accessToken = await oAuth2Client.getAccessToken();
-  
 
   const transporter = nodemailer.createTransport({
     service: "gmail",

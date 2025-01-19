@@ -28,7 +28,7 @@ router.get('/profile', authUser, getUserProfile)
 router.get('/logout',authUser,userLogout)
 
 // GET request for forget password
-router.get('/forgetPassword',[
+router.post('/forgetPassword',[
     body('email').isEmail().withMessage("Email is not valid"),
 ], forgetUserPassword )
 
