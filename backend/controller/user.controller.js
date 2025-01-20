@@ -56,7 +56,7 @@ async function userLogin(req, res) {
 
     const token = user.generateAuthToken();
 
-    // res.cookie("token", token);
+    res.cookie("token", token);
 
     res.status(200).json({ token, user });
     
@@ -72,15 +72,29 @@ async function getUserProfile(req, res) {
 
 // controller for userLogout
 async function userLogout(req, res) {
+  
   res.clearCookie("token");
+
   const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
 
+ try {
+  
   await BlacklistedToken.create({ token });
 
   res.status(200).json({ message: "Logged out successfully" });
+  
+ } catch (error) {
+  return res.status(500).json({error:"Internal server error"})
+ }
 }
 
-// controller for forget password
+/**
+ * @route POST /forgetPassword
+ * @param {string} email.body.required - The email of the user requesting password reset
+ * @returns {object} 200 - Email sent successfully
+ * @returns {object} 400 - Validation errors
+ * @returns {object} 500 - Internal server error
+ */
 async function forgetUserPassword(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -97,7 +111,14 @@ async function forgetUserPassword(req, res) {
   }
 }
 
-// controller for set new password
+/**
+ * @route POST /setNewPassword
+ * @param {string} id.body.required - The ID of the user
+ * @param {string} password.body.required - The new password
+ * @returns {object} 200 - Password updated successfully
+ * @returns {object} 400 - Validation errors
+ * @returns {object} 500 - Internal server error
+ */
 async function setPassword(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

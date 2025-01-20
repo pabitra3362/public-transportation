@@ -48,4 +48,23 @@ async function loginCaptain({ email }){
 
 }
 
-export { createCaptain, loginCaptain };
+
+
+// service for forget password
+async function forgetPassword({ email }) {
+
+  if(!email){
+    throw new Error("All fields are required");
+  }
+
+  const captain = await Captain.findOne({ email });
+
+  if(!captain){
+    throw new Error("Driver with this email does not exist");
+  }
+
+  return captain;
+
+}
+
+export { createCaptain, loginCaptain, forgetPassword };
