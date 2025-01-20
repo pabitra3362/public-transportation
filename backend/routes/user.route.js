@@ -8,7 +8,7 @@ const router=express.Router();
 // POST request for user register
 router.post('/register',[
  body('email').isEmail().withMessage("Email is not valid"),
- body('name').isLength({min:5,max:10}).withMessage("Name must be between 5 to 10 characters long"),
+ body('name').isLength({min:5}).withMessage("Name must be at least 5 characters long"),
  body('password').isLength({min:7,max:12}).withMessage("Password must be between 7 to 12 characters long"),
 ],userRegister);
 
@@ -34,7 +34,7 @@ router.post('/forgetPassword',[
 
 // POST request for set new password
 router.post('/setNewPassword',[
-    body('password').isLength({min:7}).withMessage("Password must be between 7 to 12 characters long")
+    body('password').isLength({min:7,max:12}).withMessage("Password must be between 7 to 12 characters long")
 ],setPassword)
 
 

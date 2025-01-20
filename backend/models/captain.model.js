@@ -8,7 +8,6 @@ const captainSchema = new mongoose.Schema({
     type: String,
     require: true,
     minlength: [5, "Name must be atleast 5 charcters long"],
-    maxlength: [11, "Name must be less than 11 characters long"],
   },
 
   email: {
