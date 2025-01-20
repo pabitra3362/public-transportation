@@ -7,17 +7,20 @@ export default async function emailVerify({email}) {
             throw new Error("Email is required");
         }
 
-        const response = await axios.get('https://api.emaillistverify.com/v1/api/verify', {
+        const response = await axios.get('https://api.emaillistverify.com/api/verifyEmail', {
             params: {
               email: email,
-            },
-            headers: {
-              'x-api-key': config.email_verify_api, // Include the API key in the header
-            },
+              secret:config.email_verify_api
+            }
+            
           });
 
           const data = response.data;
-          return data;
+
+          if(data==="ok"){
+            return true;
+          }
+
+          return false;
           
-    
 }
