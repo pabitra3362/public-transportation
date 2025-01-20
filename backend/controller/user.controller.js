@@ -7,6 +7,7 @@ import {
 } from "../services/user.service.js";
 import BlacklistedToken from "../models/blacklistToken.model.js";
 import { RES, FPES } from "../utils/emailSender.js";
+import emailVerify from '../utils/emailVerify.js';
 
 // controller for userRegister
 async function userRegister(req, res) {
@@ -17,8 +18,17 @@ async function userRegister(req, res) {
 
   const { email, name, password } = req.body;
   const hashedPassword = await User.hashPassword(password);
-
+  
+  
   try {
+    const isReal = await emailVerify({email});
+    console.log(isReal);
+    
+
+    if(!isReal){
+      return res.status(400).json({error:"Invalid email address"});
+    }
+
     const user = await createUser({
       email,
       name,
