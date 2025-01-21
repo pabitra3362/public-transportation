@@ -65,7 +65,7 @@ const News = () => {
               <h2 className="card-title text-lg md:text-2xl">{e.title}</h2>
               <p className="text-sm md:text-base">{e.description}</p>
               <div className="card-actions lg:justify-end justify-center my-4">
-                <button className="btn bg-yellow-300 hover:text-white text-black hover:bg-black ">
+                <button className="btn bg-yellow-300 duration-500 hover:text-white text-black hover:bg-black ">
                   <a href={e.url} target="_blank" rel="noopener noreferrer">
                     Read More
                   </a>
