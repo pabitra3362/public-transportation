@@ -11,11 +11,11 @@ const Navbar = () => {
       <div className="w-full md:w-[90vw] lg:w-[70vw] px-3 mx-auto flex justify-between items-center">
         {/* Left Section */}
         <div className="left flex items-center">
-          <img
+          <a href="/"><img
             src={Logo}
             alt="Logo"
             className="logo-image h-14 w-14 md:h-16 md:w-16 lg:h-20 lg:w-20 rounded-full object-cover"
-          />
+          /></a>
         </div>
 
         {/* Middle Section */}
