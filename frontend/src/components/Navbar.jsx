@@ -56,7 +56,7 @@ const Navbar = () => {
             <div className="text-custom-white">+91 123</div>
             <div className="text-black">4567890</div>
           </div>
-          <NavLink to="/signup">
+          <NavLink to="/user-signup">
             <button
               className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200"
             >

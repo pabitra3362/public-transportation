@@ -10,9 +10,11 @@ import Team from "./pages/Team";
 import News from "./pages/News";
 import Contacts from "./pages/Contacts";
 import Footer from "./components/Footer";
-import SignUp from "./pages/SignUp";
-import Login from "./pages/Login";
+import UserSignUp from "./pages/UserSignUp";
+import UserLogin from "./pages/UserLogin";
 import ForgotPassword from "./pages/ForgotPassword";
+import DriverSignUp from "./pages/DriverSignUp";
+import DriverLogin from "./pages/DriverLogin";
 
 const App = () => {
   return (
@@ -26,8 +28,10 @@ const App = () => {
           <Route path="/team" element={<Team />} />
           <Route path="/news" element={<News />} />
           <Route path="/contact" element={<Contacts />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/user-signup" element={<UserSignUp />} />
+          <Route path="/user-login" element={<UserLogin />} />
+          <Route path="/driver-signup" element={<DriverSignUp />} />
+          <Route path="/driver-login" element={<DriverLogin />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
         </Routes>
         <Footer />

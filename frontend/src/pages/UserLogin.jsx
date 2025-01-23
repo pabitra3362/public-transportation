@@ -5,8 +5,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg";
+import GoogleButton from "../components/GoogleButton";
 
-const Login = () => {
+const UserLogin = () => {
   const navigate = useNavigate();
 
   const {
@@ -17,7 +18,7 @@ const Login = () => {
   } = useForm();
 
   const navigateToSignup = () => {
-    navigate("/signup"); // Navigate to the signup page
+    navigate("/user-signup"); // Navigate to the signup page
   };
 
   const navigateToForgotPassword = () => {
@@ -51,19 +52,23 @@ const Login = () => {
         </button>
         {/* safar Logo */}
         <div className="flex justify-center mb-4">
-              <img
-                src={Logo}
-                alt="Safar Logo"
-                className="h-28 w-auto sm:h-32 lg:h-36"
-              />
-            </div>
-        
+          <img
+            src={Logo}
+            alt="Safar Logo"
+            className="h-28 w-auto sm:h-32 lg:h-36"
+          />
+        </div>
 
-        <h2 className="text-2xl sm:text-xl md:text-2xl lg:text-3xl font-bold text-center mb-6">Login</h2>
+        <h2 className="text-2xl sm:text-xl md:text-2xl lg:text-3xl font-bold text-center mb-6">
+          Login
+        </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* Email Field */}
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm sm:text-base font-semibold text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm sm:text-base font-semibold text-gray-700"
+            >
               Email
             </label>
             <div className="relative">
@@ -84,7 +89,9 @@ const Login = () => {
                 type="email"
                 id="email"
                 placeholder="Enter your email"
-                className={`w-full p-2 pl-10 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 ${errors.email ? "border-red-500" : "border-gray-300"}`}
+                className={`w-full p-2 pl-10 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 ${
+                  errors.email ? "border-red-500" : "border-gray-300"
+                }`}
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -92,20 +99,27 @@ const Login = () => {
                     message: "Enter a valid email address",
                   },
                   validate: {
-                    gmail: (value) => value.endsWith("@gmail.com") || "Please Enter Valid Email",
+                    gmail: (value) =>
+                      value.endsWith("@gmail.com") ||
+                      "Please Enter Valid Email",
                   },
                 })}
               />
             </div>
 
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
           {/* Password Field */}
           <div className="mb-6">
-            <label htmlFor="password" className="block text-sm sm:text-base font-semibold text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm sm:text-base font-semibold text-gray-700"
+            >
               Password
             </label>
             <div className="relative">
@@ -125,7 +139,9 @@ const Login = () => {
                 type="password"
                 id="password"
                 placeholder="Enter your password"
-                className={`w-full p-2 pl-10 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 ${errors.password ? "border-red-500" : "border-gray-300"}`}
+                className={`w-full p-2 pl-10 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 ${
+                  errors.password ? "border-red-500" : "border-gray-300"
+                }`}
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
@@ -137,29 +153,30 @@ const Login = () => {
                     message: "Password cannot be longer than 8 characters",
                   },
                   pattern: {
-                    value: /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).*$/,
-                    message: "Password must contain at least one uppercase letter, one number, and one special character",
+                    value:
+                      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).*$/,
+                    message:
+                      "Password must contain at least one uppercase letter, one number, and one special character",
                   },
                 })}
               />
             </div>
 
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
             )}
           </div>
           <div className="text-center p-3">
-          {" "}
-          <button
-          onClick={navigateToForgotPassword }
-           className="text-black font-bold  cursor-pointer">
-
-            Forgot Password
-          </button>
-
+            Forgot Your Password ?
+            <span
+              onClick={navigateToForgotPassword}
+              className="font-semibold mx-2 underline cursor-pointer"
+            >
+              Click Here
+            </span>
           </div>
-          
-        
 
           <button
             type="submit"
@@ -168,6 +185,9 @@ const Login = () => {
             Login
           </button>
         </form>
+
+        <GoogleButton />
+
         <p className="text-center text-sm mt-4">
           Don't have an account?{" "}
           <span
@@ -177,9 +197,21 @@ const Login = () => {
             Sign Up
           </span>
         </p>
+
+        <button
+          onClick={() => navigate("/driver-login")}
+          className="flex mt-36 duration-500 items-center justify-center gap-2 w-full py-2 border border-gray-300 rounded-lg hover:bg-black hover:text-white bg-yellow-300 font-semibold "
+        >
+          <img
+            className="size-8"
+            src="https://cdn.iconscout.com/icon/premium/png-512-thumb/driver-2279158-1899772.png?f=webp&w=256"
+            alt=""
+          />
+          Sign In As Driver
+        </button>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default UserLogin;
