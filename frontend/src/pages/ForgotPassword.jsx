@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const ForgotPassword = () => {
   const [isSuccess, setIsSuccess] = useState(false); // State to toggle content
   const navigate = useNavigate(); // To handle navigation
-  
+
   const {
     register,
     handleSubmit,
@@ -63,6 +63,8 @@ const ForgotPassword = () => {
                 >
                   Enter your email:
                 </label>
+                {/* SVG Icon */}
+
                 <input
                   type="email"
                   id="email"
@@ -94,7 +96,7 @@ const ForgotPassword = () => {
           </div>
         ) : (
           <div className="text-center">
-              <div className="flex justify-center">
+            <div className="flex justify-center">
               <img
                 src={Logo}
                 alt="Safar Logo"
@@ -102,11 +104,22 @@ const ForgotPassword = () => {
               />
             </div>
             <h2 className="text-xl sm:text-2xl font-bold black mb-4">
-               Check Your Email
+              Check Your Email
             </h2>
             <p className="text-sm sm:text-base text-gray-700">
               Instructions to reset your password have been sent to your email.
             </p>
+               
+               <div className="p-5">
+
+            <button
+                type="submit"
+                className="w-full bg-yellow-300 text-black font-bold py-2 px-4 rounded-md hover:bg-black duration-500 md:hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2"
+              >
+                Resend Email
+              </button>
+               </div>
+           
           </div>
         )}
       </div>

@@ -51,14 +51,23 @@ const Navbar = () => {
         </div>
 
         {/* Right Section */}
-        <div className="right hidden lg:flex items-center gap-3">
-          <div className="flex items-center gap-1 text-lg font-bold">
+        <div className="right flex items-center gap-3">
+          {/* Contact Information */}
+          <div className="hidden lg:flex items-center gap-1 text-lg font-bold">
             <div className="text-custom-white">+91 123</div>
             <div className="text-black">4567890</div>
           </div>
+          {/* Sign-Up Button */}
           <NavLink to="/signup">
             <button
-              className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200"
+              className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 lg:hidden"
+            >
+              Sign-Up
+            </button>
+          </NavLink>
+          <NavLink to="/signup">
+            <button
+              className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 hidden lg:block"
             >
               Sign-Up
             </button>
