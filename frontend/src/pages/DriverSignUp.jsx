@@ -34,27 +34,27 @@ const DriverSignUp = () => {
   };
 
   const navigateToLogin = () => {
-    navigate("/driver-login"); // 
+    navigate("/driver-login"); //
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg relative">
-          {/* Close Button */}
-          <button
+        {/* Close Button */}
+        <button
           onClick={handleClose}
           className="absolute top-0 right-0 text-black text-[15px] w-[40px] h-[40px] rounded-full hover:bg-black hover:text-yellow-300  text-xl"
         >
-         ✕
+          ✕
         </button>
-{/* Safar Logo */}
-   <div className="flex justify-center mb-4">
-              <img
-                src={Logo}
-                alt="Safar Logo"
-                className="h-28 w-auto sm:h-32 lg:h-36"
-              />
-            </div>
+        {/* Safar Logo */}
+        <div className="flex justify-center mb-4">
+          <img
+            src={Logo}
+            alt="Safar Logo"
+            className="h-28 w-auto sm:h-32 lg:h-36"
+          />
+        </div>
 
         <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -143,8 +143,7 @@ const DriverSignUp = () => {
                     message: "Enter a valid email",
                   },
                   validate: (value) =>
-                    value.endsWith("@gmail.com") ||
-                    "Please Enter Valid Email", // Custom validation
+                    value.endsWith("@gmail.com") || "Please Enter Valid Email", // Custom validation
                 })}
                 className="w-full pl-10 pr-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 placeholder="Enter your email"
@@ -264,8 +263,12 @@ const DriverSignUp = () => {
 
           <p className="text-center text-sm p-5">
             Already have an account?{" "}
-            <span onClick={navigateToLogin} className="text-black font-bold cursor-pointer">Login</span>
-            
+            <span
+              onClick={navigateToLogin}
+              className="text-black font-bold cursor-pointer"
+            >
+              Login
+            </span>
           </p>
 
           <button
@@ -275,21 +278,21 @@ const DriverSignUp = () => {
           >
             Sign Up
           </button>
-
         </form>
-          {/* google button */}
-          <GoogleButton />
+        {/* google button */}
+        <GoogleButton />
 
-          <button 
-            onClick={()=>navigate('/user-signup')}
-            className="flex mt-36 duration-500 items-center justify-center gap-2 w-full py-2 border border-gray-300 rounded-lg hover:bg-black hover:text-white bg-yellow-300 font-semibold ">
-              <img
-                className="size-8"
-                src="https://cdn.iconscout.com/icon/premium/png-512-thumb/driver-2279158-1899772.png?f=webp&w=256"
-                alt=""
-              />
-              Sign Up As User
-            </button>
+        <button
+          onClick={() => navigate("/user-signup")}
+          className="flex mt-36 duration-500 items-center justify-center gap-2 w-full py-2 border border-gray-300 rounded-lg hover:bg-black hover:text-white bg-yellow-300 font-semibold "
+        >
+          <img
+            className="size-8"
+            src="https://cdn.iconscout.com/icon/premium/png-512-thumb/driver-2279158-1899772.png?f=webp&w=256"
+            alt=""
+          />
+          Sign Up As User
+        </button>
       </div>
     </div>
   );
