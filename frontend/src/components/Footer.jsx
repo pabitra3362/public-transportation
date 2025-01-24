@@ -3,6 +3,7 @@ import React from "react";
 import { CiFacebook } from "react-icons/ci";
 import { CiInstagram } from "react-icons/ci";
 import { ImPinterest2 } from "react-icons/im";
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -10,7 +11,7 @@ const Footer = () => {
       <div className=" text-white w-full md:w-[80vw] lg:w-[70vw] mx-auto py-12 px-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-start lg:justify-items-center md:px-8 items-start gap-12">
         {/* logo */}
         <div className="logo grid justify-items-start items-center gap-7">
-          <div className="logo text-3xl">LOGO</div>
+          <div className="logo text-3xl">Safar</div>
           <div className="social-links flex justify-start items-center gap-5">
             <a href="#">
               <CiFacebook className="size-9 hover:text-yellow-300 transition duration-200" />
@@ -32,36 +33,36 @@ const Footer = () => {
         <div className="explore grid justify-items-start items-center gap-4">
           <h3 className="font-bold text-white text-2xl font-mono">Explore</h3>
           <div className="grid justify-items-start items-center gap-2">
-            <a
-              href="#"
+            <Link
+              to="#"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               Company
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="#"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               Android App
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
-              logo name
-            </a>
-            <a
-              href="#"
+              Safar
+            </Link>
+            <Link
+              to="/news"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               Our News
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/taxi"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               Get Taxi
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -71,36 +72,36 @@ const Footer = () => {
             Usefull links
           </h3>
           <div className="grid justify-items-start items-center gap-2">
-            <a
-              href="/about"
+            <Link
+              to="/about"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               About Us
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="#"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               Reviews
-            </a>
-            <a
-              href="/service"
+            </Link>
+            <Link
+              to="/service"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               Service
-            </a>
-            <a
-              href="/taxi"
+            </Link>
+            <Link
+              to="/taxi"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               Hire Taxi In Your City
-            </a>
-            <a
-              href="/contact"
+            </Link>
+            <Link
+              to="/contact"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               Contacts
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -108,36 +109,36 @@ const Footer = () => {
         <div className="explore grid justify-items-start items-center gap-4">
           <h3 className="font-bold text-white text-2xl font-mono">Help?</h3>
           <div className="grid justify-items-start items-center gap-2">
-            <a
-              href="#"
+            <Link
+              to="#"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               FAQ
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="#"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               Privacy
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="#"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               Terms & Conditions
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="#"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               Feedback
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="#"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               Reporting
-            </a>
+            </Link>
           </div>
         </div>
       </div>

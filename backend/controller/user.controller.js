@@ -7,6 +7,7 @@ import {
 } from "../services/user.service.js";
 import BlacklistedToken from "../models/blacklistToken.model.js";
 import { RES, FPES } from "../utils/emailSender.js";
+import emailVerify from '../utils/emailVerify.js';
 
 // controller for userRegister
 async function userRegister(req, res) {
@@ -17,8 +18,15 @@ async function userRegister(req, res) {
 
   const { email, name, password } = req.body;
   const hashedPassword = await User.hashPassword(password);
-
+  
+  
   try {
+    const isReal = await emailVerify({email});
+
+    if(!isReal){
+      return res.status(400).json({error:"Invalid email address"});
+    }
+
     const user = await createUser({
       email,
       name,
@@ -88,13 +96,7 @@ async function userLogout(req, res) {
  }
 }
 
-/**
- * @route POST /forgetPassword
- * @param {string} email.body.required - The email of the user requesting password reset
- * @returns {object} 200 - Email sent successfully
- * @returns {object} 400 - Validation errors
- * @returns {object} 500 - Internal server error
- */
+
 async function forgetUserPassword(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -111,14 +113,7 @@ async function forgetUserPassword(req, res) {
   }
 }
 
-/**
- * @route POST /setNewPassword
- * @param {string} id.body.required - The ID of the user
- * @param {string} password.body.required - The new password
- * @returns {object} 200 - Password updated successfully
- * @returns {object} 400 - Validation errors
- * @returns {object} 500 - Internal server error
- */
+
 async function setPassword(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

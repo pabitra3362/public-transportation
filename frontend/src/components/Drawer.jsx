@@ -18,7 +18,7 @@ export function MyDrawer() {
 
   return (
     <>
-      <div className="flex min-h-[50vh] items-center justify-center">
+      <div className="flex items-center justify-center">
         <button onClick={() => setIsOpen(true)}>
           <label className="btn btn-circle swap bg-transparent">
             {/* this hidden checkbox controls the state */}
@@ -49,7 +49,7 @@ export function MyDrawer() {
         </button>
       </div>
       <Drawer open={isOpen} onClose={handleClose}>
-        <Drawer.Header title="Logo" />
+        <Drawer.Header title="Safar" />
         <Drawer.Items>
           <div className="font-bold grid justify-items-center items-center gap-2 text-lg">
             {menuArr.map((item, index) => (
@@ -60,6 +60,16 @@ export function MyDrawer() {
             <div className="flex justify-center items-center gap-1 text-lg font-bold">
               <div className="text-yellow-400">+91 123</div>
               <div className="text-black">4567890</div>
+            </div>
+            <div>
+            <Link to="/user-signup">
+            <button
+            onClick={handleClose}
+              className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200"
+            >
+              Sign-Up
+            </button>
+          </Link>
             </div>
           </div>
         </Drawer.Items>

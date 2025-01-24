@@ -11,11 +11,11 @@ const Navbar = () => {
       <div className="w-full md:w-[90vw] lg:w-[70vw] px-3 mx-auto flex justify-between items-center">
         {/* Left Section */}
         <div className="left flex items-center">
-          <img
+          <a href="/"><img
             src={Logo}
             alt="Logo"
             className="logo-image h-14 w-14 md:h-16 md:w-16 lg:h-20 lg:w-20 rounded-full object-cover"
-          />
+          /></a>
         </div>
 
         {/* Middle Section */}
@@ -57,15 +57,7 @@ const Navbar = () => {
             <div className="text-custom-white">+91 123</div>
             <div className="text-black">4567890</div>
           </div>
-          {/* Sign-Up Button */}
-          <NavLink to="/signup">
-            <button
-              className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 lg:hidden"
-            >
-              Sign-Up
-            </button>
-          </NavLink>
-          <NavLink to="/signup">
+          <NavLink to="/user-signup">
             <button
               className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 hidden lg:block"
             >

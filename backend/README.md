@@ -11,7 +11,7 @@ This is the backend API for the public transportation system. It provides endpoi
 * **Method:** `POST`
 * **Request Body:**
 	+ `email`: User's email address (required)
-	+ `name`: User's name (required, must be between 5 and 10 characters long)
+	+ `name`: User's name (required, must be at least 5 characters long)
 	+ `password`: User's password (required, must be between 7 and 12 characters long)
 * **Response:**
 	+ `token`: JWT token for authentication
@@ -178,7 +178,7 @@ This is the backend API for the public transportation system. It provides endpoi
 * **Method:** `POST`
 * **Request Body:**
 	+ `email`: Captain's email address (required)
-	+ `name`: Captain's name (required, must be between 5 and 11 characters long)
+	+ `name`: Captain's name (required, must be at least 5 characters long)
 	+ `password`: Captain's password (required, must be at least 7 characters long)
 	+ `color`: Vehicle color (required, must be at least 3 characters long)
 	+ `plate`: Vehicle plate number (required, must be at least 3 characters long)

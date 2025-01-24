@@ -3,6 +3,7 @@ import BlacklistedToken from "../models/blacklistToken.model.js";
 import { validationResult } from "express-validator";
 import { createCaptain, loginCaptain, forgetPassword } from "../services/captain.service.js";
 import { RES, FPES } from '../utils/emailSender.js';
+import emailVerify from "../utils/emailVerify.js";
 
 // controller for captain registration
 const captainRegister = async (req, res) => {
@@ -17,6 +18,13 @@ const captainRegister = async (req, res) => {
   const hashedPassword = await Captain.hashPassword(password);
 
   try {
+
+    const isReal = await emailVerify({email})
+
+    if(!isReal){
+      return res.status(400).json({error:"Invalid email address"})
+    }
+    
     const captain = await createCaptain({
       email,
       name,
