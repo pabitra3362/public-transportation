@@ -261,6 +261,103 @@ const DriverSignUp = () => {
             )}
           </div>
 
+          {/* Vahical Plate Number */}
+
+          <div className="mb-6">
+            <label
+              htmlFor="vehiclePlate"
+              className="block text-sm font-semibold text-gray-700"
+            >
+              Vehicle Plate Number
+            </label>
+
+            {/* Container for Input and SVG */}
+            <div className="relative">
+              {/* SVG Icon Start */}
+              <svg
+                height={20}
+                width={20}
+                viewBox="0 0 512 512"
+                xmlns="http://www.w3.org/2000/svg"
+                className="absolute left-3 top-1/2 transform -translate-y-[7px] text-gray-500"
+              >
+                <path d="M256 0C114.613 0 0 114.613 0 256s114.613 256 256 256 256-114.613 256-256S397.387 0 256 0zm0 480C123.452 480 32 388.548 32 256S123.452 32 256 32s224 91.452 224 224-91.452 224-224 224z" />
+                <path d="M352 160h-192c-8.837 0-16 7.163-16 16v160c0 8.837 7.163 16 16 16h192c8.837 0 16-7.163 16-16V176c0-8.837-7.163-16-16-16zm-16 160H176V192h160v128z" />
+              </svg>
+              {/* SVG Icon Ends */}
+
+              {/* Vehicle Plate Input */}
+              <input
+                type="text"
+                id="vehiclePlate"
+                {...register("vehiclePlate", {
+                  required: "Vehicle Plate Number is required",
+                  validate: (value) => {
+                    if (!/^\d{4}$/.test(value)) {
+                      return "Vehicle Plate Number must be exactly 4 digits";
+                    }
+                    return true;
+                  },
+                })}
+                className="w-full pl-10 pr-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300"
+                placeholder="Enter Vehicle Plate Number"
+              />
+            </div>
+
+            {/* Error Message */}
+            {errors.vehiclePlate && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.vehiclePlate.message}
+              </p>
+            )}
+          </div>
+          
+          {/* Vahical Info */}
+
+          <div className="mb-4 flex flex-col lg:flex-row justify-around">
+          {/* Vehicle Type Dropdown */}
+          <div className="lg:w-1/2 px-2 mb-4 lg:mb-0">
+           
+            <select
+              id="vehicleType"
+              {...register("vehicleType", { required: "Vehicle type is required" })}
+              className="mt-1 w-full px-4 py-2 border  rounded-md border-gray-300 focus:ring-yellow-300 focus:right-2"
+            >
+              <option value="">Vehicle type</option>
+              <option value="economic">Economic</option>
+              <option value="standard">Standard</option>
+              <option value="business">Business</option>
+              <option value="vip">VIP</option>
+            </select>
+            {errors.vehicleType && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.vehicleType.message}
+              </p>
+            )}
+          </div>
+
+          {/* Passenger Capacity Dropdown */}
+          <div className="lg:w-1/2 px-2">
+           
+            <select
+              id="passengerCapacity"
+              {...register("passengerCapacity", { required: "Passenger capacity is required" })}
+              className="mt-1 w-full px-1 py-2 border border-gray-300 rounded-md focus:ring-yellow-300 focus:right-2 "
+            >
+              <option value="">Passenger Capacity</option>
+              {Array.from({ length: 8 }, (_, i) => i + 1).map((num) => (
+                <option key={num} value={num}>{num}</option>
+              ))}
+            </select>
+            {errors.passengerCapacity && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.passengerCapacity.message}
+              </p>
+            )}
+          </div>
+        </div>
+          
+
           <p className="text-center text-sm p-5">
             Already have an account?{" "}
             <span
