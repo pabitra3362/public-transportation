@@ -8,7 +8,7 @@ async function createUser({ email, name, password }) {
   }
   const existUser= await User.findOne({email})
   if(existUser){
-    throw new Error("Email is already exist")
+    throw new Error("Account with this email already exist")
   }
   const user = await User.create({ email, name, password });
   return user;

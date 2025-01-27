@@ -7,8 +7,11 @@ import GoogleButton from "../components/GoogleButton";
 import { useDispatch } from "react-redux";
 import { createUser } from "../services/userAuth.service";
 import { userRegister } from '../features/auth/userAuthSlice';
+import { toast , ToastContainer } from 'react-toastify';
 
 const UserSignUp = () => {
+
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const {
@@ -22,22 +25,30 @@ const UserSignUp = () => {
 
   const onSubmit = async (data) => {
     
-      const user = await createUser({
-        email: data.email,
-        name: data.name,
-        password: data.password,
-      });
-      if(user){
-        dispatch(userRegister(user))
+      try {
+        const user = await createUser({
+          email: data.email,
+          name: data.name,
+          password: data.password,
+        });
+        
+        if(user){
+          dispatch(userRegister(user))
+          navigate('/')
+        }
+        return null;
+
+      } catch (error) {
+        toast.error(error.message)
       }
 
     
 
     // Reset the form fields after submission
-    // reset();
+    reset();
+
   };
 
-  const navigate = useNavigate();
 
   // Close button click handler to navigate to home
   const handleClose = () => {
@@ -50,6 +61,7 @@ const UserSignUp = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+      <ToastContainer theme="dark" />
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg relative">
         {/* Close Button */}
         <button

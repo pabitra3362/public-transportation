@@ -1,6 +1,7 @@
 import axios from "axios";
 import config from "../config/config";
 
+
 export const createUser = async ({ email, name, password }) => {
   
     try {
@@ -15,6 +16,6 @@ export const createUser = async ({ email, name, password }) => {
       }
       return false;
     } catch (error) {
-      console.log((error?.response.data.error) || (error.message))
+      throw new Error((error?.response.data.error) || (error.message))
     }
 };
