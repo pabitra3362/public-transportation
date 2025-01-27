@@ -21,11 +21,11 @@ async function userRegister(req, res) {
   
   
   try {
-    const isReal = await emailVerify({email});
+    // const isReal = await emailVerify({email});
 
-    if(!isReal){
-      return res.status(400).json({error:"Invalid email address"});
-    }
+    // if(!isReal){
+    //   return res.status(400).json({error:"Invalid email address"});
+    // }
 
     const user = await createUser({
       email,
@@ -38,7 +38,7 @@ async function userRegister(req, res) {
     const token = user.generateAuthToken();
     res.status(201).json({ token, user });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+     res.status(500).json({ error: err.message });
   }
 }
 

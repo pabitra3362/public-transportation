@@ -7,7 +7,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { MdEmail, MdOutlineEventNote } from "react-icons/md";
 import { FaMessage } from "react-icons/fa6";
 import TextArea from "./TextArea";
-import toast, { Toaster } from "react-hot-toast";
+import { toast, ToastContainer } from 'react-toastify'
 
 const ContactForm = () => {
   const {
@@ -40,7 +40,7 @@ const ContactForm = () => {
   return (
     <div className="grid gap-10">
       {/* Toaster for Toast */}
-      <Toaster position="top-center" />
+      <ToastContainer theme="dark" />
 
       {/* Main Content */}
       <div className="grid justify-items-center items-center gap-4">

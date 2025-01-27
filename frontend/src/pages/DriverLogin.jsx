@@ -185,8 +185,9 @@ const DriverLogin = () => {
             Login
           </button>
         </form>
-
-        <GoogleButton />
+        
+        {/* google button */}
+        {/* <GoogleButton /> */}
 
         <p className="text-center text-sm mt-4">
           Don't have an account?{" "}

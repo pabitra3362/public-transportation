@@ -279,8 +279,9 @@ const DriverSignUp = () => {
             Sign Up
           </button>
         </form>
+        
         {/* google button */}
-        <GoogleButton />
+        {/* <GoogleButton /> */}
 
         <button
           onClick={() => navigate("/user-signup")}

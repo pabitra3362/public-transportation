@@ -1,5 +1,4 @@
 import User from "../models/user.model.js";
-import bcrypt from 'bcrypt';
 
 // service for createUser
 async function createUser({ email, name, password }) {

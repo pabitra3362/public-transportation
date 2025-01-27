@@ -1,20 +1,9 @@
 import React from "react";
-import firebaseInstance from "../config/firebaseConfig";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const GoogleButton = () => {
-  const auth = getAuth(firebaseInstance);
 
   const handleGoogleClick = async () => {
-    const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: "select_account" });
-
-    try {
-      const resultFromGoogle = await signInWithPopup(auth, provider);
-      console.log(resultFromGoogle);
-    } catch (error) {
-      console.error(error.message);
-    }
+    console.log("now connect with google in just one click !!!")
   };
 
   return (
