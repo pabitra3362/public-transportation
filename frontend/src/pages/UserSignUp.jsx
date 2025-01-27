@@ -26,14 +26,14 @@ const UserSignUp = () => {
   const onSubmit = async (data) => {
     
       try {
-        const user = await createUser({
+        const response = await createUser({
           email: data.email,
           name: data.name,
           password: data.password,
         });
         
-        if(user){
-          dispatch(userRegister(user))
+        if(response){
+          dispatch(userRegister(response))
           navigate('/')
         }
         return null;
@@ -41,8 +41,6 @@ const UserSignUp = () => {
       } catch (error) {
         toast.error(error.message)
       }
-
-    
 
     // Reset the form fields after submission
     reset();
