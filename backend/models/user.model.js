@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
     minlength: [7, "Password must be atleast 7 characters long"],
     select: false,
   },
+  role: {
+    type: String,
+    default: "user"
+  },
   socketId: {
     type: String,
   },

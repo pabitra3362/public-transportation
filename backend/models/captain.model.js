@@ -23,6 +23,11 @@ const captainSchema = new mongoose.Schema({
     select: false,
   },
 
+  role: {
+    type: String,
+    default: "captain"
+  },
+
   socketId: {
     type: String,
   },

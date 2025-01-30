@@ -6,9 +6,16 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg";
 import GoogleButton from "../components/GoogleButton";
+import {toast, ToastContainer} from 'react-toastify';
+import { loginUser } from "../services/auth/userAuth.service";
+import { useDispatch } from 'react-redux';
+import { saveUser } from "../features/auth/userAuthSlice";
+import { setToken } from "../utils/token";
 
 const UserLogin = () => {
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -25,15 +32,33 @@ const UserLogin = () => {
     navigate("/forgotpassword"); // Navigate to the ForgotPassword page
   };
 
-  const onSubmit = (data) => {
-    // Form Data is correct
-    console.log("Form Data:", data);
+  const onSubmit = async (data) => {
+    
+    try {
+      
+      const user = await loginUser({
+        email: data.email,
+        password: data.password
+      })
 
-    // Display success alert
-    alert("Your form has been submitted successfully!");
 
-    // Reset the form inputs
-    reset();
+      if(user){
+        dispatch(saveUser(user));
+        setToken(user.token,24)
+        navigate('/');
+      }
+
+    } catch (error) {
+
+     toast.error(error.message);
+     
+    } finally {
+
+      // Reset the form inputs
+      reset();
+
+    }
+
   };
 
   const navigateToHome = () => {
@@ -42,6 +67,7 @@ const UserLogin = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <ToastContainer theme="dark" />
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg relative">
         {/* Close Button */}
         <button
@@ -149,8 +175,8 @@ const UserLogin = () => {
                     message: "Password must be exactly 8 characters long",
                   },
                   maxLength: {
-                    value: 8,
-                    message: "Password cannot be longer than 8 characters",
+                    value: 12,
+                    message: "Password cannot be longer than 12 characters",
                   },
                   pattern: {
                     value:

@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo.jpg";
 import GoogleButton from "../components/GoogleButton";
 import { useDispatch } from "react-redux";
-import { createUser } from "../services/userAuth.service";
-import { userRegister } from '../features/auth/userAuthSlice';
+import { createUser } from "../services/auth/userAuth.service";
+import { saveUser } from '../features/auth/userAuthSlice';
 import { toast , ToastContainer } from 'react-toastify';
+import { setToken } from "../utils/token";
 
 const UserSignUp = () => {
 
@@ -26,24 +27,30 @@ const UserSignUp = () => {
   const onSubmit = async (data) => {
     
       try {
-        const response = await createUser({
+        const user = await createUser({
           email: data.email,
           name: data.name,
           password: data.password,
         });
         
-        if(response){
-          dispatch(userRegister(response))
+        if(user){
+          dispatch(saveUser(user))
+          setToken(user.token,24)
           navigate('/')
         }
         return null;
 
       } catch (error) {
+
         toast.error(error.message)
+
+      } finally {
+
+        // Reset the form fields after submission
+        reset();
+
       }
 
-    // Reset the form fields after submission
-    reset();
 
   };
 
