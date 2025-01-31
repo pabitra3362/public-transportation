@@ -47,7 +47,7 @@ oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
 
 // email service for user forget password
-async function forgetPasswordEmailService({email,name,id}) {
+async function forgetPasswordEmailService({email,name,id,role}) {
   const accessToken =  await oAuth2Client.getAccessToken();
 
   const transporter = nodemailer.createTransport({
@@ -67,7 +67,7 @@ async function forgetPasswordEmailService({email,name,id}) {
     from: "pmohanty2344@gmail.com",
     to: email,
     subject: "Reset your password",
-    html: `Hi ${name},<br><br>You are receiving this email because you requested a password reset for your account.<br><br>To reset your password, please click on the following link or button: <br><br><a href="http://localhost:5173/login/forgetPassword?id=${id}">http://localhost:5173/login/forgetPassword?id=${id}</a><br><br><a href="http://localhost:5173/login/forgetPassword?id=${id}"><button style="width: fit-content;background-color: yellow;color: black;font-size: larger;padding: 10px;border-radius: 7px; transition: all 500ms;" onmouseover="this.style.background='black'; this.style.color='yellow'" onmouseout="this.style.background='yellow'; this.style.color='black'">Reset Password</button></a><br><br>If you did not request this, please ignore this email and your password will remain unchanged.<br><br>Best regards, The Team.`
+    html: `Hi ${name},<br><br>You are receiving this email because you requested a password reset for your account.<br><br>To reset your password, please click on the following link or button: <br><br><a href="http://localhost:5173/login/setNewPassword/${role}/?id=${id}">http://localhost:5173/login/setNewPassword/${role}/?id=${id}</a><br><br><a href="http://localhost:5173/login/setNewPassword/${role}/?id=${id}"><button style="width: fit-content;background-color: yellow;color: black;font-size: larger;padding: 10px;border-radius: 7px; transition: all 500ms;" onmouseover="this.style.background='black'; this.style.color='yellow'" onmouseout="this.style.background='yellow'; this.style.color='black'">Reset Password</button></a><br><br>If you did not request this, please ignore this email and your password will remain unchanged.<br><br>Best regards, The Team.`
   }
 
   const info =  await transporter.sendMail(mailOptions);

@@ -102,7 +102,7 @@ async function forgetUserPassword(req, res) {
   const { email } = req.body;
   try {
     const user = await forgetPassword({ email });
-    const emailService = await FPES({ email, name: user.name, id: user._id });
+    const emailService = await FPES({ email, name: user.name, id: user._id, role:user.role });
     res.status(200).json({ message: "Email sent successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });

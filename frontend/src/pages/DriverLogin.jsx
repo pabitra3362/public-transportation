@@ -22,7 +22,7 @@ const DriverLogin = () => {
   };
 
   const navigateToForgotPassword = () => {
-    navigate("/forgotpassword"); // Navigate to the ForgotPassword page
+    navigate("/forgotpassword/captain"); // Navigate to the ForgotPassword page
   };
 
   const onSubmit = (data) => {

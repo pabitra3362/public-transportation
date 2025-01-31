@@ -116,7 +116,7 @@ async function forgetCaptainPassword( req, res ){
   try{
     const captain =  await forgetPassword({email});
 
-    const emailService = await FPES({email,name:captain.name,id:captain._id})
+    const emailService = await FPES({email,name:captain.name,id:captain._id, role:captain.role})
 
     res.status(200).json({message:"Email sent successfully"});
 

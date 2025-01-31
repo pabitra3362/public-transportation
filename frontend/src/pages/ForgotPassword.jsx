@@ -1,30 +1,60 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import { emailSendService } from "../services/email/emailSender.service";
 
 const ForgotPassword = () => {
-  const [isSuccess, setIsSuccess] = useState(false); // State to toggle content
-  const navigate = useNavigate(); // To handle navigation
+  const [isSuccess, setIsSuccess] = useState(false);
+  const navigate = useNavigate();
+  const [timer, setTimer] = useState(0);
+  const { role } = useParams();
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data); // Handle submitted email data
-    setIsSuccess(true); // On success, update state
+  const email = watch("email");
+
+  // Timer countdown logic inside useEffect
+  useEffect(() => {
+    let countdown;
+    if (timer > 0) {
+      countdown = setInterval(() => {
+        setTimer((prev) => (prev > 1 ? prev - 1 : 0));
+      }, 1000);
+    }
+    return () => clearInterval(countdown); // Cleanup interval when timer reaches 0 or component unmounts
+  }, [timer]);
+
+  const onSubmit = async (data) => {
+    if (timer > 0) return; // Prevent multiple requests while countdown is running
+
+    try {
+      const msg = await emailSendService({ email, role });
+
+      if (msg) {
+        toast.success(msg);
+        setIsSuccess(true);
+        setTimer(30); // Start the 30-second countdown after success
+      }
+    } catch (error) {
+      toast.error(error.message);
+      setIsSuccess(false);
+    }
   };
 
   const navigateToLogin = () => {
-    navigate("/user-login"); // Navigate to the login page
+    navigate("/user-login");
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
+      <ToastContainer theme="dark" />
       <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6 sm:p-8 relative">
         {/* Close Button */}
         <button
@@ -38,11 +68,7 @@ const ForgotPassword = () => {
           <div>
             {/* Logo Section */}
             <div className="flex justify-center mb-4">
-              <img
-                src={Logo}
-                alt="Safar Logo"
-                className="h-28 w-auto sm:h-32 lg:h-36"
-              />
+              <img src={Logo} alt="Safar Logo" className="h-28 w-auto sm:h-32 lg:h-36" />
             </div>
 
             {/* Heading Section */}
@@ -50,20 +76,15 @@ const ForgotPassword = () => {
               Forgot Your Password?
             </h3>
             <p className="text-sm sm:text-base text-gray-500 mb-6 text-center font-medium">
-              Enter your email address and we will send you instructions to
-              reset your password.
+              Enter your email address and we will send you instructions to reset your password.
             </p>
 
             {/* Form Section */}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                   Enter your email:
                 </label>
-                {/* SVG Icon */}
 
                 <input
                   type="email"
@@ -80,11 +101,7 @@ const ForgotPassword = () => {
                     },
                   })}
                 />
-                {errors.email && (
-                  <p className="text-sm text-red-500 mt-2">
-                    {errors.email.message}
-                  </p>
-                )}
+                {errors.email && <p className="text-sm text-red-500 mt-2">{errors.email.message}</p>}
               </div>
               <button
                 type="submit"
@@ -97,29 +114,27 @@ const ForgotPassword = () => {
         ) : (
           <div className="text-center">
             <div className="flex justify-center">
-              <img
-                src={Logo}
-                alt="Safar Logo"
-                className="h-28 w-auto sm:h-32 lg:h-36"
-              />
+              <img src={Logo} alt="Safar Logo" className="h-28 w-auto sm:h-32 lg:h-36" />
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold black mb-4">
-              Check Your Email
-            </h2>
+            <h2 className="text-xl sm:text-2xl font-bold black mb-4">Check Your Email</h2>
             <p className="text-sm sm:text-base text-gray-700">
               Instructions to reset your password have been sent to your email.
             </p>
-               
-               <div className="p-5">
 
-            <button
-                type="submit"
-                className="w-full bg-yellow-300 text-black font-bold py-2 px-4 rounded-md hover:bg-black duration-500 md:hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2"
+            <div className="p-5">
+              <button
+                type="button"
+                onClick={onSubmit}
+                disabled={timer > 0}
+                className={`w-full font-bold py-2 px-4 rounded-md transition duration-500 focus:outline-none ${
+                  timer > 0
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-yellow-300 hover:bg-black text-black hover:text-white focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2"
+                }`}
               >
-                Resend Email
+                {timer > 0 ? `Resend in ${timer}s` : "Resend Email"}
               </button>
-               </div>
-           
+            </div>
           </div>
         )}
       </div>

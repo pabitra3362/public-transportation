@@ -15,6 +15,7 @@ import UserLogin from "./pages/UserLogin";
 import ForgotPassword from "./pages/ForgotPassword";
 import DriverSignUp from "./pages/DriverSignUp";
 import DriverLogin from "./pages/DriverLogin";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   return (
@@ -32,7 +33,8 @@ const App = () => {
           <Route path="/user-login" element={<UserLogin />} />
           <Route path="/driver-signup" element={<DriverSignUp />} />
           <Route path="/driver-login" element={<DriverLogin />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/forgotpassword/:role" element={<ForgotPassword />} />
+          <Route path="/login/setNewPassword/:role/:id?" element={<ResetPassword />} />
         </Routes>
         <Footer />
       </Router>

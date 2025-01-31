@@ -29,7 +29,7 @@ const UserLogin = () => {
   };
 
   const navigateToForgotPassword = () => {
-    navigate("/forgotpassword"); // Navigate to the ForgotPassword page
+    navigate("/forgotpassword/user"); // Navigate to the ForgotPassword page
   };
 
   const onSubmit = async (data) => {
