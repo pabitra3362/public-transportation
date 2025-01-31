@@ -10,7 +10,7 @@ import {toast, ToastContainer} from 'react-toastify';
 import { loginUser } from "../services/auth/userAuth.service";
 import { useDispatch } from 'react-redux';
 import { saveUser } from "../features/auth/userAuthSlice";
-import { setToken } from "../utils/token";
+import { setUserAndToken } from "../utils/userAndToken";
 
 const UserLogin = () => {
 
@@ -44,7 +44,7 @@ const UserLogin = () => {
 
       if(user){
         dispatch(saveUser(user));
-        setToken(user.token,24)
+        setUserAndToken(user,24)
         navigate('/');
       }
 

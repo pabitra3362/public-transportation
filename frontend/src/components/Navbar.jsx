@@ -3,22 +3,22 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { MyDrawer } from "./Drawer";
 import Logo from "../assets/Logo.jpg";
-import { getToken } from "../utils/token";
+import { getUserAndToken } from "../utils/userAndToken";
 import {toast, ToastContainer} from 'react-toastify';
 import { logoutUser } from "../services/auth/userAuth.service";
-import { useSelector } from "react-redux";
+import { removeUser } from '../features/auth/userAuthSlice'
 
 const Navbar = () => {
 
   const navigate = useNavigate();
-  const token = getToken();
-  const {user} = useSelector(state=>state.user)
+  const {token,user} = getUserAndToken();
 
   const handleLogout = async () => {
     try {
       const result = await logoutUser({token,role:user.role})
       if(result){
-        localStorage.removeItem('token')
+        localStorage.removeItem('user') // remove user info from localstorage 
+        removeUser(); // remove user info from store
       }
 
       navigate('/')

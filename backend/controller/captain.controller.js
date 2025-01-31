@@ -68,8 +68,6 @@ const captainLogin = async (req, res) => {
 
     const token = captain.generateAuthToken();
 
-    res.cookie("token",token)
-
     res.status(200).json({ token, captain });
 
   } catch (error) {
@@ -88,8 +86,6 @@ async function getCaptainProfile( req , res ) {
 
 // controller for logout captain
 async function logoutCaptain(req,res) {
-
-  res.clearCookie('token');
 
   const token =  await req.cookies.token || await req.headers.authorization?.split(" ")[1];
 
