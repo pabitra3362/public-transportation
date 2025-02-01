@@ -198,7 +198,7 @@ const UserLogin = () => {
             Forgot Your Password ?
             <span
               onClick={navigateToForgotPassword}
-              className="font-semibold mx-2 underline cursor-pointer"
+              className="font-semibold mx-2 underline cursor-pointer whitespace-nowrap"
             >
               Click Here
             </span>

@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import { emailSendService } from "../services/email/emailSender.service";
+import { forgetPassword } from "../services/password/forgetPassword.service";
+import {Spinner} from 'flowbite-react'
 
 const ForgotPassword = () => {
   const [isSuccess, setIsSuccess] = useState(false);
+  const [whileSubmitting, setWhileSubmitting] = useState(false)
   const navigate = useNavigate();
   const [timer, setTimer] = useState(0);
   const { role } = useParams();
@@ -15,7 +17,7 @@ const ForgotPassword = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors,isSubmitting },
   } = useForm();
 
   const email = watch("email");
@@ -32,14 +34,16 @@ const ForgotPassword = () => {
   }, [timer]);
 
   const onSubmit = async (data) => {
+    setWhileSubmitting(true);
     if (timer > 0) return; // Prevent multiple requests while countdown is running
 
     try {
-      const msg = await emailSendService({ email, role });
+      const msg = await forgetPassword({ email, role });
 
       if (msg) {
         toast.success(msg);
         setIsSuccess(true);
+        setWhileSubmitting(false);
         setTimer(30); // Start the 30-second countdown after success
       }
     } catch (error) {
@@ -105,9 +109,12 @@ const ForgotPassword = () => {
               </div>
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className="w-full bg-yellow-300 text-black font-bold py-2 px-4 rounded-md hover:bg-black duration-500 md:hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2"
               >
-                Continue
+                {
+                  isSubmitting ? (<Spinner color="success" />) : "Continue"
+                }
               </button>
             </form>
           </div>
@@ -125,14 +132,14 @@ const ForgotPassword = () => {
               <button
                 type="button"
                 onClick={onSubmit}
-                disabled={timer > 0}
+                disabled={timer > 0 || whileSubmitting}
                 className={`w-full font-bold py-2 px-4 rounded-md transition duration-500 focus:outline-none ${
-                  timer > 0
+                  timer > 0 || whileSubmitting
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-yellow-300 hover:bg-black text-black hover:text-white focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2"
                 }`}
               >
-                {timer > 0 ? `Resend in ${timer}s` : "Resend Email"}
+                {whileSubmitting ? (<Spinner color="success" />) : timer > 0 ? `Resend in ${timer}s` : "Resend Email"  }
               </button>
             </div>
           </div>

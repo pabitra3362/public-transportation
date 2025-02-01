@@ -2,7 +2,7 @@ import config from '../../config/config';
 import axios from 'axios';
 
 
-export const emailSendService = async ({email,role}) => {
+export const forgetPassword = async ({email,role}) => {
   try {
     
     const response = await axios.post(`${config.baseUrl}/api/${role}/forgetPassword`,{email})
