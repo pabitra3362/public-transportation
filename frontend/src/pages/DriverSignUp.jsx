@@ -323,7 +323,7 @@ const DriverSignUp = () => {
               {...register("vehicleType", { required: "Vehicle type is required" })}
               className="mt-1 w-full px-4 py-2 border  rounded-md border-gray-300 focus:ring-yellow-300 focus:right-2"
             >
-              <option value="">Vehicle type</option>
+              <option value="">Select Class</option>
               <option value="economic">Economic</option>
               <option value="standard">Standard</option>
               <option value="business">Business</option>

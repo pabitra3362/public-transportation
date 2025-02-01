@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo.jpg";
 import GoogleButton from "../components/GoogleButton";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
 
 const UserSignUp = () => {
   const {
@@ -34,27 +35,33 @@ const UserSignUp = () => {
   };
 
   const navigateToLogin = () => {
-    navigate("/user-login"); // 
+    navigate("/user-login"); //
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = (e) => {
+    e.preventDefault(); // Prevent form submission or page reload
+    setShowPassword((prevState) => !prevState);
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg relative">
-          {/* Close Button */}
-          <button
+        {/* Close Button */}
+        <button
           onClick={handleClose}
           className="absolute top-0 right-0 text-black text-[15px] w-[40px] h-[40px] rounded-full hover:bg-black hover:text-yellow-300  text-xl"
         >
-         ✕
+          ✕
         </button>
-{/* Safar Logo */}
-   <div className="flex justify-center mb-4">
-              <img
-                src={Logo}
-                alt="Safar Logo"
-                className="h-28 w-auto sm:h-32 lg:h-36"
-              />
-            </div>
+        {/* Safar Logo */}
+        <div className="flex justify-center mb-4">
+          <img
+            src={Logo}
+            alt="Safar Logo"
+            className="h-28 w-auto sm:h-32 lg:h-36"
+          />
+        </div>
 
         <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -143,8 +150,7 @@ const UserSignUp = () => {
                     message: "Enter a valid email",
                   },
                   validate: (value) =>
-                    value.endsWith("@gmail.com") ||
-                    "Please Enter Valid Email", // Custom validation
+                    value.endsWith("@gmail.com") || "Please Enter Valid Email", // Custom validation
                 })}
                 className="w-full pl-10 pr-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 placeholder="Enter your email"
@@ -181,11 +187,12 @@ const UserSignUp = () => {
                 <path d="m336 512h-288c-26.453125 0-48-21.523438-48-48v-224c0-26.476562 21.546875-48 48-48h288c26.453125 0 48 21.523438 48 48v224c0 26.476562-21.546875 48-48 48zm-288-288c-8.8125 0-16 7.167969-16 16v224c0 8.832031 7.1875 16 16 16h288c8.8125 0 16-7.167969 16-16v-224c0-8.832031-7.1875-16-16-16zm0 0" />
                 <path d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0" />
               </svg>
+
               {/* SVG Icon Ends */}
 
               {/* Password Input */}
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 {...register("password", {
                   required: "Password is required",
@@ -206,6 +213,17 @@ const UserSignUp = () => {
                 className="w-full pl-10 pr-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 placeholder="Enter your password"
               />
+              <button 
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute right-3 top-[30px] transform -translate-y-1/2"
+              >
+                {showPassword ? (
+                  <IoEyeOffOutline size={24} className=" text-gray-500" />
+                ) : (
+                  <IoEyeOutline size={24} className=" text-gray-500" />
+                )}
+              </button>
             </div>
 
             {/* Error Message */}
@@ -264,8 +282,12 @@ const UserSignUp = () => {
 
           <p className="text-center text-sm p-5">
             Already have an account?{" "}
-            <span onClick={navigateToLogin} className="text-black font-bold cursor-pointer">Login</span>
-            
+            <span
+              onClick={navigateToLogin}
+              className="text-black font-bold cursor-pointer"
+            >
+              Login
+            </span>
           </p>
 
           <button
@@ -275,21 +297,21 @@ const UserSignUp = () => {
           >
             Sign Up
           </button>
-
         </form>
-          {/* google button */}
-          <GoogleButton />
+        {/* google button */}
+        <GoogleButton />
 
-          <button 
-            onClick={()=>navigate('/driver-signup')}
-            className="flex mt-36 duration-500 items-center justify-center gap-2 w-full py-2 border border-gray-300 rounded-lg hover:bg-black hover:text-white bg-yellow-300 font-semibold ">
-              <img
-                className="size-8"
-                src="https://cdn.iconscout.com/icon/premium/png-512-thumb/driver-2279158-1899772.png?f=webp&w=256"
-                alt=""
-              />
-              Sign Up As Driver
-            </button>
+        <button
+          onClick={() => navigate("/driver-signup")}
+          className="flex mt-36 duration-500 items-center justify-center gap-2 w-full py-2 border border-gray-300 rounded-lg hover:bg-black hover:text-white bg-yellow-300 font-semibold "
+        >
+          <img
+            className="size-8"
+            src="https://cdn.iconscout.com/icon/premium/png-512-thumb/driver-2279158-1899772.png?f=webp&w=256"
+            alt=""
+          />
+          Sign Up As Driver
+        </button>
       </div>
     </div>
   );
