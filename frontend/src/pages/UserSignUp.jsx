@@ -37,11 +37,18 @@ const UserSignUp = () => {
   const navigateToLogin = () => {
     navigate("/user-login"); //
   };
-
+  // Show hide  Password
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = (e) => {
     e.preventDefault(); // Prevent form submission or page reload
     setShowPassword((prevState) => !prevState);
+  };
+
+  // Show hide Cnfm Password
+  const [conPassword, setConPassword] = useState(false);
+  const contogglePasswordVisibility = (e) => {
+    e.preventDefault(); // Prevent form submission or page reload
+    setConPassword((prevState) => !prevState);
   };
 
   return (
@@ -213,7 +220,7 @@ const UserSignUp = () => {
                 className="w-full pl-10 pr-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 placeholder="Enter your password"
               />
-              <button 
+              <button
                 type="button"
                 onClick={togglePasswordVisibility}
                 className="absolute right-3 top-[30px] transform -translate-y-1/2"
@@ -260,7 +267,7 @@ const UserSignUp = () => {
 
               {/* Confirm Password Input */}
               <input
-                type="password"
+               type={conPassword ? "text" : "password"}
                 id="confirmPassword"
                 {...register("confirmPassword", {
                   required: "Confirm Password is required",
@@ -270,6 +277,17 @@ const UserSignUp = () => {
                 className="w-full pl-10 pr-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 placeholder="Confirm your password"
               />
+              <button
+                type="button"
+                onClick={contogglePasswordVisibility}
+                className="absolute right-3 top-[30px] transform -translate-y-1/2"
+              >
+                {conPassword ? (
+                  <IoEyeOffOutline size={24} className=" text-gray-500" />
+                ) : (
+                  <IoEyeOutline size={24} className=" text-gray-500" />
+                )}
+              </button>
             </div>
 
             {/* Error Message */}

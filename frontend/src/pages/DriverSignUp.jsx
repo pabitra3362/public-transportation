@@ -1,9 +1,11 @@
+/* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo.jpg";
 import GoogleButton from "../components/GoogleButton";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
 
 const DriverSignUp = () => {
   const {
@@ -35,6 +37,31 @@ const DriverSignUp = () => {
 
   const navigateToLogin = () => {
     navigate("/driver-login"); //
+  };
+  // Show hide Cnfm Password
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = (e) => {
+    e.preventDefault(); // Prevent form submission or page reload
+    setShowPassword((prevState) => !prevState);
+  };
+
+  // Show hide Cnfm Password
+  const [conPassword, setConPassword] = useState(false);
+  const contogglePasswordVisibility = (e) => {
+    e.preventDefault(); // Prevent form submission or page reload
+    setConPassword((prevState) => !prevState);
+  };
+
+  // Handle file selection
+  const [file, setFile] = useState(null);
+  const [isFileSelected, setIsFileSelected] = useState(false);
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0]; // Get the first selected file
+    if (selectedFile) {
+      setFile(selectedFile); // Update file state
+      setIsFileSelected(true); // Mark that file is selected
+    }
   };
 
   return (
@@ -184,7 +211,7 @@ const DriverSignUp = () => {
 
               {/* Password Input */}
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 {...register("password", {
                   required: "Password is required",
@@ -205,6 +232,17 @@ const DriverSignUp = () => {
                 className="w-full pl-10 pr-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 placeholder="Enter your password"
               />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute right-3 top-[30px] transform -translate-y-1/2"
+              >
+                {showPassword ? (
+                  <IoEyeOffOutline size={24} className=" text-gray-500" />
+                ) : (
+                  <IoEyeOutline size={24} className=" text-gray-500" />
+                )}
+              </button>
             </div>
 
             {/* Error Message */}
@@ -241,7 +279,7 @@ const DriverSignUp = () => {
 
               {/* Confirm Password Input */}
               <input
-                type="password"
+                type={conPassword ? "text" : "password"}
                 id="confirmPassword"
                 {...register("confirmPassword", {
                   required: "Confirm Password is required",
@@ -251,6 +289,17 @@ const DriverSignUp = () => {
                 className="w-full pl-10 pr-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 placeholder="Confirm your password"
               />
+              <button
+                type="button"
+                onClick={contogglePasswordVisibility}
+                className="absolute right-3 top-[30px] transform -translate-y-1/2"
+              >
+                {conPassword ? (
+                  <IoEyeOffOutline size={24} className=" text-gray-500" />
+                ) : (
+                  <IoEyeOutline size={24} className=" text-gray-500" />
+                )}
+              </button>
             </div>
 
             {/* Error Message */}
@@ -311,52 +360,90 @@ const DriverSignUp = () => {
               </p>
             )}
           </div>
-          
-          {/* Vahical Info */}
+
+          {/* Diriving license Imag */}
+
+          <div className="mb-6 flex flex-col items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 w-full max-w-md sm:max-w-sm md:max-w-md lg:max-w-lg">
+            {/* Label for License Upload */}
+            <label className="block text-gray-700 font-semibold mb-2 text-center">
+              Upload Your License
+            </label>
+
+            {/* File Input */}
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              id="fileUpload"
+              onChange={handleFileChange} // Trigger when file is selected
+            />
+
+            {/* Custom Upload Button */}
+            <label
+              htmlFor="fileUpload"
+              className="px-4 py-2 bg-yellow-300 text-black rounded-lg cursor-pointer hover:bg-black hover:text-white w-full text-center"
+            >
+              Upload File
+            </label>
+
+            {/* Display file status */}
+            {isFileSelected ? (
+              <p className="text-green-500 mt-2 text-center">
+                File uploaded: {file.name}
+              </p>
+            ) : (
+              <p className="text-red-500 mt-2 text-center">No file uploaded</p>
+            )}
+          </div>
+
+          {/* Vahical class and Capacity */}
 
           <div className="mb-4 flex flex-col lg:flex-row justify-around">
-          {/* Vehicle Type Dropdown */}
-          <div className="lg:w-1/2 px-2 mb-4 lg:mb-0">
-           
-            <select
-              id="vehicleType"
-              {...register("vehicleType", { required: "Vehicle type is required" })}
-              className="mt-1 w-full px-4 py-2 border  rounded-md border-gray-300 focus:ring-yellow-300 focus:right-2"
-            >
-              <option value="">Select Class</option>
-              <option value="economic">Economic</option>
-              <option value="standard">Standard</option>
-              <option value="business">Business</option>
-              <option value="vip">VIP</option>
-            </select>
-            {errors.vehicleType && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.vehicleType.message}
-              </p>
-            )}
-          </div>
+            {/* Vehicle Type Dropdown */}
+            <div className="lg:w-1/2 px-2 mb-4 lg:mb-0">
+              <select
+                id="vehicleType"
+                {...register("vehicleType", {
+                  required: "Vehicle type is required",
+                })}
+                className="mt-1 w-full px-4 py-2 border  rounded-md border-gray-300 focus:ring-yellow-300 focus:right-2"
+              >
+                <option value="">Select Class</option>
+                <option value="economic">Economic</option>
+                <option value="standard">Standard</option>
+                <option value="business">Business</option>
+                <option value="vip">VIP</option>
+              </select>
+              {errors.vehicleType && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.vehicleType.message}
+                </p>
+              )}
+            </div>
 
-          {/* Passenger Capacity Dropdown */}
-          <div className="lg:w-1/2 px-2">
-           
-            <select
-              id="passengerCapacity"
-              {...register("passengerCapacity", { required: "Passenger capacity is required" })}
-              className="mt-1 w-full px-1 py-2 border border-gray-300 rounded-md focus:ring-yellow-300 focus:right-2 "
-            >
-              <option value="">Passenger Capacity</option>
-              {Array.from({ length: 8 }, (_, i) => i + 1).map((num) => (
-                <option key={num} value={num}>{num}</option>
-              ))}
-            </select>
-            {errors.passengerCapacity && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.passengerCapacity.message}
-              </p>
-            )}
+            {/* Passenger Capacity Dropdown */}
+            <div className="lg:w-1/2 px-2">
+              <select
+                id="passengerCapacity"
+                {...register("passengerCapacity", {
+                  required: "Passenger capacity is required",
+                })}
+                className="mt-1 w-full px-1 py-2 border border-gray-300 rounded-md focus:ring-yellow-300 focus:right-2 "
+              >
+                <option value="">Passenger Capacity</option>
+                {Array.from({ length: 8 }, (_, i) => i + 1).map((num) => (
+                  <option key={num} value={num}>
+                    {num}
+                  </option>
+                ))}
+              </select>
+              {errors.passengerCapacity && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.passengerCapacity.message}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-          
 
           <p className="text-center text-sm p-5">
             Already have an account?{" "}

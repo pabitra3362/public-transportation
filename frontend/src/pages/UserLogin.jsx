@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
-// eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg";
 import GoogleButton from "../components/GoogleButton";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
 
 const UserLogin = () => {
   const navigate = useNavigate();
@@ -38,6 +38,12 @@ const UserLogin = () => {
 
   const navigateToHome = () => {
     navigate("/"); // Redirect to Home page
+  };
+// Show Hide Passwoed button
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = (e) => {
+    e.preventDefault(); // Prevent form submission or page reload
+    setShowPassword((prevState) => !prevState);
   };
 
   return (
@@ -135,10 +141,8 @@ const UserLogin = () => {
                 <path d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0" />
               </svg>
 
-              
-
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 placeholder="Enter your password"
                 className={`w-full p-2 pl-10 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 ${
@@ -162,6 +166,18 @@ const UserLogin = () => {
                   },
                 })}
               />
+
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute right-3 top-[30px] transform -translate-y-1/2"
+              >
+                {showPassword ? (
+                  <IoEyeOffOutline size={24} className=" text-gray-500" />
+                ) : (
+                  <IoEyeOutline size={24} className=" text-gray-500" />
+                )}
+              </button>
             </div>
 
             {errors.password && (
