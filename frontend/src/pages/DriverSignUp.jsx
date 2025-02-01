@@ -342,8 +342,8 @@ const DriverSignUp = () => {
                 {...register("vehiclePlate", {
                   required: "Vehicle Plate Number is required",
                   validate: (value) => {
-                    if (!/^\d{4}$/.test(value)) {
-                      return "Vehicle Plate Number must be exactly 4 digits";
+                    if (!/^[a-zA-Z0-9]{1,10}$/.test(value)) {
+                      return "Vehicle Plate Number must be between 1 and 10 digits";
                     }
                     return true;
                   },
@@ -404,7 +404,7 @@ const DriverSignUp = () => {
               <select
                 id="vehicleType"
                 {...register("vehicleType", {
-                  required: "Vehicle type is required",
+                  required: " Class is required",
                 })}
                 className="mt-1 w-full px-4 py-2 border  rounded-md border-gray-300 focus:ring-yellow-300 focus:right-2"
               >
