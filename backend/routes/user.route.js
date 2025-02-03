@@ -8,7 +8,7 @@ const router=express.Router();
 // POST request for user register
 router.post('/register',[
  body('email').isEmail().withMessage("Email is not valid"),
- body('name').isLength({min:5}).withMessage("Name must be at least 5 characters long"),
+ body('name').isLength({min:3}).withMessage("Name must be at least 3 characters long"),
  body('password').isLength({min:7,max:12}).withMessage("Password must be between 7 to 12 characters long"),
 ],userRegister);
 

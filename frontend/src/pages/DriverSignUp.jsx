@@ -18,14 +18,15 @@ const DriverSignUp = () => {
   const password = watch("password");
 
   const onSubmit = (data) => {
+    if(!isFileSelected) return 0;
     // Print the form values in the console
-    console.log("Form Submitted Data:", data);
+    console.log("Form Submitted Data:", data,isFileSelected);
 
     // Show alert when form is submitted
     alert("Form is submitted successfully!");
 
     // Reset the form fields after submission
-    reset();
+    // reset();
   };
 
   const navigate = useNavigate();
@@ -216,8 +217,12 @@ const DriverSignUp = () => {
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters",
+                    value: 7,
+                    message: "Password must be at least 7 characters",
+                  },
+                  maxLength: {
+                    value: 12,
+                    messagge: "Password can not be more than 12 characters",
                   },
                   validate: (value) => {
                     if (!/[A-Z]/.test(value))
@@ -341,12 +346,10 @@ const DriverSignUp = () => {
                 id="vehiclePlate"
                 {...register("vehiclePlate", {
                   required: "Vehicle Plate Number is required",
-                  validate: (value) => {
-                    if (!/^[a-zA-Z0-9]{1,10}$/.test(value)) {
-                      return "Vehicle Plate Number must be between 1 and 10 digits";
-                    }
-                    return true;
-                  },
+                  pattern: {
+                    value: /^[A-Z]{2}\d{2}[A-Z]{2}\d{4}$/igm,
+                    message: 'Enter a valid vehicle number'
+                  }
                 })}
                 className="w-full pl-10 pr-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 placeholder="Enter Vehicle Plate Number"
@@ -361,7 +364,7 @@ const DriverSignUp = () => {
             )}
           </div>
 
-          {/* Diriving license Imag */}
+          {/* Diriving license Image */}
 
           <div className="mb-6 flex flex-col items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 w-full max-w-md sm:max-w-sm md:max-w-md lg:max-w-lg">
             {/* Label for License Upload */}
@@ -408,11 +411,10 @@ const DriverSignUp = () => {
                 })}
                 className="mt-1 w-full px-4 py-2 border  rounded-md border-gray-300 focus:ring-yellow-300 focus:right-2"
               >
-                <option value="">Select Class</option>
-                <option value="economic">Economic</option>
-                <option value="standard">Standard</option>
-                <option value="business">Business</option>
-                <option value="vip">VIP</option>
+                <option value="">Select Type</option>
+                <option value="car">Car</option>
+                <option value="rickshaw">Rickshaw</option>
+                <option value="motorcycle">Motor Cycle</option>
               </select>
               {errors.vehicleType && (
                 <p className="text-red-500 text-sm mt-1">

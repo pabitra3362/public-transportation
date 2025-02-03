@@ -103,7 +103,7 @@ const HomeForm = () => {
     <div>
       <div className="w-full bg-slate-200 py-1 md:py-5 lg:py-16">
         <div className="w-full md:w-[80vw] lg:w-[70vw] mx-auto px-3 py-7 md:py-10 overflow-hidden grid md:flex justify-items-center md:justify-between items-center gap-8 lg:gap-2 bg-white rounded-lg hover:shadow-2xl transition duration-200">
-          <div className="left bg-custom-yellow w-80 h-96 md:h-[40vh] lg:w-[35vw] lg:h-[50vh] flex justify-center items-center relative">
+          <div className="left w-80 h-96 md:h-[40vh] lg:w-[35vw] lg:h-[50vh] flex justify-center items-center relative">
             <video
               className="absolute top-0 left-0 w-full h-full object-cover"
               src={vdo}
@@ -115,21 +115,7 @@ const HomeForm = () => {
             <h2 className="font-bold text-black text-3xl">
               Booking Taxi Online
             </h2>
-            <div className="flex justify-start items-center gap-5">
-              {["standard", "economy", "business", "vip"].map((cls) => (
-                <div
-                  key={cls}
-                  onClick={() => setSelectedClass(cls)}
-                  className={`${
-                    selectedClass === cls
-                      ? "border-b-2 border-yellow-300 text-yellow-300"
-                      : "text-black"
-                  } transition duration-200 font-bold text-sm text cursor-pointer`}
-                >
-                  {cls.toUpperCase()}
-                </div>
-              ))}
-            </div>
+            
             <motion.form
               onSubmit={handleSubmit(onSubmit)}
               variants={containerVariants}

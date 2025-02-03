@@ -4,6 +4,7 @@ import { validationResult } from "express-validator";
 import { createCaptain, loginCaptain, forgetPassword } from "../services/captain.service.js";
 import { RES, FPES } from '../utils/emailSender.js';
 import emailVerify from "../utils/emailVerify.js";
+import { cloudinaryUpload } from '../utils/cloudinary.js'
 
 // controller for captain registration
 const captainRegister = async (req, res) => {
@@ -13,23 +14,27 @@ const captainRegister = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { email, name, password, color, plate, vehicleType, capacity } = req.body;
+  const { email, name, password, plate, vehicleType, capacity } = req.body;
+
+  const file = req.file;
+
+  const uploadedUrl = await cloudinaryUpload(file);
 
   const hashedPassword = await Captain.hashPassword(password);
 
   try {
 
-    const isReal = await emailVerify({email})
+    // const isReal = await emailVerify({email})
 
-    if(!isReal){
-      return res.status(400).json({error:"Invalid email address"})
-    }
+    // if(!isReal){
+    //   return res.status(400).json({error:"Invalid email address"})
+    // }
     
     const captain = await createCaptain({
       email,
       name,
       password: hashedPassword,
-      color,
+      file: uploadedUrl,
       plate,
       vehicleType,
       capacity,

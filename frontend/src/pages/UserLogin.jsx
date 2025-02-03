@@ -177,12 +177,12 @@ const UserLogin = () => {
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
-                    value: 8,
-                    message: "Password must be exactly 8 characters long",
+                    value: 7,
+                    message: "Password must be exactly 7 characters long",
                   },
                   maxLength: {
                     value: 12,
-                    message: "Password cannot be longer than 12 characters",
+                    message: "Password must not exceed 12 characters",
                   },
                   pattern: {
                     value:

@@ -2,9 +2,9 @@ import Captain from "../models/captain.model.js";
 
 
 // service for create captain
-async function createCaptain({ email, name, password, color, plate, vehicleType, capacity }) {
+async function createCaptain({ email, name, password, plate, vehicleType, capacity, file }) {
 
-  if (!email || !name || !password || !color || !plate || !vehicleType || !capacity ) {
+  if (!email || !name || !password || !color || !plate || !vehicleType || !capacity || !file) {
     throw new Error("All fields are required");
   }
 
@@ -18,6 +18,7 @@ async function createCaptain({ email, name, password, color, plate, vehicleType,
     email,
     name,
     password,
+    file,
     vehicle: {
       color: color,
       plate: plate,

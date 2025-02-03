@@ -7,7 +7,7 @@ const captainSchema = new mongoose.Schema({
   name: {
     type: String,
     require: true,
-    minlength: [5, "Name must be atleast 5 charcters long"],
+    minlength: [3, "Name must be atleast 3 charcters long"],
   },
 
   email: {
@@ -38,26 +38,27 @@ const captainSchema = new mongoose.Schema({
     default: "inactive",
   },
 
+  file: {
+    type: String,
+    required: true,
+  },
+  
   vehicle: {
-    color: {
-      type: String,
-      required: true,
-      minlength: [3, "Vehicle color must be atleast 3 characters long"],
-    },
     plate: {
       type: String,
       required: true,
-      minlength: [3, "Plate number must be atleast 3 characters long"],
+      minlength: [10, "Plate number must be 10 characters long"],
     },
     vehicleType: {
       type: String,
       required: true,
-      enum: ["car", "motorcycle", "bike"],
+      enum: ["car", "motorcycle", "rickshaw"],
     },
     capacity: {
       type: Number,
       required: true,
       minlength: [1, "Capacity must be atleast 1"],
+      maxlength: [8, "Capacity must be less than 9"]
     },
   },
 

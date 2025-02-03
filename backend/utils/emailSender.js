@@ -5,7 +5,7 @@ import config from "../config/config.js";
 const CLIENT_ID = config.clientID;
 const CLIENT_SECRET = config.clientSecret;
 const REDIRECT_URI = "https://developers.google.com/oauthplayground";
-const REFRESH_TOKEN = config.gmail_refesh_token;
+const REFRESH_TOKEN = config.gmail_refresh_token;
 
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,

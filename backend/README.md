@@ -193,7 +193,7 @@ This is the backend API for the public transportation system. It provides endpoi
       "email": "driver@example.com",
       "name": "John Doe",
       "password": "securepassword",
-      "color": "red",
+      "file": "user file",
       "plate": "ABC123",
       "vehicleType": "car",
       "capacity": 4
@@ -207,9 +207,9 @@ This is the backend API for the public transportation system. It provides endpoi
         "name": "John Doe",
         "email": "driver@example.com",
         "password": "securepassword",
+        "file": "user file",
         "status": "inactive",
         "vehicle": {
-            "color": "red",
             "plate": "ABC123",
             "vehicleType": "car",
             "capacity": 4
@@ -253,8 +253,8 @@ This is the backend API for the public transportation system. It provides endpoi
         "id": "1",
         "email": "driver@example.com",
         "name": "John Doe",
+        "file": "user file",
         "vehicle": {
-            "color": "red",
             "plate": "ABC123",
             "vehicleType": "car",
             "capacity": 4
@@ -283,7 +283,6 @@ This is the backend API for the public transportation system. It provides endpoi
     ```json
     {
       "vehicle": {
-          "color": "white",
           "plate": "gj051230",
           "vehicleType": "car",
           "capacity": 4
@@ -292,6 +291,7 @@ This is the backend API for the public transportation system. It provides endpoi
       "name": "John Doe",
       "email": "driver@example.com",
       "status": "inactive",
+      "file": "user file",
       "__v": 0
     }
     ```

@@ -232,8 +232,12 @@ const UserSignUp = () => {
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters",
+                    value: 7,
+                    message: "Password must be at least 7 characters",
+                  },
+                  maxLength: {
+                    value: 12,
+                    message: "Password must not exceed 12 characters",
                   },
                   validate: (value) => {
                     if (!/[A-Z]/.test(value))
