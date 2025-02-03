@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo.jpg";
@@ -9,6 +9,7 @@ import { createUser } from "../services/auth/userAuth.service";
 import { saveUser } from '../features/auth/userAuthSlice';
 import { toast , ToastContainer } from 'react-toastify';
 import { setUserAndToken } from "../utils/userAndToken";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
 
 const UserSignUp = () => {
 
@@ -62,6 +63,19 @@ const UserSignUp = () => {
 
   const navigateToLogin = () => {
     navigate("/user-login"); //
+  };
+  // Show hide  Password
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = (e) => {
+    e.preventDefault(); // Prevent form submission or page reload
+    setShowPassword((prevState) => !prevState);
+  };
+
+  // Show hide Cnfm Password
+  const [conPassword, setConPassword] = useState(false);
+  const contogglePasswordVisibility = (e) => {
+    e.preventDefault(); // Prevent form submission or page reload
+    setConPassword((prevState) => !prevState);
   };
 
   return (
@@ -208,11 +222,12 @@ const UserSignUp = () => {
                 <path d="m336 512h-288c-26.453125 0-48-21.523438-48-48v-224c0-26.476562 21.546875-48 48-48h288c26.453125 0 48 21.523438 48 48v224c0 26.476562-21.546875 48-48 48zm-288-288c-8.8125 0-16 7.167969-16 16v224c0 8.832031 7.1875 16 16 16h288c8.8125 0 16-7.167969 16-16v-224c0-8.832031-7.1875-16-16-16zm0 0" />
                 <path d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0" />
               </svg>
+
               {/* SVG Icon Ends */}
 
               {/* Password Input */}
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 {...register("password", {
                   required: "Password is required",
@@ -233,6 +248,17 @@ const UserSignUp = () => {
                 className="w-full pl-10 pr-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 placeholder="Enter your password"
               />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute right-3 top-[30px] transform -translate-y-1/2"
+              >
+                {showPassword ? (
+                  <IoEyeOffOutline size={24} className=" text-gray-500" />
+                ) : (
+                  <IoEyeOutline size={24} className=" text-gray-500" />
+                )}
+              </button>
             </div>
 
             {/* Error Message */}
@@ -269,7 +295,7 @@ const UserSignUp = () => {
 
               {/* Confirm Password Input */}
               <input
-                type="password"
+               type={conPassword ? "text" : "password"}
                 id="confirmPassword"
                 {...register("confirmPassword", {
                   required: "Confirm Password is required",
@@ -279,6 +305,17 @@ const UserSignUp = () => {
                 className="w-full pl-10 pr-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 placeholder="Confirm your password"
               />
+              <button
+                type="button"
+                onClick={contogglePasswordVisibility}
+                className="absolute right-3 top-[30px] transform -translate-y-1/2"
+              >
+                {conPassword ? (
+                  <IoEyeOffOutline size={24} className=" text-gray-500" />
+                ) : (
+                  <IoEyeOutline size={24} className=" text-gray-500" />
+                )}
+              </button>
             </div>
 
             {/* Error Message */}

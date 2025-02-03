@@ -1,11 +1,13 @@
+/* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
-// eslint-disable-next-line no-unused-vars
-import React from "react";
+
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg";
 import GoogleButton from "../components/GoogleButton";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
 
 const DriverLogin = () => {
   const navigate = useNavigate();
@@ -38,6 +40,13 @@ const DriverLogin = () => {
 
   const navigateToHome = () => {
     navigate("/"); // Redirect to Home page
+  };
+
+  // Show Hide Passwoed button
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = (e) => {
+    e.preventDefault(); // Prevent form submission or page reload
+    setShowPassword((prevState) => !prevState);
   };
 
   return (
@@ -136,7 +145,7 @@ const DriverLogin = () => {
               </svg>
 
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 placeholder="Enter your password"
                 className={`w-full p-2 pl-10 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 ${
@@ -160,6 +169,17 @@ const DriverLogin = () => {
                   },
                 })}
               />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute right-3 top-[30px] transform -translate-y-1/2"
+              >
+                {showPassword ? (
+                  <IoEyeOffOutline size={24} className=" text-gray-500" />
+                ) : (
+                  <IoEyeOutline size={24} className=" text-gray-500" />
+                )}
+              </button>
             </div>
 
             {errors.password && (
