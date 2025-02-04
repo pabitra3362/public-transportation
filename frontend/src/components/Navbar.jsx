@@ -3,25 +3,45 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { MyDrawer } from "./Drawer";
 import Logo from "../assets/Logo.jpg";
-import { getUserAndToken } from "../utils/userAndToken";
 import {toast, ToastContainer} from 'react-toastify';
 import { logoutUser } from "../services/auth/userAuth.service";
+import { logoutDriver } from "../services/auth/driverAuth.service";
 import { removeUser } from '../features/auth/userAuthSlice'
+import { removeDriver } from '../features/auth/driverAuthSlice'
+import { getUserAndToken } from "../utils/userAndToken";
+import { getDriverAndToken } from "../utils/driverAndToken";
 
 const Navbar = () => {
 
   const navigate = useNavigate();
-  const {token,user} = getUserAndToken();
+  const user = getUserAndToken();
+  const driver = getDriverAndToken();
+  
+  
 
   const handleLogout = async () => {
     try {
-      const result = await logoutUser({token,role:user.role})
-      if(result){
-        localStorage.removeItem('user') // remove user info from localstorage 
-        removeUser(); // remove user info from store
+      if(user.token){
+
+        const result = await logoutUser({token:user.token})
+        if(result){
+          localStorage.removeItem('user') // remove user info from localstorage 
+          removeUser(); // remove user info from store
+        }
+        
+        navigate('/')
+      }
+      else {
+        const result = await logoutDriver({token:driver.token})
+
+        if(result){
+          localStorage.removeItem('driver') // remove driver info from localstorage
+          removeDriver(); // remove driver info from store
+        }
+
+        navigate('/driver-home')
       }
 
-      navigate('/')
     } catch (error) {
       toast.error(error.message)
     }
@@ -84,7 +104,7 @@ const Navbar = () => {
             <div className="text-black">4567890</div>
           </div>
 
-          {!token ? (
+          {!user.token && !driver.token ? (
             <button
               onClick={() => navigate("/user-signup")}
               className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 hidden lg:block"

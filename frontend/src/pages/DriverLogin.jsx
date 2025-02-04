@@ -8,9 +8,14 @@ import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg";
 import GoogleButton from "../components/GoogleButton";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
+import { setDriverAndToken } from '../utils/driverAndToken';
+import { loginDriver } from "../services/auth/driverAuth.service";
+import { saveDriver } from "../features/auth/driverAuthSlice";
+import { useDispatch } from "react-redux";
 
 const DriverLogin = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -27,15 +32,27 @@ const DriverLogin = () => {
     navigate("/forgotpassword/captain"); // Navigate to the ForgotPassword page
   };
 
-  const onSubmit = (data) => {
-    // Form Data is correct
-    console.log("Form Data:", data);
+  const onSubmit = async (data) => {
+    try {
+      
+      const driver = await loginDriver({
+        email: data.email,
+        password: data.password
+      })
 
-    // Display success alert
-    alert("Your form has been submitted successfully!");
+      if(driver){
+        setDriverAndToken(driver,24);
+        dispatch(saveDriver(driver))
+        navigate("/driver-home");
+      }
+    } catch (error) {
+      toast.error(error.message)
+    } finally {
 
-    // Reset the form inputs
-    reset();
+      // Reset the form inputs
+      reset();
+    }
+
   };
 
   const navigateToHome = () => {

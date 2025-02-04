@@ -1,6 +1,6 @@
 export const setUserAndToken = (user, tokenExpiryInHours) => {
   const now = new Date();
-  // pura user add kar bhai
+  
   const item = {
     user,
     expiry: now.getTime() + tokenExpiryInHours * 60 * 60 * 1000

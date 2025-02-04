@@ -31,9 +31,7 @@ async function authUser(req, res, next) {
 
 // auth middleware for captain/driver
 async function authCaptain(req, res, next) {
-  const token =
-    (await req.cookies.token) ||
-    (await req.headers.authorization?.split(" ")[1]);
+  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });

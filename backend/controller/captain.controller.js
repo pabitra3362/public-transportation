@@ -68,7 +68,7 @@ const captainLogin = async (req, res) => {
     const isMatch = await captain.comparePassword(password);
 
     if (!isMatch) {
-      res.status(401).json({ error: "Invalid credentials" });
+     return res.status(401).json({ error: "Invalid credentials" });
     }
 
     const token = captain.generateAuthToken();
@@ -101,7 +101,7 @@ async function logoutCaptain(req,res) {
     res.status(200).json({message:"Logged out successfully"})
     
   } catch (error) {
-    res.status(500).json({error:"Internal server error"})
+    res.status(500).json({error})
   }
 
 }

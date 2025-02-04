@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getDriverAndToken } from "../../utils/driverAndToken";
 
 const initialState = {
-    driver: {},
-    token: null
+    driver: getDriverAndToken().driver || {},
+    token: getDriverAndToken().token || null
 }
 
 const driverAuthSlice = createSlice({

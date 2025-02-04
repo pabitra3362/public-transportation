@@ -6,8 +6,14 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo.jpg";
 import GoogleButton from "../components/GoogleButton";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
+import { createDriver } from "../services/auth/driverAuth.service";
+import { useDispatch } from "react-redux";
+import { saveDriver } from "../features/auth/driverAuthSlice";
+import { setDriverAndToken } from "../utils/driverAndToken";
+import { toast, ToastContainer } from "react-toastify";
 
 const DriverSignUp = () => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -17,16 +23,34 @@ const DriverSignUp = () => {
   } = useForm();
   const password = watch("password");
 
-  const onSubmit = (data) => {
-    if(!isFileSelected) return 0;
-    // Print the form values in the console
-    console.log("Form Submitted Data:", data,isFileSelected);
+  const onSubmit = async (data) => {
+    if (!isFileSelected) return 0;
 
-    // Show alert when form is submitted
-    alert("Form is submitted successfully!");
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("plate", data.vehiclePlate);
+    formData.append("vehicleType", data.vehicleType);
+    formData.append("capacity", data.passengerCapacity);
+    formData.append('file',file);
 
-    // Reset the form fields after submission
-    // reset();
+    try {
+      const driver = await createDriver(formData);
+
+      if (driver) {
+        dispatch(saveDriver(driver));
+        setDriverAndToken(driver, 24);
+        navigate("driver-home");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      
+      // Reset the form fields after submission
+      reset();
+    }
+
   };
 
   const navigate = useNavigate();
@@ -67,6 +91,7 @@ const DriverSignUp = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+      <ToastContainer theme="dark" />
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg relative">
         {/* Close Button */}
         <button
@@ -85,7 +110,7 @@ const DriverSignUp = () => {
         </div>
 
         <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
           {/* Name Field */}
           <div className="mb-4">
             <label
@@ -347,9 +372,9 @@ const DriverSignUp = () => {
                 {...register("vehiclePlate", {
                   required: "Vehicle Plate Number is required",
                   pattern: {
-                    value: /^[A-Z]{2}\d{2}[A-Z]{2}\d{4}$/igm,
-                    message: 'Enter a valid vehicle number'
-                  }
+                    value: /^[A-Z]{2}\d{2}[A-Z]{2}\d{4}$/gim,
+                    message: "Enter a valid vehicle number",
+                  },
                 })}
                 className="w-full pl-10 pr-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 placeholder="Enter Vehicle Plate Number"
@@ -465,7 +490,7 @@ const DriverSignUp = () => {
             Sign Up
           </button>
         </form>
-        
+
         {/* google button */}
         {/* <GoogleButton /> */}
 

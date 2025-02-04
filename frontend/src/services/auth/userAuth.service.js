@@ -43,10 +43,10 @@ export const loginUser = async ({ email, password })=>{
 
 
 // service for logoutUser
-export const logoutUser = async ({token, role}) => {
+export const logoutUser = async ({token}) => {
 
   try {
-    const result = await axios.get(`${config.baseUrl}/api/${role}/logout`,{
+    const result = await axios.get(`${config.baseUrl}/api/user/logout`,{
       headers:{
         Authorization:`Bearer ${token}`
       }
