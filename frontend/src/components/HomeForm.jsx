@@ -10,10 +10,9 @@ import Button from "./Button";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import debounce from "lodash.debounce";
-import { countBy } from "lodash";
+import config from "../config/config";
 
-// Replace with your HERE API Key
-const HERE_API_KEY = "O_4CepCg_XP1LL5yI_ucoMlLdmFBE7nKaNEhDDi-LCQ";
+
 
 const HomeForm = () => {
   const [selectedClass, setSelectedClass] = useState("economy");
@@ -48,7 +47,7 @@ const HomeForm = () => {
           {
             params: {
               q: query,
-              apiKey: HERE_API_KEY,
+              apiKey: config.hereApiKey,
               in: "countryCode:IND", // Limit results to India
               limit: 10, // Limit suggestions to 10
             },
