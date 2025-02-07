@@ -16,6 +16,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import DriverSignUp from "./pages/DriverSignUp";
 import DriverLogin from "./pages/DriverLogin";
 import ResetPassword from "./pages/ResetPassword";
+import Drive from "./pages/Drive";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/drive" element={<Drive />} />
           <Route path="/about" element={<About />} />
           <Route path="/service" element={<Service />} />
           <Route path="/team" element={<Team />} />

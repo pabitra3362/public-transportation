@@ -1,10 +1,8 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Button from "./Button";
-import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
-  const navigate = useNavigate();
 
   return (
     <div className="bg-white my-10">
@@ -27,13 +25,14 @@ const Hero = () => {
             anytime, anywhere.
           </p>
           <div>
+            <a href="#taxi-form">
             <Button
-              onClick={() => navigate("/taxi")}
               className="px-4 py-2 border-black rounded-sm"
               bgColor="bg-black"
             >
               Get Taxi
             </Button>
+            </a>
           </div>
         </div>
         <ShuffleGrid />

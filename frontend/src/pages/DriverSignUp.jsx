@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { saveDriver } from "../features/auth/driverAuthSlice";
 import { setToken } from "../utils/token";
 import { toast, ToastContainer } from "react-toastify";
+import { Spinner } from "flowbite-react";
 
 const DriverSignUp = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const DriverSignUp = () => {
     handleSubmit,
     watch,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
   const password = watch("password");
 
@@ -484,10 +485,13 @@ const DriverSignUp = () => {
 
           <button
             type="submit"
+            disabled={isSubmitting}
             className="w-full py-2 bg-yellow-300 text-black font-semibold rounded-md hover:bg-black
               hover:text-white duration-500"
           >
-            Sign Up
+            {
+              isSubmitting ? (<Spinner color="success" />) : "Sign Up"
+            }
           </button>
         </form>
 

@@ -57,12 +57,12 @@ const Footer = () => {
             >
               Our News
             </Link>
-            <Link
-              to="/taxi"
+            <a
+              href="#taxi-form"
               className="hover:text-yellow-300 transition duration-200 text text-lg"
             >
               Get Taxi
-            </Link>
+            </a>
           </div>
         </div>
 

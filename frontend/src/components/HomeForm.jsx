@@ -110,7 +110,7 @@ const HomeForm = () => {
   };
 
   return (
-    <div>
+    <div id="taxi-form">
       <div className="w-full bg-slate-200 py-1 md:py-5 lg:py-16">
         <div className="w-full md:w-[80vw] lg:w-[70vw] mx-auto px-3 py-7 md:py-10 overflow-hidden grid md:flex justify-items-center md:justify-between items-center gap-8 lg:gap-2 bg-white rounded-lg hover:shadow-2xl transition duration-200">
           {/* Video */}

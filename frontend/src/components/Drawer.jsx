@@ -9,6 +9,7 @@ export function MyDrawer() {
 
   const menuArr = [
     { text: "Home", link: "/" },
+    { text: "Drive", link: "/drive" },
     { text: "About", link: "/about" },
     { text: "Service", link: "/service" },
     { text: "Team", link: "/team" },

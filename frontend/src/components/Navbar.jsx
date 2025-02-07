@@ -15,10 +15,9 @@ import { getToken } from "../utils/token";
 const Navbar = () => {
 
   const navigate = useNavigate();
-  const token = getToken()
+  const token = getToken(); //get token from local storage
   if(token.length > 0 ){
-
-    var {role} = jwtDecode(token)
+    var {role} = jwtDecode(token) //decode token to get user role
   }
   
 
@@ -82,7 +81,7 @@ const Navbar = () => {
                 Home
               </NavLink>
             </li>
-            {["About", "Service", "Team", "News", "Contact"].map((item) => (
+            {["Drive","About", "Service", "Team", "News", "Contact"].map((item) => (
               <li key={item}>
                 <NavLink
                   to={`/${item.toLowerCase()}`}
