@@ -9,7 +9,7 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both 
 import { createDriver } from "../services/auth/driverAuth.service";
 import { useDispatch } from "react-redux";
 import { saveDriver } from "../features/auth/driverAuthSlice";
-import { setDriverAndToken } from "../utils/driverAndToken";
+import { setToken } from "../utils/token";
 import { toast, ToastContainer } from "react-toastify";
 
 const DriverSignUp = () => {
@@ -40,7 +40,7 @@ const DriverSignUp = () => {
 
       if (driver) {
         dispatch(saveDriver(driver));
-        setDriverAndToken(driver, 24);
+        setToken(driver.token,24);
         navigate("driver-home");
       }
     } catch (error) {

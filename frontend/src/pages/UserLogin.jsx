@@ -9,7 +9,7 @@ import {toast, ToastContainer} from 'react-toastify';
 import { loginUser } from "../services/auth/userAuth.service";
 import { useDispatch } from 'react-redux';
 import { saveUser } from "../features/auth/userAuthSlice";
-import { setUserAndToken } from "../utils/userAndToken";
+import { setToken } from "../utils/token";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
 
 const UserLogin = () => {
@@ -44,7 +44,7 @@ const UserLogin = () => {
 
       if(user){
         dispatch(saveUser(user));
-        setUserAndToken(user,24)
+        setToken(user.token,24)
         navigate('/');
       }
 

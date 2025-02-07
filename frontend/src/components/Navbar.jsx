@@ -8,34 +8,37 @@ import { logoutUser } from "../services/auth/userAuth.service";
 import { logoutDriver } from "../services/auth/driverAuth.service";
 import { removeUser } from '../features/auth/userAuthSlice'
 import { removeDriver } from '../features/auth/driverAuthSlice'
-import { getUserAndToken } from "../utils/userAndToken";
-import { getDriverAndToken } from "../utils/driverAndToken";
+import { jwtDecode } from "jwt-decode";
+import { getToken } from "../utils/token";
+
 
 const Navbar = () => {
 
   const navigate = useNavigate();
-  const user = getUserAndToken();
-  const driver = getDriverAndToken();
-  
+  const token = getToken()
+  if(token.length > 0 ){
+
+    var {role} = jwtDecode(token)
+  }
   
 
   const handleLogout = async () => {
     try {
-      if(user.token){
+      if(role == 'user'){
 
-        const result = await logoutUser({token:user.token})
+        const result = await logoutUser({token})
         if(result){
-          localStorage.removeItem('user') // remove user info from localstorage 
+          localStorage.removeItem('token') // remove token from localstorage 
           removeUser(); // remove user info from store
         }
         
         navigate('/')
       }
       else {
-        const result = await logoutDriver({token:driver.token})
+        const result = await logoutDriver({token})
 
         if(result){
-          localStorage.removeItem('driver') // remove driver info from localstorage
+          localStorage.removeItem('token') // remove token from localstorage
           removeDriver(); // remove driver info from store
         }
 
@@ -104,7 +107,7 @@ const Navbar = () => {
             <div className="text-black">4567890</div>
           </div>
 
-          {!user.token && !driver.token ? (
+          {token.length == 0 ? (
             <button
               onClick={() => navigate("/user-signup")}
               className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 hidden lg:block"

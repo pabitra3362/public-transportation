@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { createUser } from "../services/auth/userAuth.service";
 import { saveUser } from '../features/auth/userAuthSlice';
 import { toast , ToastContainer } from 'react-toastify';
-import { setUserAndToken } from "../utils/userAndToken";
+import { setToken } from "../utils/token";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
 
 const UserSignUp = () => {
@@ -36,7 +36,7 @@ const UserSignUp = () => {
         
         if(user){
           dispatch(saveUser(user))
-          setUserAndToken(user,24)
+          setToken(user.token,24)
           navigate('/')
         }
         return null;

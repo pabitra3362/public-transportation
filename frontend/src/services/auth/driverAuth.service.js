@@ -39,6 +39,26 @@ export const loginDriver = async ({ email, password }) => {
 }
 
 
+// service for get driver
+export const getDriver = async ({token})=>{
+    try{
+      const driver = await axios.get(`${config.baseUrl}/api/captain/profile`,{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+  
+      return driver.data
+  
+  
+    } catch (error) {
+        console.log("error in getDriver:",error);
+        
+      throw new Error((error?.response?.data?.error) || (error.message))
+    }
+  }
+
+
 
 // service for driver logout
 export const logoutDriver = async ({token}) => {
