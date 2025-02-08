@@ -7,7 +7,7 @@ import { FaUser, FaPhone } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { BsCalendarDateFill } from "react-icons/bs";
 import Button from "./Button";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import debounce from "lodash.debounce";
 import config from "../config/config";
@@ -15,7 +15,6 @@ import config from "../config/config";
 
 
 const HomeForm = () => {
-  const [selectedClass, setSelectedClass] = useState("economy");
   const [address1, setAddress1] = useState(""); // Starting point
   const [address2, setAddress2] = useState(""); // Ending point
   const [suggestions1, setSuggestions1] = useState([]);
@@ -25,6 +24,7 @@ const HomeForm = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -95,6 +95,13 @@ const HomeForm = () => {
     }
   };
 
+
+  // handle form submit
+  const onSubmit = (data) => {
+    console.log(data);
+  }
+  
+
   const containerVariants = {
     hidden: { opacity: 0, transition: { staggerChildren: 0.2 } },
     visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
@@ -127,15 +134,13 @@ const HomeForm = () => {
           </motion.div>
 
           {/* Form */}
-          <div className="right grid items-center gap-5">
+          <div className="right grid items-center gap-5 relative">
             <h2 className="font-bold text-black text-3xl">
               Booking Taxi Online
             </h2>
 
             <motion.form
-              onSubmit={handleSubmit((data) =>
-                console.log({ ...data, selectedClass })
-              )}
+              onSubmit={handleSubmit(onSubmit)}
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
@@ -179,46 +184,86 @@ const HomeForm = () => {
 
               {/* Start Destination */}
               <motion.div variants={itemVariants}>
-                <Input
-                  type="text"
-                  placeholder="Start Destination"
-                  icon={<FaLocationDot />}
-                  value={address1}
-                  onChange={(e) => handleChange(e, "startingPoint")}
-                />
-                <div className="max-h-20 overflow-hidden overflow-y-scroll">
-                  {suggestions1.map((item) => (
-                    <div
-                      key={item.id}
-                      className="cursor-pointer w-80 lg:w-[35vw]"
-                      onClick={() => handleSelect(item.name, "startingPoint")}
-                    >
-                      {item.name}
+                <Controller
+                  name="startingPoint"
+                  control={control}
+                  rules={{ required: "Start destination is required" }}
+                  render={({ field }) => (
+                    <div>
+                      <Input
+                        {...field}
+                        type="text"
+                        placeholder="Start Destination"
+                        icon={<FaLocationDot />}
+                        onChange={(e) => {
+                          field.onChange(e.target.value); // Update react-hook-form's state
+                          handleChange(e, "startingPoint"); // Update suggestions and local state
+                        }}
+                        value={address1} // Use local state to display value
+                      />
+                      <div className="max-h-20 overflow-hidden overflow-y-scroll">
+                      {suggestions1.map((item) => (
+                        <div
+                          key={item.id}
+                          className="cursor-pointer w-80 lg:w-[35vw]"
+                          onClick={(e) => {
+                            handleSelect(item.name, "startingPoint");
+                            field.onChange(e.target.textContent); // Update react-hook-form's state
+                          }}
+                        >
+                          {item.name}
+                        </div>
+                      ))}
+                      </div>
+                      {errors.startingPoint && (
+                        <span className="text-red-500 my-2 font-bold">
+                          {errors.startingPoint.message}
+                        </span>
+                      )}
                     </div>
-                  ))}
-                </div>
+                  )}
+                />
               </motion.div>
 
               {/* End Destination */}
               <motion.div variants={itemVariants}>
-                <Input
-                  type="text"
-                  placeholder="End Destination"
-                  icon={<FaLocationDot />}
-                  value={address2}
-                  onChange={(e) => handleChange(e, "endingPoint")}
-                />
-                <div className="max-h-20 overflow-hidden overflow-y-scroll">
-                  {suggestions2.map((item) => (
-                    <div
-                      key={item.id}
-                      className="cursor-pointer w-80 lg:w-[35vw]"
-                      onClick={() => handleSelect(item.name, "endingPoint")}
-                    >
-                      {item.name}
+                <Controller
+                  name="endingPoint"
+                  control={control}
+                  rules={{ required: "End destination is required" }}
+                  render={({ field }) => (
+                    <div>
+                      <Input
+                        {...field}
+                        type="text"
+                        placeholder="End Destination"
+                        icon={<FaLocationDot />}
+                        onChange={(e) => {
+                          field.onChange(e.target.value); // Update react-hook-form's state
+                          handleChange(e, "endingPoint"); // Update suggestions and local state
+                        }}
+                        value={address2} // Use local state to display value
+                      />
+                      {suggestions2.map((item) => (
+                        <div
+                          key={item.id}
+                          className="cursor-pointer w-80 lg:w-[35vw]"
+                          onClick={(e) => {
+                            handleSelect(item.name, "endingPoint");
+                            field.onChange(e.target.textContent); // Update react-hook-form's state
+                          }}
+                        >
+                          {item.name}
+                        </div>
+                      ))}
+                      {errors.endingPoint && (
+                        <span className="text-red-500 my-2 font-bold">
+                          {errors.endingPoint.message}
+                        </span>
+                      )}
                     </div>
-                  ))}
-                </div>
+                  )}
+                />
               </motion.div>
 
               {/* Date */}
@@ -245,6 +290,10 @@ const HomeForm = () => {
                 </Button>
               </motion.div>
             </motion.form>
+
+            <div className="absolute top-0">
+              hello
+            </div>
           </div>
         </div>
       </div>
