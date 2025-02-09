@@ -182,7 +182,7 @@ const Drive = () => {
         </Accordion.Content>
       </Accordion.Panel>
       <Accordion.Panel>
-        <Accordion.Title className="font-bold text-lg">What are the requirements to drive with Safar?I</Accordion.Title>
+        <Accordion.Title className="font-bold text-lg">What are the requirements to drive with Safar?</Accordion.Title>
         <Accordion.Content>
         You must meet the minimum age to drive in your city, have an eligible mode of transportation, and submit required documents, including a valid driver&apos;s license.
         </Accordion.Content>

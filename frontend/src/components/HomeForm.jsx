@@ -141,7 +141,7 @@ const HomeForm = () => {
           {/* Form */}
           <div className="right h-[550px] gap-5 relative overflow-y-hidden">
             <div className={`${isVisible ? 'h-[0px]' : 'h-[550px]'} duration-500 overflow-y-hidden`}>
-            <h2 className="font-bold text-black text-3xl mb-8">
+            <h2 className="font-bold text-black text-3xl mb-8 text-center">
               Booking Taxi Online
             </h2>
 
