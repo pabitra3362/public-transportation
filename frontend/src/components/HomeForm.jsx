@@ -6,11 +6,13 @@ import Input from "./Input";
 import { FaUser, FaPhone } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { BsCalendarDateFill } from "react-icons/bs";
+import { IoIosArrowDropdown } from "react-icons/io";
 import Button from "./Button";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import debounce from "lodash.debounce";
 import config from "../config/config";
+import carImage from '../assets/booking_car.png';
 
 
 
@@ -20,6 +22,7 @@ const HomeForm = () => {
   const [suggestions1, setSuggestions1] = useState([]);
   const [suggestions2, setSuggestions2] = useState([]);
   const [cache, setCache] = useState({}); // Caching results
+  const [isVisible, setIsVisible] = useState(false); // Toogle visibility
 
   const {
     register,
@@ -98,7 +101,9 @@ const HomeForm = () => {
 
   // handle form submit
   const onSubmit = (data) => {
+    setIsVisible(true);
     console.log(data);
+
   }
   
 
@@ -119,7 +124,7 @@ const HomeForm = () => {
   return (
     <div id="taxi-form">
       <div className="w-full bg-slate-200 py-1 md:py-5 lg:py-16">
-        <div className="w-full md:w-[80vw] lg:w-[70vw] mx-auto px-3 py-7 md:py-10 overflow-hidden grid md:flex justify-items-center md:justify-between items-center gap-8 lg:gap-2 bg-white rounded-lg hover:shadow-2xl transition duration-200">
+        <div className="w-full md:w-[80vw] lg:w-[70vw] mx-auto px-3 py-7 md:py-10 overflow-hidden grid md:flex justify-items-center md:justify-between lg:justify-around items-center gap-8 lg:gap-2 bg-white rounded-lg hover:shadow-2xl transition duration-200">
           {/* Video */}
           <motion.div className="left w-80 h-96 md:h-[40vh] lg:w-[35vw] lg:h-[50vh] flex justify-center items-center relative">
             <motion.video
@@ -134,8 +139,9 @@ const HomeForm = () => {
           </motion.div>
 
           {/* Form */}
-          <div className="right grid items-center gap-5 relative">
-            <h2 className="font-bold text-black text-3xl">
+          <div className="right h-[550px] gap-5 relative overflow-y-hidden">
+            <div className={`${isVisible ? 'h-[0px]' : 'h-[550px]'} duration-500 overflow-y-hidden`}>
+            <h2 className="font-bold text-black text-3xl mb-8">
               Booking Taxi Online
             </h2>
 
@@ -144,13 +150,14 @@ const HomeForm = () => {
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
-              className="grid justify-items-center items-center w-full gap-3"
+              className=" w-full lg:px-3 gap-3"
             >
               {/* Name */}
               <motion.div variants={itemVariants}>
                 <Input
                   type="text"
                   placeholder="Your Name"
+                  className='w-80'
                   icon={<FaUser />}
                   {...register("name", { required: "Name is required" })}
                 />
@@ -205,7 +212,7 @@ const HomeForm = () => {
                       {suggestions1.map((item) => (
                         <div
                           key={item.id}
-                          className="cursor-pointer w-80 lg:w-[35vw]"
+                          className="cursor-pointer w-full"
                           onClick={(e) => {
                             handleSelect(item.name, "startingPoint");
                             field.onChange(e.target.textContent); // Update react-hook-form's state
@@ -247,7 +254,7 @@ const HomeForm = () => {
                       {suggestions2.map((item) => (
                         <div
                           key={item.id}
-                          className="cursor-pointer w-80 lg:w-[35vw]"
+                          className="cursor-pointer w-full"
                           onClick={(e) => {
                             handleSelect(item.name, "endingPoint");
                             field.onChange(e.target.textContent); // Update react-hook-form's state
@@ -281,7 +288,7 @@ const HomeForm = () => {
               </motion.div>
 
               {/* Submit Button */}
-              <motion.div className="w-80 lg:w-[35vw]" variants={itemVariants}>
+              <motion.div className="w-full lg:w-[29vw] my-2" variants={itemVariants}>
                 <Button
                   type="submit"
                   className="w-full py-3 border border-black rounded-lg"
@@ -290,12 +297,67 @@ const HomeForm = () => {
                 </Button>
               </motion.div>
             </motion.form>
-
-            <div className="absolute top-0">
-              hello
             </div>
-          </div>
+
+          <div className={` overflow-y-scroll w-full h-[434px] gap-4 grid px-3`}>
+              <button
+              onClick={()=>setIsVisible(false)}
+              className="w-fit mx-auto align-middle bg-gray-300 px-10 py-2 rounded-md">
+                <IoIosArrowDropdown className="size-5" />
+              </button>
+              <div className="flex gap-3 justify-start items-center py-3 bg-slate-200 rounded-md px-3">
+                <div className="flex justify-center items-center w-16 h-16 border border-black p-1 rounded-md">
+                  <img src={carImage} alt={carImage} />
+                </div>
+                <div>
+                  <p>sdfsdfsd</p>
+                  <p>sdfsdfsd</p>
+                  <p>sdfsdfsdf</p>
+                </div>
+              </div>
+              <div className="flex gap-3 justify-start items-center bg-slate-200 rounded-md py-3">
+                <div className="flex justify-center items-center w-16 h-16 border border-black p-1 rounded-md">
+                  <img src={carImage} alt={carImage} />
+                </div>
+                <div>
+                  <p>sdfsdfsd</p>
+                  <p>sdfsdfsd</p>
+                  <p>sdfsdfsdf</p>
+                </div>
+              </div>
+              <div className="flex gap-3 justify-start items-center bg-slate-200 rounded-md py-3">
+                <div className="flex justify-center items-center w-16 h-16 border border-black p-1 rounded-md">
+                  <img src={carImage} alt={carImage} />
+                </div>
+                <div>
+                  <p>sdfsdfsd</p>
+                  <p>sdfsdfsd</p>
+                  <p>sdfsdfsdf</p>
+                </div>
+              </div>
+              <div className="flex gap-3 justify-start items-center bg-slate-200 rounded-md py-3">
+                <div className="flex justify-center items-center w-16 h-16 border border-black p-1 rounded-md">
+                  <img src={carImage} alt={carImage} />
+                </div>
+                <div>
+                  <p>sdfsdfsd</p>
+                  <p>sdfsdfsd</p>
+                  <p>sdfsdfsdf</p>
+                </div>
+              </div>
+              <div className="flex gap-3 justify-start items-center bg-slate-200 rounded-md py-3">
+                <div className="flex justify-center items-center w-16 h-16 border border-black p-1 rounded-md">
+                  <img src={carImage} alt={carImage} />
+                </div>
+                <div>
+                  <p>sdfsdfsd</p>
+                  <p>sdfsdfsd</p>
+                  <p>sdfsdfsdf</p>
+                </div>
+              </div>
+            </div>
         </div>
+          </div>
       </div>
     </div>
   );

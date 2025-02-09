@@ -10,13 +10,13 @@ const Input = forwardRef(function Myinput(
     <div className="relative">
       {label && <label htmlFor={id} className="block text-sm font-medium">{label}</label>}
       
-      <div className="flex items-center border-b-2 border-gray-300">
+      <div className="flex items-center border-b-2 border-gray-50">
         {icon && (
           <span className="absolute left-3 text-yellow-300">{icon}</span> // Icon container
         )}
         <input
           type={type}
-          className={`w-80 md:w-80 lg:w-[35vw] pl-10 text-black font-bold ${className}`} // Padding on left to create space for the icon
+          className={`w-80 md:w-80 lg:w-full pl-10 text-black font-bold my-2 ${className}`} // Padding on left to create space for the icon
           placeholder={placeholder}
           id={id}
           aria-label={label}
