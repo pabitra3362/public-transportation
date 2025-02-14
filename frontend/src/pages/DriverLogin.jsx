@@ -58,7 +58,7 @@ const DriverLogin = () => {
   };
 
   const navigateToHome = () => {
-    navigate("/"); // Redirect to Home page
+    navigate("/drive"); // Redirect to Home page
   };
 
   // Show Hide Passwoed button

@@ -58,7 +58,7 @@ const DriverSignUp = () => {
 
   // Close button click handler to navigate to home
   const handleClose = () => {
-    navigate("/"); // Redirect to the home page
+    navigate("/drive"); // Redirect to the home page
   };
 
   const navigateToLogin = () => {

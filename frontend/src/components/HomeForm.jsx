@@ -12,7 +12,8 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import debounce from "lodash.debounce";
 import config from "../config/config";
-import carImage from '../assets/booking_car.png';
+import CarSuggestionPanel from "./CarSuggestionPanel";
+import CarConfirmPanel from './CarConfirmPanel';
 
 
 
@@ -22,7 +23,8 @@ const HomeForm = () => {
   const [suggestions1, setSuggestions1] = useState([]);
   const [suggestions2, setSuggestions2] = useState([]);
   const [cache, setCache] = useState({}); // Caching results
-  const [isVisible, setIsVisible] = useState(false); // Toogle visibility
+  const [carSuggestionPanel, setCarSuggestionPanel] = useState(false); // Toogle visibility for carSuggestionPanel
+  const [carConfirmPanel, setCarConfirmPanel] = useState(false); // Toogle visibility for carConfirmPanel
 
   const {
     register,
@@ -101,7 +103,7 @@ const HomeForm = () => {
 
   // handle form submit
   const onSubmit = (data) => {
-    setIsVisible(true);
+    setCarSuggestionPanel(true);
     console.log(data);
 
   }
@@ -140,7 +142,7 @@ const HomeForm = () => {
 
           {/* Form */}
           <div className="right h-[550px] gap-5 relative overflow-y-hidden">
-            <div className={`${isVisible ? 'h-[0px]' : 'h-[550px]'} duration-500 overflow-y-hidden`}>
+            <div className={`${carSuggestionPanel ? 'h-[0px]' : 'h-[550px]'} duration-500 overflow-y-hidden`}>
             <h2 className="font-bold text-black text-3xl mb-8 text-center">
               Booking Taxi Online
             </h2>
@@ -150,7 +152,7 @@ const HomeForm = () => {
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
-              className=" w-full lg:px-3 gap-3"
+              className=" w-80 md:w-full lg:w-full mx-auto lg:px-3 gap-3"
             >
               {/* Name */}
               <motion.div variants={itemVariants}>
@@ -299,62 +301,26 @@ const HomeForm = () => {
             </motion.form>
             </div>
 
-          <div className={` overflow-y-scroll w-full h-[434px] gap-4 grid px-3`}>
+          {/* suggestion panel */}
+          <div className={` overflow-y-scroll overflow-x-visible w-full ${carConfirmPanel ? "h-[0px]" : "h-[459px]" } duration-500 gap-4 flex flex-col px-3`}>
               <button
-              onClick={()=>setIsVisible(false)}
-              className="w-fit mx-auto align-middle bg-gray-300 px-10 py-2 rounded-md">
+              onClick={()=>setCarSuggestionPanel(false)}
+              className="w-fit h-10 mx-auto align-middle bg-gray-300 px-10 py-2 rounded-md">
                 <IoIosArrowDropdown className="size-5" />
               </button>
-              <div className="flex gap-3 justify-start items-center py-3 bg-slate-200 rounded-md px-3">
-                <div className="flex justify-center items-center w-16 h-16 border border-black p-1 rounded-md">
-                  <img src={carImage} alt={carImage} />
-                </div>
-                <div>
-                  <p>sdfsdfsd</p>
-                  <p>sdfsdfsd</p>
-                  <p>sdfsdfsdf</p>
-                </div>
-              </div>
-              <div className="flex gap-3 justify-start items-center bg-slate-200 rounded-md py-3">
-                <div className="flex justify-center items-center w-16 h-16 border border-black p-1 rounded-md">
-                  <img src={carImage} alt={carImage} />
-                </div>
-                <div>
-                  <p>sdfsdfsd</p>
-                  <p>sdfsdfsd</p>
-                  <p>sdfsdfsdf</p>
-                </div>
-              </div>
-              <div className="flex gap-3 justify-start items-center bg-slate-200 rounded-md py-3">
-                <div className="flex justify-center items-center w-16 h-16 border border-black p-1 rounded-md">
-                  <img src={carImage} alt={carImage} />
-                </div>
-                <div>
-                  <p>sdfsdfsd</p>
-                  <p>sdfsdfsd</p>
-                  <p>sdfsdfsdf</p>
-                </div>
-              </div>
-              <div className="flex gap-3 justify-start items-center bg-slate-200 rounded-md py-3">
-                <div className="flex justify-center items-center w-16 h-16 border border-black p-1 rounded-md">
-                  <img src={carImage} alt={carImage} />
-                </div>
-                <div>
-                  <p>sdfsdfsd</p>
-                  <p>sdfsdfsd</p>
-                  <p>sdfsdfsdf</p>
-                </div>
-              </div>
-              <div className="flex gap-3 justify-start items-center bg-slate-200 rounded-md py-3">
-                <div className="flex justify-center items-center w-16 h-16 border border-black p-1 rounded-md">
-                  <img src={carImage} alt={carImage} />
-                </div>
-                <div>
-                  <p>sdfsdfsd</p>
-                  <p>sdfsdfsd</p>
-                  <p>sdfsdfsdf</p>
-                </div>
-              </div>
+              <CarSuggestionPanel setCarConfirmPanel={setCarConfirmPanel} />
+              
+            </div>
+
+          {/* confirm panel */}
+          <div className={` overflow-y-scroll overflow-x-visible w-full ${carConfirmPanel ? "h-[459px]" : "h-[0px]"} duration-500 gap-4 flex flex-col px-3`}>
+              <button
+              onClick={()=>setCarConfirmPanel(false)}
+              className="w-fit h-10 mx-auto align-middle bg-gray-300 px-10 py-2 rounded-md">
+                <IoIosArrowDropdown className="size-5" />
+              </button>
+              <CarConfirmPanel />
+              
             </div>
         </div>
           </div>

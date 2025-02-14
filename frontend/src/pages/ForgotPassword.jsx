@@ -53,7 +53,7 @@ const ForgotPassword = () => {
   };
 
   const navigateToLogin = () => {
-    navigate("/user-login");
+    (role === 'user' ? navigate('/user-login') : navigate('/driver-login'));
   };
 
   return (
