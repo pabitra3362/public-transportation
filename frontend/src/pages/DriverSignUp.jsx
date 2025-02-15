@@ -42,7 +42,7 @@ const DriverSignUp = () => {
       if (driver) {
         dispatch(saveDriver(driver));
         setToken(driver.token,24);
-        navigate("driver-home");
+        navigate("/driver-home");
       }
     } catch (error) {
       toast.error(error.message);

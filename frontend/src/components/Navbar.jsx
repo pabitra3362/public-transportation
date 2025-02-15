@@ -41,7 +41,7 @@ const Navbar = () => {
           removeDriver(); // remove driver info from store
         }
 
-        navigate('/driver-home')
+        navigate('/drive')
       }
 
     } catch (error) {
@@ -72,6 +72,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 to={`/`}
+                onClick={()=>window.scrollTo(0,0)}
                 className={({ isActive }) =>
                   `font-bold text text-black hover:text-white transition duration-500 text-lg ${
                     isActive ? "border-b-2 border-white text-white" : ""
@@ -85,6 +86,7 @@ const Navbar = () => {
               <li key={item}>
                 <NavLink
                   to={`/${item.toLowerCase()}`}
+                  onClick={()=>window.scrollTo(0,0)}
                   className={({ isActive }) =>
                     `font-bold text text-black hover:text-white transition duration-500 text-lg ${
                       isActive ? "border-b-2 border-white text-white" : ""
