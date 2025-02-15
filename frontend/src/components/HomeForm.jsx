@@ -25,6 +25,7 @@ const HomeForm = () => {
   const [cache, setCache] = useState({}); // Caching results
   const [carSuggestionPanel, setCarSuggestionPanel] = useState(false); // Toogle visibility for carSuggestionPanel
   const [carConfirmPanel, setCarConfirmPanel] = useState(false); // Toogle visibility for carConfirmPanel
+  const [confirmedCar, setConfirmedCar] = useState({}) // empty state for storing confirmed Car values
 
   const {
     register,
@@ -308,7 +309,7 @@ const HomeForm = () => {
               className="w-fit h-10 mx-auto align-middle bg-gray-300 px-10 py-2 rounded-md">
                 <IoIosArrowDropdown className="size-5" />
               </button>
-              <CarSuggestionPanel setCarConfirmPanel={setCarConfirmPanel} />
+              <CarSuggestionPanel setCarConfirmPanel={setCarConfirmPanel} setConfirmedCar={setConfirmedCar} />
               
             </div>
 
@@ -319,7 +320,7 @@ const HomeForm = () => {
               className="w-fit h-10 mx-auto align-middle bg-gray-300 px-10 py-2 rounded-md">
                 <IoIosArrowDropdown className="size-5" />
               </button>
-              <CarConfirmPanel />
+              <CarConfirmPanel confirmedCar={confirmedCar} />
               
             </div>
         </div>
