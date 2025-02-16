@@ -13,9 +13,10 @@ import axios from "axios";
 import debounce from "lodash.debounce";
 import config from "../config/config";
 import CarSuggestionPanel from "./CarSuggestionPanel";
-import CarConfirmPanel from './CarConfirmPanel';
-
-
+import CarConfirmPanel from "./CarConfirmPanel";
+import { setConfirmedCarDetails } from "../features/car/confirmedCarSlice";
+import { useDispatch } from "react-redux";
+import LookingForDriver from "./LookingForDriver";
 
 const HomeForm = () => {
   const [address1, setAddress1] = useState(""); // Starting point
@@ -25,7 +26,9 @@ const HomeForm = () => {
   const [cache, setCache] = useState({}); // Caching results
   const [carSuggestionPanel, setCarSuggestionPanel] = useState(false); // Toogle visibility for carSuggestionPanel
   const [carConfirmPanel, setCarConfirmPanel] = useState(false); // Toogle visibility for carConfirmPanel
-  const [confirmedCar, setConfirmedCar] = useState({}) // empty state for storing confirmed Car values
+  const [LookingDriverPanel, setLookingDriverPanel] = useState(false); // Toogle visibility for looking driver panel
+  const [confirmedCar, setConfirmedCar] = useState({}); // empty state for storing confirmed Car values
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -101,14 +104,12 @@ const HomeForm = () => {
     }
   };
 
-
   // handle form submit
   const onSubmit = (data) => {
     setCarSuggestionPanel(true);
+    dispatch(setConfirmedCarDetails(data));
     console.log(data);
-
-  }
-  
+  };
 
   const containerVariants = {
     hidden: { opacity: 0, transition: { staggerChildren: 0.2 } },
@@ -143,188 +144,224 @@ const HomeForm = () => {
 
           {/* Form */}
           <div className="right h-[550px] gap-5 relative overflow-y-hidden">
-            <div className={`${carSuggestionPanel ? 'h-[0px]' : 'h-[550px]'} duration-500 overflow-y-hidden`}>
-            <h2 className="font-bold text-black text-3xl mb-8 text-center">
-              Booking Taxi Online
-            </h2>
-
-            <motion.form
-              onSubmit={handleSubmit(onSubmit)}
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              className=" w-80 md:w-full lg:w-full mx-auto lg:px-3 gap-3"
+            <div
+              className={`${
+                carSuggestionPanel ? "h-[0px]" : "h-[550px]"
+              } duration-500 overflow-y-hidden`}
             >
-              {/* Name */}
-              <motion.div variants={itemVariants}>
-                <Input
-                  type="text"
-                  placeholder="Your Name"
-                  className='w-80'
-                  icon={<FaUser />}
-                  {...register("name", { required: "Name is required" })}
-                />
-                {errors.name && (
-                  <span className="text-red-500 my-2 font-bold">
-                    {errors.name.message}
-                  </span>
-                )}
-              </motion.div>
+              <h2 className="font-bold text-black text-3xl mb-8 text-center">
+                Booking Taxi Online
+              </h2>
 
-              {/* Phone */}
-              <motion.div variants={itemVariants}>
-                <Input
-                  type="number"
-                  placeholder="Phone"
-                  icon={<FaPhone />}
-                  {...register("phone", {
-                    required: "Phone number is required",
-                    pattern: {
-                      value: /^[0-9]{10}$/,
-                      message: "Enter a valid phone number",
-                    },
-                  })}
-                />
-                {errors.phone && (
-                  <span className="text-red-500 my-2 font-bold">
-                    {errors.phone.message}
-                  </span>
-                )}
-              </motion.div>
+              <motion.form
+                onSubmit={handleSubmit(onSubmit)}
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                className=" w-[95%] md:w-full lg:w-full mx-auto lg:px-3 gap-3"
+              >
+                {/* Name */}
+                <motion.div variants={itemVariants}>
+                  <Input
+                    type="text"
+                    placeholder="Your Name"
+                    className="w-full md:w-full lg:w-full"
+                    icon={<FaUser />}
+                    {...register("name", { required: "Name is required" })}
+                  />
+                  {errors.name && (
+                    <span className="text-red-500 my-2 font-bold">
+                      {errors.name.message}
+                    </span>
+                  )}
+                </motion.div>
 
-              {/* Start Destination */}
-              <motion.div variants={itemVariants}>
-                <Controller
-                  name="startingPoint"
-                  control={control}
-                  rules={{ required: "Start destination is required" }}
-                  render={({ field }) => (
-                    <div>
-                      <Input
-                        {...field}
-                        type="text"
-                        placeholder="Start Destination"
-                        icon={<FaLocationDot />}
-                        onChange={(e) => {
-                          field.onChange(e.target.value); // Update react-hook-form's state
-                          handleChange(e, "startingPoint"); // Update suggestions and local state
-                        }}
-                        value={address1} // Use local state to display value
-                      />
-                      <div className="max-h-20 overflow-hidden overflow-y-scroll">
-                      {suggestions1.map((item) => (
-                        <div
-                          key={item.id}
-                          className="cursor-pointer w-full"
-                          onClick={(e) => {
-                            handleSelect(item.name, "startingPoint");
-                            field.onChange(e.target.textContent); // Update react-hook-form's state
+                {/* Phone */}
+                <motion.div variants={itemVariants}>
+                  <Input
+                    type="number"
+                    placeholder="Phone"
+                    className="w-full md:w-full lg:w-full"
+                    icon={<FaPhone />}
+                    {...register("phone", {
+                      required: "Phone number is required",
+                      pattern: {
+                        value: /^[0-9]{10}$/,
+                        message: "Enter a valid phone number",
+                      },
+                    })}
+                  />
+                  {errors.phone && (
+                    <span className="text-red-500 my-2 font-bold">
+                      {errors.phone.message}
+                    </span>
+                  )}
+                </motion.div>
+
+                {/* Start Destination */}
+                <motion.div variants={itemVariants}>
+                  <Controller
+                    name="startingPoint"
+                    control={control}
+                    rules={{ required: "Start destination is required" }}
+                    render={({ field }) => (
+                      <div>
+                        <Input
+                          {...field}
+                          type="text"
+                          placeholder="Start Destination"
+                          className="w-full md:w-full lg:w-full"
+                          icon={<FaLocationDot />}
+                          onChange={(e) => {
+                            field.onChange(e.target.value); // Update react-hook-form's state
+                            handleChange(e, "startingPoint"); // Update suggestions and local state
                           }}
-                        >
-                          {item.name}
+                          value={address1} // Use local state to display value
+                        />
+                        <div className="max-h-20 overflow-hidden overflow-y-scroll">
+                          {suggestions1.map((item) => (
+                            <div
+                              key={item.id}
+                              className="cursor-pointer w-full"
+                              onClick={(e) => {
+                                handleSelect(item.name, "startingPoint");
+                                field.onChange(e.target.textContent); // Update react-hook-form's state
+                              }}
+                            >
+                              {item.name}
+                            </div>
+                          ))}
                         </div>
-                      ))}
+                        {errors.startingPoint && (
+                          <span className="text-red-500 my-2 font-bold">
+                            {errors.startingPoint.message}
+                          </span>
+                        )}
                       </div>
-                      {errors.startingPoint && (
-                        <span className="text-red-500 my-2 font-bold">
-                          {errors.startingPoint.message}
-                        </span>
-                      )}
-                    </div>
-                  )}
-                />
-              </motion.div>
+                    )}
+                  />
+                </motion.div>
 
-              {/* End Destination */}
-              <motion.div variants={itemVariants}>
-                <Controller
-                  name="endingPoint"
-                  control={control}
-                  rules={{ required: "End destination is required" }}
-                  render={({ field }) => (
-                    <div>
-                      <Input
-                        {...field}
-                        type="text"
-                        placeholder="End Destination"
-                        icon={<FaLocationDot />}
-                        onChange={(e) => {
-                          field.onChange(e.target.value); // Update react-hook-form's state
-                          handleChange(e, "endingPoint"); // Update suggestions and local state
-                        }}
-                        value={address2} // Use local state to display value
-                      />
-                      {suggestions2.map((item) => (
-                        <div
-                          key={item.id}
-                          className="cursor-pointer w-full"
-                          onClick={(e) => {
-                            handleSelect(item.name, "endingPoint");
-                            field.onChange(e.target.textContent); // Update react-hook-form's state
+                {/* End Destination */}
+                <motion.div variants={itemVariants}>
+                  <Controller
+                    name="endingPoint"
+                    control={control}
+                    rules={{ required: "End destination is required" }}
+                    render={({ field }) => (
+                      <div>
+                        <Input
+                          {...field}
+                          type="text"
+                          placeholder="End Destination"
+                          className="w-full md:w-full lg:w-full"
+                          icon={<FaLocationDot />}
+                          onChange={(e) => {
+                            field.onChange(e.target.value); // Update react-hook-form's state
+                            handleChange(e, "endingPoint"); // Update suggestions and local state
                           }}
-                        >
-                          {item.name}
-                        </div>
-                      ))}
-                      {errors.endingPoint && (
-                        <span className="text-red-500 my-2 font-bold">
-                          {errors.endingPoint.message}
-                        </span>
-                      )}
-                    </div>
+                          value={address2} // Use local state to display value
+                        />
+                        {suggestions2.map((item) => (
+                          <div
+                            key={item.id}
+                            className="cursor-pointer w-full"
+                            onClick={(e) => {
+                              handleSelect(item.name, "endingPoint");
+                              field.onChange(e.target.textContent); // Update react-hook-form's state
+                            }}
+                          >
+                            {item.name}
+                          </div>
+                        ))}
+                        {errors.endingPoint && (
+                          <span className="text-red-500 my-2 font-bold">
+                            {errors.endingPoint.message}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  />
+                </motion.div>
+
+                {/* Date */}
+                <motion.div variants={itemVariants}>
+                  <Input
+                    type="date"
+                    className="w-full md:w-full lg:w-full"
+                    icon={<BsCalendarDateFill />}
+                    {...register("date", { required: "Date is required" })}
+                  />
+                  {errors.date && (
+                    <span className="text-red-500 my-2 font-bold">
+                      {errors.date.message}
+                    </span>
                   )}
-                />
-              </motion.div>
+                </motion.div>
 
-              {/* Date */}
-              <motion.div variants={itemVariants}>
-                <Input
-                  type="date"
-                  icon={<BsCalendarDateFill />}
-                  {...register("date", { required: "Date is required" })}
-                />
-                {errors.date && (
-                  <span className="text-red-500 my-2 font-bold">
-                    {errors.date.message}
-                  </span>
-                )}
-              </motion.div>
-
-              {/* Submit Button */}
-              <motion.div className="w-full lg:w-[29vw] my-2" variants={itemVariants}>
-                <Button
-                  type="submit"
-                  className="w-full py-3 border border-black rounded-lg"
+                {/* Submit Button */}
+                <motion.div
+                  className="w-full my-2"
+                  variants={itemVariants}
                 >
-                  Book Now!
-                </Button>
-              </motion.div>
-            </motion.form>
+                  <Button
+                    type="submit"
+                    className="w-full py-3 border border-black rounded-lg"
+                  >
+                    Book Now!
+                  </Button>
+                </motion.div>
+              </motion.form>
             </div>
 
-          {/* suggestion panel */}
-          <div className={` overflow-y-scroll overflow-x-visible w-full ${carConfirmPanel ? "h-[0px]" : "h-[459px]" } duration-500 gap-4 flex flex-col px-3`}>
+            {/* suggestion panel */}
+            <div
+              className={` overflow-y-scroll overflow-x-visible w-full ${
+                carConfirmPanel || LookingDriverPanel ? "h-[0px]" : "h-[459px]"
+              } duration-500 gap-4 flex flex-col px-3`}
+            >
               <button
-              onClick={()=>setCarSuggestionPanel(false)}
-              className="w-fit h-10 mx-auto align-middle bg-gray-300 px-10 py-2 rounded-md">
+                onClick={() => setCarSuggestionPanel(false)}
+                className="w-fit h-10 mx-auto align-middle bg-gray-300 px-10 py-2 rounded-md"
+              >
                 <IoIosArrowDropdown className="size-5" />
               </button>
-              <CarSuggestionPanel setCarConfirmPanel={setCarConfirmPanel} setConfirmedCar={setConfirmedCar} />
-              
+              <CarSuggestionPanel
+                setCarConfirmPanel={setCarConfirmPanel}
+                setConfirmedCar={setConfirmedCar}
+              />
             </div>
 
-          {/* confirm panel */}
-          <div className={` overflow-y-scroll overflow-x-visible w-full ${carConfirmPanel ? "h-[459px]" : "h-[0px]"} duration-500 gap-4 flex flex-col px-3`}>
+            {/* confirm panel */}
+            <div
+              className={` overflow-y-scroll overflow-x-visible w-full ${
+                !LookingDriverPanel && carConfirmPanel ? "h-[459px]" : "h-[0px]"
+              } duration-500 gap-4 flex flex-col px-3`}
+            >
               <button
-              onClick={()=>setCarConfirmPanel(false)}
-              className="w-fit h-10 mx-auto align-middle bg-gray-300 px-10 py-2 rounded-md">
+                onClick={() => setCarConfirmPanel(false)}
+                className="w-fit h-10 mx-auto align-middle bg-gray-300 px-10 py-2 rounded-md"
+              >
                 <IoIosArrowDropdown className="size-5" />
               </button>
-              <CarConfirmPanel confirmedCar={confirmedCar} />
-              
+              <CarConfirmPanel
+                confirmedCar={confirmedCar}
+                setLookingDriverPanel={setLookingDriverPanel}
+                setCarConfirmPanel={setCarConfirmPanel}
+              />
             </div>
-        </div>
+
+            {/* looking driver panel */}
+            <div
+              className={` overflow-y-scroll overflow-x-visible w-full ${
+                LookingDriverPanel ? "h-[459px]" : "h-[0px]"
+              } duration-500 gap-4 flex flex-col px-3`}
+            >
+              
+              <LookingForDriver confirmedCar={confirmedCar} />
+            </div>
           </div>
+        </div>
       </div>
     </div>
   );

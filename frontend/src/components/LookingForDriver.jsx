@@ -3,14 +3,13 @@ import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { useSelector } from "react-redux";
 
-const CarConfirmPanel = ({ confirmedCar, setLookingDriverPanel, setCarConfirmPanel }) => {
+const LookingForDriver = ({ confirmedCar }) => {
   const journeyDetails = useSelector((state) => state.car);
-
   return (
     <div className="py-2">
       {/* header */}
       <h1 className="text-2xl font-semibold text-center mt-3 mb-2">
-        Confirm Your Ride
+        Looking For A Driver
       </h1>
       <hr className="w-full bg-black h-[3px] opacity-20" />
 
@@ -49,25 +48,19 @@ const CarConfirmPanel = ({ confirmedCar, setLookingDriverPanel, setCarConfirmPan
           <div className="">
             <FaMoneyBillWave className="w-6 h-6 " />
           </div>
+          <div className="flex flex-col w-full">
           <div className="font-bold flex justify-start items-center w-full ">
-            <FaRupeeSign />
-            <p className="text-xl">{confirmedCar.price}</p>
+            <div><FaRupeeSign /></div>
+            <div className="w-full font-bold text-xl">
+                {confirmedCar.price}
+            </div>
+          </div>
+            <div className="w-full bg-black h-[3px] opacity-20 mt-2" />
           </div>
         </div>
       </div>
-
-      {/* Confirm Button */}
-      <button
-        onClick={() => {
-          setCarConfirmPanel(false)
-          setLookingDriverPanel(true)
-        }}
-        className="w-full bg-yellow-300 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold"
-      >
-        Confirm
-      </button>
     </div>
   );
 };
 
-export default CarConfirmPanel;
+export default LookingForDriver;
