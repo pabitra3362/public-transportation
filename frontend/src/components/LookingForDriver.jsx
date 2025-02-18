@@ -2,14 +2,17 @@ import React from "react";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const LookingForDriver = ({ confirmedCar }) => {
   const journeyDetails = useSelector((state) => state.car);
+  const navigate = useNavigate();
+
   return (
     <div className="py-2">
       {/* header */}
       <h1 className="text-2xl font-semibold text-center mt-3 mb-2">
-        Looking For A Driver
+        Make Payment To Book Driver
       </h1>
       <hr className="w-full bg-black h-[3px] opacity-20" />
 
@@ -49,15 +52,20 @@ const LookingForDriver = ({ confirmedCar }) => {
             <FaMoneyBillWave className="w-6 h-6 " />
           </div>
           <div className="flex flex-col w-full">
-          <div className="font-bold flex justify-start items-center w-full ">
-            <div><FaRupeeSign /></div>
-            <div className="w-full font-bold text-xl">
-                {confirmedCar.price}
-            </div>
+          <div className="font-bold flex justify-start items-center text-xl w-full ">
+            <FaRupeeSign /> {confirmedCar.price}
           </div>
             <div className="w-full bg-black h-[3px] opacity-20 mt-2" />
           </div>
         </div>
+
+        {/* Confirm Button */}
+      <button
+        onClick={() => navigate('/riding') }
+        className="w-full bg-green-500 text-black py-2 mt-6 rounded hover:bg-black hover:text-white duration-300 font-bold"
+      >
+        Make Payment
+      </button>
       </div>
     </div>
   );
