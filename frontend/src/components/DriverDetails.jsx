@@ -43,7 +43,7 @@ const DriverDetails = () => {
             <div className="flex flex-col justify-center items-center gap-1">
             <SlNotebook className="font-extrabold text-xl"  />
             <p className="font-bold text-lg">20</p>
-            <h3>Hours Jobs</h3>
+            <h3>Total Jobs</h3>
             </div>
         </div>
     </>

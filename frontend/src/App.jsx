@@ -19,6 +19,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Drive from "./pages/Drive";
 import Riding from "./pages/Riding";
 import DriverHome from "./pages/DriverHome";
+import DriverRiding from "./pages/DriverRiding";
 
 
 
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/news" element={<News />} />
           <Route path="/contact" element={<Contacts />} />
           <Route path="/riding" element={<Riding />} />
+          <Route path="/driver-riding" element={<DriverRiding />} />
           <Route path="/user-signup" element={<UserSignUp />} />
           <Route path="/user-login" element={<UserLogin />} />
           <Route path="/driver-signup" element={<DriverSignUp />} />
