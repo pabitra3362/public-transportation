@@ -300,10 +300,7 @@ const HomeForm = () => {
                 </motion.div>
 
                 {/* Submit Button */}
-                <motion.div
-                  className="w-full my-2"
-                  variants={itemVariants}
-                >
+                <motion.div className="w-full my-2" variants={itemVariants}>
                   <Button
                     type="submit"
                     className="w-full py-3 border border-black rounded-lg"
@@ -357,7 +354,16 @@ const HomeForm = () => {
                 LookingDriverPanel ? "h-[459px]" : "h-[0px]"
               } duration-500 gap-4 flex flex-col px-3`}
             >
-              
+              <button
+                onClick={() => {
+                  setLookingDriverPanel(false);
+                  setCarConfirmPanel(true);
+                }}
+                className="w-fit h-10 mx-auto align-middle bg-gray-300 px-10 py-2 rounded-md"
+              >
+                <IoIosArrowDropdown className="size-5" />
+              </button>
+
               <LookingForDriver confirmedCar={confirmedCar} />
             </div>
           </div>

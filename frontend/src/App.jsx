@@ -18,6 +18,7 @@ import DriverLogin from "./pages/DriverLogin";
 import ResetPassword from "./pages/ResetPassword";
 import Drive from "./pages/Drive";
 import Riding from "./pages/Riding";
+import DriverHome from "./pages/DriverHome";
 
 
 
@@ -29,6 +30,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/drive" element={<Drive />} />
+          <Route path="/driver-home" element={<DriverHome />} />
           <Route path="/about" element={<About />} />
           <Route path="/service" element={<Service />} />
           <Route path="/team" element={<Team />} />
