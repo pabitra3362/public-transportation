@@ -1,7 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { getToken } from "../utils/token";
-import { jwtDecode } from "jwt-decode";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
 import DriverDetails from "../components/DriverDetails";
 import RidePopup from "../components/RidePopup";
@@ -10,18 +8,11 @@ import { useGSAP } from "@gsap/react";
 import ConfirmRidePopup from "../components/ConfirmRidePopup";
 
 const DriverHome = () => {
-  const navigate = useNavigate();
-  const token = getToken();
   const [ridePopupPanel, setRidePopupPanel] = useState(true);
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
   const ridePopupPanelRef = useRef(null);
   const confirmRidePopupPanelRef = useRef(null);
 
-  // useEffect(()=>{
-  //     if(!token) return navigate('/drive')
-  //     const { role } = jwtDecode(token)
-  //     if(role !== 'captain') return navigate('/drive')
-  // },[token])
 
   useGSAP(() => {
     if (ridePopupPanel) {
