@@ -64,23 +64,26 @@ const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
         </div>
       </div>
 
-      {/* Confirm Button */}
-      <button
-      onClick={()=>{
-        setRidePopupPanel(false)
-        setConfirmRidePopupPanel(true)
-      }}
-      className="w-full bg-yellow-300 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2">
-        Accept
-      </button>
+      <div className="flex flex-row-reverse justify-between items-center px-3">
+        {/* Confirm Button */}
+        <button
+          onClick={() => {
+            setRidePopupPanel(false);
+            setConfirmRidePopupPanel(true);
+          }}
+          className="px-8 bg-yellow-300 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2"
+        >
+          Accept
+        </button>
 
-      {/* ignore button */}
-      <button
-        onClick={() => setRidePopupPanel(false)}
-        className="w-full bg-gray-500 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2"
-      >
-        Ignore
-      </button>
+        {/* ignore button */}
+        <button
+          onClick={() => setRidePopupPanel(false)}
+          className="px-8 bg-gray-500 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2"
+        >
+          Ignore
+        </button>
+      </div>
     </div>
   );
 };
