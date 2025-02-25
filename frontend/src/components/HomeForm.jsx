@@ -138,7 +138,7 @@ const HomeForm = () => {
       <div className="w-full bg-slate-200 py-1 md:py-5 lg:py-16">
         <div className="w-full md:w-[80vw] lg:w-[70vw] mx-auto px-3 py-7 md:py-10 overflow-hidden grid md:flex justify-items-center md:justify-between lg:justify-around items-center gap-8 lg:gap-2 bg-white rounded-lg hover:shadow-2xl transition duration-200">
           {/* Video */}
-          <motion.div className="left w-80 h-96 md:h-[40vh] lg:w-[35vw] lg:h-[50vh] flex justify-center items-center relative">
+          <motion.div className="left w-80 h-96 md:h-[40vh] lg:w-[29vw] lg:h-[50vh] flex justify-center items-center relative">
             <motion.video
               className="absolute top-0 left-0 w-full h-full object-cover"
               src={vdo}
@@ -166,7 +166,7 @@ const HomeForm = () => {
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
-                className=" w-[95%] md:w-full lg:full mx-auto lg:px-3 gap-3"
+                className=" w-[95%] md:w-full lg:w-[29vw] mx-auto lg:px-3 gap-3"
               >
                 {/* Name */}
                 <motion.div variants={itemVariants}>
