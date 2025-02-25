@@ -64,7 +64,8 @@ const fetchAutoCompleteSuggestions = async (input) => {
     try {
       const apiKey = config.mapApiKey;
       const encodedAddress = encodeURIComponent(input);
-      const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodedAddress}&key=${apiKey}`;
+      const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodedAddress}&key=${apiKey}&components=country:IN`;
+
       
       const response = await axios.get(url);
       

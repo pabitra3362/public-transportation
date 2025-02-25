@@ -5,8 +5,8 @@ const initialState = {
     name: null,
     phone: null,
     date: null,
-    startingPoint: null,
-    endingPoint: null,
+    pickup: null,
+    destination: null,
 }
 
 
@@ -21,8 +21,8 @@ const confirmedCarSlice = createSlice({
             state.name = action.payload.name;
             state.phone = action.payload.phone;
             state.date = action.payload.date;
-            state.startingPoint = action.payload.startingPoint;
-            state.endingPoint = action.payload.endingPoint;
+            state.pickup = action.payload.pickup;
+            state.destination = action.payload.destination;
         },
         
     }

@@ -34,7 +34,7 @@ const LookingForDriver = ({ confirmedCar }) => {
             <GiJourney className="w-6 h-6 " />
           </div>
           <div className="font-bold w-full">
-            {journeyDetails.startingPoint}
+            {journeyDetails.pickup}
             <div className="w-full bg-black h-[3px] opacity-20 mt-2" />
           </div>
         </div>
@@ -43,7 +43,7 @@ const LookingForDriver = ({ confirmedCar }) => {
             <GiJourney className="w-6 h-6 " />
           </div>
           <div className="font-bold w-full">
-            {journeyDetails.endingPoint}
+            {journeyDetails.destination}
             <div className="w-full bg-black h-[3px] opacity-20 mt-2" />
           </div>
         </div>

@@ -17,6 +17,8 @@ import CarConfirmPanel from "./CarConfirmPanel";
 import { setConfirmedCarDetails } from "../features/car/confirmedCarSlice";
 import { useDispatch } from "react-redux";
 import LookingForDriver from "./LookingForDriver";
+import {getToken} from '../utils/token';
+import { toast, ToastContainer } from 'react-toastify';
 
 const HomeForm = () => {
   const [address1, setAddress1] = useState(""); // Starting point
@@ -29,6 +31,7 @@ const HomeForm = () => {
   const [LookingDriverPanel, setLookingDriverPanel] = useState(false); // Toogle visibility for looking driver panel
   const [confirmedCar, setConfirmedCar] = useState({}); // empty state for storing confirmed Car values
   const dispatch = useDispatch();
+  const token = getToken();
 
   const {
     register,
@@ -44,35 +47,34 @@ const HomeForm = () => {
 
       // Use cache if available
       if (cache[query]) {
-        field === "startingPoint"
+        field === "pickup"
           ? setSuggestions1(cache[query])
           : setSuggestions2(cache[query]);
         return;
       }
 
       try {
-        const response = await axios.get(
-          `https://geocode.search.hereapi.com/v1/geocode`,
-          {
-            params: {
-              q: query,
-              apiKey: config.hereApiKey,
-              in: "countryCode:IND", // Limit results to India
-              limit: 10, // Limit suggestions to 10
-            },
-          }
-        );
 
-        const formattedResults = response.data.items.map((place) => ({
-          id: place.id,
-          name: place.address.label, // Full address from HERE API
-          lat: place.position.lat,
-          lng: place.position.lng,
+        const response = await axios.get(`${config.baseUrl}/maps/get-suggestions`,{
+          headers:{
+            Authorization: `bearer ${token}`
+          },
+          params:{
+            input: query,
+          }
+        })
+
+      
+        const formattedResults = response.data.map((suggestion) => ({
+          id: suggestion.place_id,
+          name: suggestion.description, // Full address from HERE API
+          // lat: place.position.lat,
+          // lng: place.position.lng,
         }));
 
         setCache((prevCache) => ({ ...prevCache, [query]: formattedResults })); // Store in cache
 
-        field === "startingPoint"
+        field === "pickup"
           ? setSuggestions1(formattedResults)
           : setSuggestions2(formattedResults);
       } catch (error) {
@@ -86,17 +88,17 @@ const HomeForm = () => {
   const handleChange = (event, field) => {
     const query = event.target.value;
 
-    if (field === "startingPoint") {
+    if (field === "pickup") {
       setAddress1(query);
-      fetchSuggestions(query, "startingPoint");
+      fetchSuggestions(query, "pickup");
     } else {
       setAddress2(query);
-      fetchSuggestions(query, "endingPoint");
+      fetchSuggestions(query, "destination");
     }
   };
 
   const handleSelect = (selectedAddress, field) => {
-    if (field === "startingPoint") {
+    if (field === "pickup") {
       setAddress1(selectedAddress);
       setSuggestions1([]);
     } else {
@@ -107,6 +109,10 @@ const HomeForm = () => {
 
   // handle form submit
   const onSubmit = (data) => {
+    if(!token){
+      toast.error("Please login first");
+      return;
+    }
     setCarSuggestionPanel(true);
     dispatch(setConfirmedCarDetails(data));
     console.log(data);
@@ -128,6 +134,7 @@ const HomeForm = () => {
 
   return (
     <div id="taxi-form">
+      <ToastContainer theme="dark" />
       <div className="w-full bg-slate-200 py-1 md:py-5 lg:py-16">
         <div className="w-full md:w-[80vw] lg:w-[70vw] mx-auto px-3 py-7 md:py-10 overflow-hidden grid md:flex justify-items-center md:justify-between lg:justify-around items-center gap-8 lg:gap-2 bg-white rounded-lg hover:shadow-2xl transition duration-200">
           {/* Video */}
@@ -159,14 +166,14 @@ const HomeForm = () => {
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
-                className=" w-[95%] md:w-full lg:w-full mx-auto lg:px-3 gap-3"
+                className=" w-[95%] md:w-full lg:full mx-auto lg:px-3 gap-3"
               >
                 {/* Name */}
                 <motion.div variants={itemVariants}>
                   <Input
                     type="text"
                     placeholder="Your Name"
-                    className="w-full md:w-full lg:w-full"
+                    className="w-full md:w-full lg:w-[29vw]"
                     icon={<FaUser />}
                     {...register("name", { required: "Name is required" })}
                   />
@@ -182,7 +189,7 @@ const HomeForm = () => {
                   <Input
                     type="number"
                     placeholder="Phone"
-                    className="w-full md:w-full lg:w-full"
+                    className="w-full md:w-full lg:w-[29vw]"
                     icon={<FaPhone />}
                     {...register("phone", {
                       required: "Phone number is required",
@@ -202,20 +209,20 @@ const HomeForm = () => {
                 {/* Start Destination */}
                 <motion.div variants={itemVariants}>
                   <Controller
-                    name="startingPoint"
+                    name="pickup"
                     control={control}
-                    rules={{ required: "Start destination is required" }}
+                    rules={{ required:"Pickup point is required" }}
                     render={({ field }) => (
                       <div>
                         <Input
                           {...field}
                           type="text"
-                          placeholder="Start Destination"
-                          className="w-full md:w-full lg:w-full"
+                          placeholder="Pickup Point"
+                          className="w-full md:w-full lg:w-[29vw]"
                           icon={<FaLocationDot />}
                           onChange={(e) => {
                             field.onChange(e.target.value); // Update react-hook-form's state
-                            handleChange(e, "startingPoint"); // Update suggestions and local state
+                            handleChange(e, "pickup"); // Update suggestions and local state
                           }}
                           value={address1} // Use local state to display value
                         />
@@ -223,9 +230,9 @@ const HomeForm = () => {
                           {suggestions1.map((item) => (
                             <div
                               key={item.id}
-                              className="cursor-pointer w-full"
+                              className="cursor-pointer w-full md:w-full lg:w-[29vw]"
                               onClick={(e) => {
-                                handleSelect(item.name, "startingPoint");
+                                handleSelect(item.name, "pickup");
                                 field.onChange(e.target.textContent); // Update react-hook-form's state
                               }}
                             >
@@ -233,9 +240,9 @@ const HomeForm = () => {
                             </div>
                           ))}
                         </div>
-                        {errors.startingPoint && (
+                        {errors.pickup && (
                           <span className="text-red-500 my-2 font-bold">
-                            {errors.startingPoint.message}
+                            {errors.pickup.message}
                           </span>
                         )}
                       </div>
@@ -246,38 +253,38 @@ const HomeForm = () => {
                 {/* End Destination */}
                 <motion.div variants={itemVariants}>
                   <Controller
-                    name="endingPoint"
+                    name="destination"
                     control={control}
-                    rules={{ required: "End destination is required" }}
+                    rules={{ required: "Destination point is required" }}
                     render={({ field }) => (
                       <div>
                         <Input
                           {...field}
                           type="text"
-                          placeholder="End Destination"
-                          className="w-full md:w-full lg:w-full"
+                          placeholder="Destination Point"
+                          className="w-full md:w-full lg:w-[29vw]"
                           icon={<FaLocationDot />}
                           onChange={(e) => {
                             field.onChange(e.target.value); // Update react-hook-form's state
-                            handleChange(e, "endingPoint"); // Update suggestions and local state
+                            handleChange(e, "destination"); // Update suggestions and local state
                           }}
                           value={address2} // Use local state to display value
                         />
                         {suggestions2.map((item) => (
                           <div
                             key={item.id}
-                            className="cursor-pointer w-full"
+                            className="cursor-pointer w-full md:w-full lg:w-[29vw]"
                             onClick={(e) => {
-                              handleSelect(item.name, "endingPoint");
+                              handleSelect(item.name, "destination");
                               field.onChange(e.target.textContent); // Update react-hook-form's state
                             }}
                           >
                             {item.name}
                           </div>
                         ))}
-                        {errors.endingPoint && (
+                        {errors.destination && (
                           <span className="text-red-500 my-2 font-bold">
-                            {errors.endingPoint.message}
+                            {errors.destination.message}
                           </span>
                         )}
                       </div>
@@ -289,7 +296,7 @@ const HomeForm = () => {
                 <motion.div variants={itemVariants}>
                   <Input
                     type="date"
-                    className="w-full md:w-full lg:w-full"
+                    className="w-full md:w-full lg:w-[29vw]"
                     icon={<BsCalendarDateFill />}
                     {...register("date", { required: "Date is required" })}
                   />
