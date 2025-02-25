@@ -41,7 +41,7 @@ const fetchDistanceTime = async (origin,destination) => {
 
     if (response.data.status === 'OK') {
       const { distance, duration } = response.data.rows[0].elements[0];
-      return { distance: distance.text, duration: duration.text };
+      return { distance, duration };
     } else {
       throw new Error('Unable to get distance and time for the given addresses');
     }
@@ -53,4 +53,32 @@ const fetchDistanceTime = async (origin,destination) => {
 }
 
 
-export { fetchCoordinates, fetchDistanceTime };
+
+
+// Service for address autoComplete
+const fetchAutoCompleteSuggestions = async (input) => {
+    if(!input){
+      throw new Error('Address is required');
+    }
+
+    try {
+      const apiKey = config.mapApiKey;
+      const encodedAddress = encodeURIComponent(input);
+      const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodedAddress}&key=${apiKey}`;
+      
+      const response = await axios.get(url);
+      
+      if (response.data.status === 'OK') {
+        return response.data.predictions;
+      } else {
+        throw new Error('Unable to get autocomplete suggestions for the given address');
+      }
+    } catch (error){
+      console.error('Error getting autocomplete suggestions:', error.message);
+      throw error;
+    }
+}
+
+
+
+export { fetchCoordinates, fetchDistanceTime, fetchAutoCompleteSuggestions };

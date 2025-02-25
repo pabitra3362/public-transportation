@@ -4,7 +4,8 @@ import connectDB from './db/connection.js';
 import cors from 'cors';
 import userRoutes from './routes/user.route.js';
 import captainRoutes from './routes/captain.route.js';
-import mapRoues from './routes/map.route.js';
+import mapRoutes from './routes/map.route.js';
+import rideRoutes from './routes/ride.route.js';
 import cookieParser from 'cookie-parser'
 
 
@@ -25,14 +26,17 @@ app.get("/", (req, res) => {
     res.send("Server is ready");
 })
 
-// route for user apis
+
+// all routes
 app.use('/api/user',userRoutes);
-
-// route for captain apis
 app.use('/api/captain',captainRoutes);
+app.use('/maps',mapRoutes);
+app.use('/ride',rideRoutes);
 
-// route for map apis
-app.use('/maps',mapRoues);
+
+
+
+
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
