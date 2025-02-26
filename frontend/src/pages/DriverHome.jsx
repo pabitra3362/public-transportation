@@ -62,13 +62,13 @@ const DriverHome = () => {
         </div>
 
         {/* information */}
-        <div className="h-2/5 grid items-start bg-yellow-300">
+        <div className="h-2/5 grid items-start bg-yellow-300 w-full">
           <DriverDetails />
         </div>
 
         <div
           ref={ridePopupPanelRef}
-          className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-5 pt-1"
+          className="sticky w-full z-10 bottom-0 translate-y-full bg-white px-3 py-5 pt-1"
         >
           <RidePopup
             setRidePopupPanel={setRidePopupPanel}

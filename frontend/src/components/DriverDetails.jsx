@@ -2,18 +2,22 @@ import React from 'react'
 import { FaRupeeSign } from "react-icons/fa";
 import { FaRegClock } from "react-icons/fa6";
 import { SlSpeedometer, SlNotebook  } from "react-icons/sl";
+import { useSelector } from 'react-redux';
 
 const DriverDetails = () => {
+  const {driver} = useSelector(state => state.driver)
+  console.log(driver);
+  
   return (
     <>
     <div className="flex justify-between items-center px-3 pt-0 bg-white h-20">
           <div className="flex justify-center items-center gap-4">
             <img
               className="w-10 h-10 object-cover rounded-full"
-              src="https://www.shutterstock.com/image-photo/portrait-smiling-young-girl-making-260nw-436447678.jpg"
+              src="https://www.shutterstock.com/image-photo/portrait-smiling-young-boy-making-260nw-436447678.jpg"
               alt=""
             />
-            <h3 className="font-bold text-lg">Rakesh Mohanty</h3>
+            <h3 className="font-bold text-lg">{driver.name}</h3>
           </div>
           <div className="grid gap-2">
             <div className="flex justify-between items-center">
