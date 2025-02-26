@@ -3,10 +3,26 @@ import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { createRide } from "../services/ride/ride.service";
 
 const LookingForDriver = ({ confirmedCar }) => {
   const journeyDetails = useSelector((state) => state.car);
   const navigate = useNavigate();
+
+
+
+  const handlePayment = async (confirmedCar) => {
+    const rideResult = await createRide({
+      pickup: journeyDetails.pickup,
+      destination: journeyDetails.destination,
+      vehicleType: confirmedCar.vehicleType
+    })
+
+    console.log(rideResult);
+    navigate('/riding')
+    
+  }
+  
 
   return (
     <div className="py-2">
@@ -20,8 +36,8 @@ const LookingForDriver = ({ confirmedCar }) => {
       <div className="flex justify-center my-7">
         <img
           className="h-24 "
-          src={confirmedCar.carImage}
-          alt={confirmedCar.carImage}
+          src={confirmedCar.image}
+          alt={confirmedCar.image}
         />
       </div>
 
@@ -61,7 +77,7 @@ const LookingForDriver = ({ confirmedCar }) => {
 
         {/* Confirm Button */}
       <button
-        onClick={() => navigate('/riding') }
+        onClick={() => handlePayment(confirmedCar) }
         className="w-full bg-green-500 text-black py-2 mt-6 rounded hover:bg-black hover:text-white duration-300 font-bold"
       >
         Make Payment

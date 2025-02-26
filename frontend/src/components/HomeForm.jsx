@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import LookingForDriver from "./LookingForDriver";
 import {getToken} from '../utils/token';
 import { toast, ToastContainer } from 'react-toastify';
+import { createRide, getFare } from "../services/ride/ride.service";
 
 const HomeForm = () => {
   const [address1, setAddress1] = useState(""); // Starting point
@@ -30,6 +31,7 @@ const HomeForm = () => {
   const [carConfirmPanel, setCarConfirmPanel] = useState(false); // Toogle visibility for carConfirmPanel
   const [LookingDriverPanel, setLookingDriverPanel] = useState(false); // Toogle visibility for looking driver panel
   const [confirmedCar, setConfirmedCar] = useState({}); // empty state for storing confirmed Car values
+  const [fare, setFare] = useState({})
   const dispatch = useDispatch();
   const token = getToken();
 
@@ -67,9 +69,7 @@ const HomeForm = () => {
       
         const formattedResults = response.data.map((suggestion) => ({
           id: suggestion.place_id,
-          name: suggestion.description, // Full address from HERE API
-          // lat: place.position.lat,
-          // lng: place.position.lng,
+          name: suggestion.description,
         }));
 
         setCache((prevCache) => ({ ...prevCache, [query]: formattedResults })); // Store in cache
@@ -108,14 +108,22 @@ const HomeForm = () => {
   };
 
   // handle form submit
-  const onSubmit = (data) => {
+  const onSubmit =async (data) => {
     if(!token){
       toast.error("Please login first");
       return;
     }
+
+    // get fare
+    try {
+      const response = await getFare({pickup: data.pickup, destination: data.destination })
+      setFare(response)
+    } catch (error) {
+      toast.error(error.message)
+    }
+
     setCarSuggestionPanel(true);
     dispatch(setConfirmedCarDetails(data));
-    console.log(data);
   };
 
   const containerVariants = {
@@ -136,7 +144,7 @@ const HomeForm = () => {
     <div id="taxi-form">
       <ToastContainer theme="dark" />
       <div className="w-full bg-slate-200 py-1 md:py-5 lg:py-16">
-        <div className="w-full md:w-[80vw] lg:w-[70vw] mx-auto px-3 py-7 md:py-10 overflow-hidden grid md:flex justify-items-center md:justify-between lg:justify-around items-center gap-8 lg:gap-2 bg-white rounded-lg hover:shadow-2xl transition duration-200">
+        <div className="w-full md:w-[80vw] lg:w-[70vw] mx-auto px-3 py-7 md:py-10 overflow-hidden grid lg:flex  justify-items-center  lg:justify-around items-center gap-8 lg:gap-2 bg-white rounded-lg hover:shadow-2xl transition duration-200">
           {/* Video */}
           <motion.div className="left w-80 h-96 md:h-[40vh] lg:w-[29vw] lg:h-[50vh] flex justify-center items-center relative">
             <motion.video
@@ -151,7 +159,7 @@ const HomeForm = () => {
           </motion.div>
 
           {/* Form */}
-          <div className="right h-[550px] gap-5 relative overflow-y-hidden">
+          <div className="right h-[550px] gap-5 relative overflow-y-hidden w-full mdw-full lg:w-[29vw]">
             <div
               className={`${
                 carSuggestionPanel ? "h-[0px]" : "h-[550px]"
@@ -332,6 +340,7 @@ const HomeForm = () => {
                 <IoIosArrowDropdown className="size-5" />
               </button>
               <CarSuggestionPanel
+                fare={fare}
                 setCarConfirmPanel={setCarConfirmPanel}
                 setConfirmedCar={setConfirmedCar}
               />

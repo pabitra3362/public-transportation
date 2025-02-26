@@ -2,9 +2,19 @@ import React from "react";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { useSelector } from "react-redux";
+import { createRide } from "../services/ride/ride.service";
 
 const CarConfirmPanel = ({ confirmedCar, setLookingDriverPanel, setCarConfirmPanel }) => {
   const journeyDetails = useSelector((state) => state.car);
+
+
+  const handleClick = async (confirmedCar) => {
+   
+    setCarConfirmPanel(false)
+    setLookingDriverPanel(true)
+
+
+  }
 
   return (
     <div className="py-2">
@@ -18,8 +28,8 @@ const CarConfirmPanel = ({ confirmedCar, setLookingDriverPanel, setCarConfirmPan
       <div className="flex justify-center my-7">
         <img
           className="h-24 "
-          src={confirmedCar.carImage}
-          alt={confirmedCar.carImage}
+          src={confirmedCar.image}
+          alt={confirmedCar.image}
         />
       </div>
 
@@ -58,10 +68,7 @@ const CarConfirmPanel = ({ confirmedCar, setLookingDriverPanel, setCarConfirmPan
 
       {/* Confirm Button */}
       <button
-        onClick={() => {
-          setCarConfirmPanel(false)
-          setLookingDriverPanel(true)
-        }}
+        onClick={() => handleClick(confirmedCar)}
         className="w-full bg-yellow-300 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold"
       >
         Confirm

@@ -3,7 +3,7 @@ import { fetchDistanceTime } from "./map.service.js";
 import crypto from "crypto";
 
 // function for getfare
-const getFare = async (pickup, destination) => {
+const getFareService = async (pickup, destination) => {
   if (!pickup || !destination) {
     throw new Error("Pickup and Destination are required");
   }
@@ -29,18 +29,21 @@ const getFare = async (pickup, destination) => {
   };
 
   const fare = {
-    auto:
+    auto: Math.floor(
       baseFare.auto +
-      (distanceTime.distance.value / 1000) * perKmRate.auto +
-      (distanceTime.duration.value / 60) * perMinuteRate.auto,
-    car:
+        (distanceTime.distance.value / 1000) * perKmRate.auto +
+        (distanceTime.duration.value / 60) * perMinuteRate.auto
+    ),
+    car: Math.floor(
       baseFare.car +
-      (distanceTime.distance.value / 1000) * perKmRate.car +
-      (distanceTime.duration.value / 60) * perMinuteRate.car,
-    moto:
+        (distanceTime.distance.value / 1000) * perKmRate.car +
+        (distanceTime.duration.value / 60) * perMinuteRate.car
+    ),
+    moto: Math.floor(
       baseFare.moto +
-      (distanceTime.distance.value / 1000) * perKmRate.moto +
-      (distanceTime.duration.value / 60) * perMinuteRate.moto,
+        (distanceTime.distance.value / 1000) * perKmRate.moto +
+        (distanceTime.duration.value / 60) * perMinuteRate.moto
+    ),
   };
 
   return fare;
@@ -65,7 +68,7 @@ const createRideService = async ({
     throw new Error("All fields are required");
   }
 
-  const fare = await getFare(pickup, destination);
+  const fare = await getFareService(pickup, destination);
 
   const ride = await Ride.create({
     user,
@@ -78,4 +81,4 @@ const createRideService = async ({
   return ride;
 };
 
-export { createRideService, getFare, getOTP };
+export { createRideService, getFareService, getOTP };

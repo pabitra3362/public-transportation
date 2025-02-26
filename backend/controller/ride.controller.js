@@ -1,4 +1,4 @@
-import { createRideService } from "../services/ride.service.js";
+import { createRideService, getFareService } from "../services/ride.service.js";
 import { validationResult } from "express-validator";
 
 
@@ -24,5 +24,28 @@ const createRide = async (req,res) => {
 
 
 
-export { createRide };
+// Controller for getFare
+const getFare = async (req, res) => {
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()});
+    }
+
+    const { pickup, destination } = req.query;
+
+    try {
+        const fare = await getFareService(pickup, destination);
+        return res.status(200).json(fare);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+
+
+}
+
+
+
+
+export { createRide, getFare };
 
