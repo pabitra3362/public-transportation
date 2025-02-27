@@ -8,6 +8,7 @@ import { cloudinaryUpload } from '../utils/cloudinary.js'
 
 // controller for captain registration
 const captainRegister = async (req, res) => {
+  
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -15,6 +16,7 @@ const captainRegister = async (req, res) => {
   }
 
   const { email, name, password, plate, vehicleType, capacity } = req.body;
+  
 
   const file = req.file;
 

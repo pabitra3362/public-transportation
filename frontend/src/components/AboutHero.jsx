@@ -52,15 +52,15 @@ const AboutHero = () => {
 
       <div className="card-section">
         <div className="text-center">
-          <h3 className="text-orange-400 text-xl md:text-2xl py-5">
+          <h3 className="text-yellow-300 text-xl md:text-3xl  py-5 mt-[3.5rem]">
             What we offer
           </h3>
-          <h1 className="text-center text-3xl mb-5">
+          <h1 className="text-center text-3xl mt-[1.5rem] mb-5">
             We&apos;re a Company of Talented
           </h1>
         </div>
 
-        <div className="">
+        <div className=" ">
           <Card />
         </div>
       </div>

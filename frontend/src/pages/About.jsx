@@ -9,11 +9,14 @@ const About = () => {
   return (
     <div>
       <AboutHero />
-      <Team />
-      <div className="">
+      {/* <Team /> */}
+      <div className=" mt-[10rem]">
         <SlidingTestimonials />
       </div>
+      <div className="div mt-[8rem]">
+
       <Phone />
+      </div>
     </div>
   );
 };
