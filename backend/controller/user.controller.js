@@ -21,11 +21,11 @@ async function userRegister(req, res) {
   
   
   try {
-    // const isReal = await emailVerify({email});
+    const isReal = await emailVerify({email});
 
-    // if(!isReal){
-    //   return res.status(400).json({error:"Invalid email address"});
-    // }
+    if(!isReal){
+      return res.status(400).json({error:"Invalid email address"});
+    }
 
     const user = await createUser({
       email,

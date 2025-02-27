@@ -8,8 +8,9 @@ import { useDispatch } from "react-redux";
 import { createUser } from "../services/auth/userAuth.service";
 import { saveUser } from '../features/auth/userAuthSlice';
 import { toast , ToastContainer } from 'react-toastify';
-import { setUserAndToken } from "../utils/userAndToken";
+import { setToken } from "../utils/token";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
+import { Spinner } from "flowbite-react";
 
 const UserSignUp = () => {
 
@@ -21,7 +22,7 @@ const UserSignUp = () => {
     handleSubmit,
     watch,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
   const password = watch("password");
 
@@ -36,7 +37,7 @@ const UserSignUp = () => {
         
         if(user){
           dispatch(saveUser(user))
-          setUserAndToken(user,24)
+          setToken(user.token,24)
           navigate('/')
         }
         return null;
@@ -342,10 +343,13 @@ const UserSignUp = () => {
 
           <button
             type="submit"
+            disabled={isSubmitting}
             className="w-full py-2 bg-yellow-300 text-black font-semibold rounded-md hover:bg-black
               hover:text-white duration-500"
           >
-            Sign Up
+            {
+              isSubmitting ? (<Spinner color="success" />) : "Sign Up"
+            }
           </button>
         </form>
         

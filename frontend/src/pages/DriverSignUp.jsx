@@ -9,8 +9,9 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both 
 import { createDriver } from "../services/auth/driverAuth.service";
 import { useDispatch } from "react-redux";
 import { saveDriver } from "../features/auth/driverAuthSlice";
-import { setUserAndToken } from "../utils/userAndToken";
-import { ToastContainer, toast } from "react-toastify";
+import { setToken } from "../utils/token";
+import { toast, ToastContainer } from "react-toastify";
+import { Spinner } from "flowbite-react";
 
 const DriverSignUp = () => {
   const dispatch = useDispatch();
@@ -19,48 +20,45 @@ const DriverSignUp = () => {
     handleSubmit,
     watch,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
   const password = watch("password");
 
   const onSubmit = async (data) => {
     if (!isFileSelected) return 0;
 
-    const formdata = new FormData();
-
-    formdata.append("email", data.email),
-    formdata.append("name", data.name),
-    formdata.append("password", data.password),
-    formdata.append("plate", data.vehiclePlate),
-    formdata.append("vehicleType", data.vehicleType),
-    formdata.append("capacity", data.passengerCapacity),
-    formdata.append("file", file);
-
-
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("plate", data.vehiclePlate);
+    formData.append("vehicleType", data.vehicleType);
+    formData.append("capacity", data.passengerCapacity);
+    formData.append('file',file);
 
     try {
-      const driver = await createDriver(formdata);
+      const driver = await createDriver(formData);
 
       if (driver) {
         dispatch(saveDriver(driver));
-        setUserAndToken(driver, 24);
-        navigate("/");
+        setToken(driver.token,24);
+        navigate("/driver-home");
       }
     } catch (error) {
-      
-      
-      toast(error.message);
+      toast.error(error.message);
     } finally {
+      
       // Reset the form fields after submission
-      // reset();
+      reset();
     }
+
   };
 
   const navigate = useNavigate();
 
   // Close button click handler to navigate to home
   const handleClose = () => {
-    navigate("/"); // Redirect to the home page
+    navigate("/drive"); // Redirect to the home page
   };
 
   const navigateToLogin = () => {
@@ -487,10 +485,13 @@ const DriverSignUp = () => {
 
           <button
             type="submit"
+            disabled={isSubmitting}
             className="w-full py-2 bg-yellow-300 text-black font-semibold rounded-md hover:bg-black
               hover:text-white duration-500"
           >
-            Sign Up
+            {
+              isSubmitting ? (<Spinner color="success" />) : "Sign Up"
+            }
           </button>
         </form>
 

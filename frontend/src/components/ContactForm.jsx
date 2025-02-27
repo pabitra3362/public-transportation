@@ -53,14 +53,14 @@ const ContactForm = () => {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="grid justify-items-center items-center w-full gap-3"
+        className="w-full gap-3 px-3"
       >
         {/* name */}
         <div>
           <Input
             type="text"
             placeholder="Your Name"
-            className="rounded-md"
+            className="rounded-md w-full"
             icon={<FaRegUserCircle />}
             {...register("name", {
               required: {
@@ -82,7 +82,7 @@ const ContactForm = () => {
             type="email"
             placeholder="Your Email"
             icon={<MdEmail />}
-            className="rounded-md"
+            className="rounded-md w-full"
             {...register("email", {
               required: {
                 value: true,
@@ -107,7 +107,7 @@ const ContactForm = () => {
           <Input
             type="text"
             placeholder="Subject"
-            className="rounded-md"
+            className="rounded-md w-full"
             icon={<MdOutlineEventNote />}
             {...register("title", {
               required: {
@@ -127,7 +127,7 @@ const ContactForm = () => {
         <div>
           <TextArea
             placeholder="Your Message"
-            className="h-44 rounded-md"
+            className="h-44 rounded-md w-full"
             {...register("message", {
               required: {
                 value: true,
@@ -142,7 +142,7 @@ const ContactForm = () => {
           )}
         </div>
 
-        <div className="w-80 lg:w-[35vw]">
+        <div className="w-full my-4">
           <Button
             type="submit"
             disabled={isSubmitting}

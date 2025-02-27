@@ -16,6 +16,13 @@ import ForgotPassword from "./pages/ForgotPassword";
 import DriverSignUp from "./pages/DriverSignUp";
 import DriverLogin from "./pages/DriverLogin";
 import ResetPassword from "./pages/ResetPassword";
+import Drive from "./pages/Drive";
+import Riding from "./pages/Riding";
+import DriverHome from "./pages/DriverHome";
+import DriverRiding from "./pages/DriverRiding";
+import DriverWrapper from "./components/DriverWrapper";
+
+
 
 const App = () => {
   return (
@@ -24,11 +31,15 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/drive" element={<Drive />} />
+          <Route path="/driver-home" element={<DriverWrapper><DriverHome /></DriverWrapper>} />
           <Route path="/about" element={<About />} />
           <Route path="/service" element={<Service />} />
           <Route path="/team" element={<Team />} />
           <Route path="/news" element={<News />} />
           <Route path="/contact" element={<Contacts />} />
+          <Route path="/riding" element={<Riding />} />
+          <Route path="/driver-riding" element={<DriverWrapper><DriverRiding /></DriverWrapper>} />
           <Route path="/user-signup" element={<UserSignUp />} />
           <Route path="/user-login" element={<UserLogin />} />
           <Route path="/driver-signup" element={<DriverSignUp />} />

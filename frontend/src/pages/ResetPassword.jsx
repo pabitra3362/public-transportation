@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useLocation, useNavigate, Navigate } from "react-router-dom";
 import { Spinner } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg";
 import { setNewPassword } from "../services/password/setNewPassword.service";
 import { toast, ToastContainer } from 'react-toastify';
+import { replace } from "lodash";
 
 const ResetPassword = () => {
   const [isPwdOpen, setIsPwdOpen] = useState(true);
@@ -30,7 +31,12 @@ const ResetPassword = () => {
     try {
       
       const msg = await setNewPassword({ id, role, password })
-      toast.success(msg)
+      toast.success(msg,{
+        onClose: ()=>{
+          window.location.href = role === 'user' ? '/user-login' : '/driver-login';
+        }
+      })
+
       
     } catch (error) {
       toast.error(error.message)

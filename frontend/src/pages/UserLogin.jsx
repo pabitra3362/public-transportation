@@ -9,8 +9,9 @@ import {toast, ToastContainer} from 'react-toastify';
 import { loginUser } from "../services/auth/userAuth.service";
 import { useDispatch } from 'react-redux';
 import { saveUser } from "../features/auth/userAuthSlice";
-import { setUserAndToken } from "../utils/userAndToken";
+import { setToken } from "../utils/token";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
+import { Spinner } from "flowbite-react";
 
 const UserLogin = () => {
 
@@ -21,7 +22,7 @@ const UserLogin = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const navigateToSignup = () => {
@@ -44,7 +45,7 @@ const UserLogin = () => {
 
       if(user){
         dispatch(saveUser(user));
-        setUserAndToken(user,24)
+        setToken(user.token,24)
         navigate('/');
       }
 
@@ -224,9 +225,12 @@ const UserLogin = () => {
 
           <button
             type="submit"
+            disabled={isSubmitting}
             className="w-full py-2 bg-yellow-300 text-black font-semibold rounded-md hover:bg-black hover:text-white transition duration-500"
-          >
-            Login
+            >
+            {
+              isSubmitting ? (<Spinner color="success" />) : "Login"
+            }
           </button>
         </form>
 
@@ -248,11 +252,11 @@ const UserLogin = () => {
           className="flex mt-36 duration-500 items-center justify-center gap-2 w-full py-2 border border-gray-300 rounded-lg hover:bg-black hover:text-white bg-yellow-300 font-semibold "
         >
           <img
-            className="size-8"
-            src="https://cdn.iconscout.com/icon/premium/png-512-thumb/driver-2279158-1899772.png?f=webp&w=256"
-            alt=""
-          />
-          Sign In As Driver
+              className="size-8"
+              src="https://cdn.iconscout.com/icon/premium/png-512-thumb/driver-2279158-1899772.png?f=webp&w=256"
+              alt=""
+            />
+            Sign In As Driver
         </button>
       </div>
     </div>

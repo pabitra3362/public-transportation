@@ -1,14 +1,59 @@
 import { Button, Drawer } from "flowbite-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
+import { getToken } from "../utils/token";
+import { logoutUser } from "../services/auth/userAuth.service";
+import { logoutDriver } from "../services/auth/driverAuth.service";
+import { removeDriver } from "../features/auth/driverAuthSlice";
+import { removeUser } from "../features/auth/userAuthSlice";
+import { toast, ToastContainer } from 'react-toastify';
+import { jwtDecode } from "jwt-decode";
+
 
 export function MyDrawer() {
+  const token = getToken();
+  if(token.length > 0) {
+    var { role } = jwtDecode(token)
+  }
+  const navigate = useNavigate();
+  
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => setIsOpen(false);
 
+
+
+  const handleLogout = async () => {
+      try {
+        if(role == 'user'){
+  
+          const result = await logoutUser({token})
+          if(result){
+            localStorage.removeItem('token') // remove token from localstorage 
+            removeUser(); // remove user info from store
+          }
+          
+          navigate('/')
+        }
+        else {
+          const result = await logoutDriver({token})
+  
+          if(result){
+            localStorage.removeItem('token') // remove token from localstorage
+            removeDriver(); // remove driver info from store
+          }
+  
+          navigate('/drive')
+        }
+  
+      } catch (error) {
+        toast.error(error.message)
+      }
+    }
+
   const menuArr = [
     { text: "Home", link: "/" },
+    { text: "Drive", link: "/drive" },
     { text: "About", link: "/about" },
     { text: "Service", link: "/service" },
     { text: "Team", link: "/team" },
@@ -19,6 +64,7 @@ export function MyDrawer() {
   return (
     <>
       <div className="flex items-center justify-center">
+        <ToastContainer theme="dark" />
         <button onClick={() => setIsOpen(true)}>
           <label className="btn btn-circle swap bg-transparent">
             {/* this hidden checkbox controls the state */}
@@ -62,14 +108,27 @@ export function MyDrawer() {
               <div className="text-black">4567890</div>
             </div>
             <div>
-            <Link to="/user-signup">
+            {token.length == 0 ? (
             <button
-            onClick={handleClose}
-              className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200"
+              onClick={() => {
+                handleClose()
+                navigate("/user-signup")
+              }}
+              className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 lg:block"
             >
               Sign-Up
             </button>
-          </Link>
+          ) : (
+            <button
+              onClick={()=>{
+                handleLogout()
+                handleClose()
+              }}
+              className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 lg:block"
+            >
+              Logout
+            </button>
+          )}
             </div>
           </div>
         </Drawer.Items>

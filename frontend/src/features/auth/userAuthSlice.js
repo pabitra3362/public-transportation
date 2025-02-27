@@ -1,9 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUserAndToken } from '../../utils/userAndToken';
+import getProfileData from '../../utils/getProfileData';
+import { getToken } from '../../utils/token';
+
+const token = getToken();
+const {user} = await getProfileData({token})
+
+
 
 const initialState = {
-    user: getUserAndToken().user || {},
-    token: getUserAndToken().token || null
+    user: user || {},
+    token: token || null
 }
 
 

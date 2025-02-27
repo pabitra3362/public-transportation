@@ -26,11 +26,11 @@ const captainRegister = async (req, res) => {
 
   try {
 
-    // const isReal = await emailVerify({email})
+    const isReal = await emailVerify({email})
 
-    // if(!isReal){
-    //   return res.status(400).json({error:"Invalid email address"})
-    // }
+    if(!isReal){
+      return res.status(400).json({error:"Invalid email address"})
+    }
     
     const captain = await createCaptain({
       email,
@@ -70,7 +70,7 @@ const captainLogin = async (req, res) => {
     const isMatch = await captain.comparePassword(password);
 
     if (!isMatch) {
-      res.status(401).json({ error: "Invalid credentials" });
+     return res.status(401).json({ error: "Invalid credentials" });
     }
 
     const token = captain.generateAuthToken();
@@ -103,7 +103,7 @@ async function logoutCaptain(req,res) {
     res.status(200).json({message:"Logged out successfully"})
     
   } catch (error) {
-    res.status(500).json({error:"Internal server error"})
+    res.status(500).json({error})
   }
 
 }

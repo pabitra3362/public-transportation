@@ -3,25 +3,47 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { MyDrawer } from "./Drawer";
 import Logo from "../assets/Logo.jpg";
-import { getUserAndToken } from "../utils/userAndToken";
 import {toast, ToastContainer} from 'react-toastify';
 import { logoutUser } from "../services/auth/userAuth.service";
+import { logoutDriver } from "../services/auth/driverAuth.service";
 import { removeUser } from '../features/auth/userAuthSlice'
+import { removeDriver } from '../features/auth/driverAuthSlice'
+import { jwtDecode } from "jwt-decode";
+import { getToken } from "../utils/token";
+
 
 const Navbar = () => {
 
   const navigate = useNavigate();
-  const {token,user} = getUserAndToken();
+  const token = getToken(); //get token from local storage
+  if(token.length > 0 ){
+    var {role} = jwtDecode(token) //decode token to get user role
+  }
+  
 
   const handleLogout = async () => {
     try {
-      const result = await logoutUser({token,role:user.role})
-      if(result){
-        localStorage.removeItem('user') // remove user info from localstorage 
-        removeUser(); // remove user info from store
+      if(role == 'user'){
+
+        const result = await logoutUser({token})
+        if(result){
+          localStorage.removeItem('token') // remove token from localstorage 
+          removeUser(); // remove user info from store
+        }
+        
+        navigate('/')
+      }
+      else {
+        const result = await logoutDriver({token})
+
+        if(result){
+          localStorage.removeItem('token') // remove token from localstorage
+          removeDriver(); // remove driver info from store
+        }
+
+        navigate('/drive')
       }
 
-      navigate('/')
     } catch (error) {
       toast.error(error.message)
     }
@@ -50,6 +72,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 to={`/`}
+                onClick={()=>window.scrollTo(0,0)}
                 className={({ isActive }) =>
                   `font-bold text text-black hover:text-white transition duration-500 text-lg ${
                     isActive ? "border-b-2 border-white text-white" : ""
@@ -59,10 +82,11 @@ const Navbar = () => {
                 Home
               </NavLink>
             </li>
-            {["About", "Service", "Team", "News", "Contact"].map((item) => (
+            {["Drive","About", "Service", "Team", "News", "Contact"].map((item) => (
               <li key={item}>
                 <NavLink
                   to={`/${item.toLowerCase()}`}
+                  onClick={()=>window.scrollTo(0,0)}
                   className={({ isActive }) =>
                     `font-bold text text-black hover:text-white transition duration-500 text-lg ${
                       isActive ? "border-b-2 border-white text-white" : ""
@@ -84,7 +108,7 @@ const Navbar = () => {
             <div className="text-black">4567890</div>
           </div>
 
-          {!token ? (
+          {token.length == 0 ? (
             <button
               onClick={() => navigate("/user-signup")}
               className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 hidden lg:block"

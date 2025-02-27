@@ -8,15 +8,22 @@ import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg";
 import GoogleButton from "../components/GoogleButton";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
+import { setToken } from '../utils/token';
+import { loginDriver } from "../services/auth/driverAuth.service";
+import { saveDriver } from "../features/auth/driverAuthSlice";
+import { useDispatch } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import { Spinner } from "flowbite-react";
 
 const DriverLogin = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const navigateToSignup = () => {
@@ -27,19 +34,31 @@ const DriverLogin = () => {
     navigate("/forgotpassword/captain"); // Navigate to the ForgotPassword page
   };
 
-  const onSubmit = (data) => {
-    // Form Data is correct
-    console.log("Form Data:", data);
+  const onSubmit = async (data) => {
+    try {
+      
+      const driver = await loginDriver({
+        email: data.email,
+        password: data.password
+      })
 
-    // Display success alert
-    alert("Your form has been submitted successfully!");
+      if(driver){
+        setToken(driver.token,24);
+        dispatch(saveDriver(driver))
+        navigate("/driver-home");
+      }
+    } catch (error) {
+      toast.error(error.message)
+    } finally {
 
-    // Reset the form inputs
-    reset();
+      // Reset the form inputs
+      reset();
+    }
+
   };
 
   const navigateToHome = () => {
-    navigate("/"); // Redirect to Home page
+    navigate("/drive"); // Redirect to Home page
   };
 
   // Show Hide Passwoed button
@@ -51,6 +70,7 @@ const DriverLogin = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <ToastContainer theme="dark"/>
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg relative">
         {/* Close Button */}
         <button
@@ -200,9 +220,12 @@ const DriverLogin = () => {
 
           <button
             type="submit"
+            disabled={isSubmitting}
             className="w-full py-2 bg-yellow-300 text-black font-semibold rounded-md hover:bg-black hover:text-white transition duration-500"
           >
-            Login
+            {
+              isSubmitting ? (<Spinner color="success" />) : "Login"
+            }
           </button>
         </form>
         

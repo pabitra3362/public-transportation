@@ -37,7 +37,7 @@ const Contacts = () => {
       {/* Content Section */}
       <div className="contact-content grid gap-16 bg-slate-200 min-h-screen w-full py-10">
         {/* form and address */}
-        <div className="form-address grid gap-10 lg:gap-2 lg:w-[80vw] mx-auto md:flex justify-around items-start px-5 md:px-10 lg:px-20 py-10">
+        <div className="form-address grid gap-10 lg:gap-2 lg:w-[80vw] mx-auto md:flex justify-around items-center px-5 md:px-10 lg:px-20 py-10">
           {/* left */}
           <div className="left grid items-center px-3 gap-4 rounded-lg">
             <p className="text-black font-custom font-bold text-xl lg:text-2xl">

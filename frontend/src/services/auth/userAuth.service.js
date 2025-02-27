@@ -41,12 +41,32 @@ export const loginUser = async ({ email, password })=>{
 }
 
 
+// service for get user
+export const getUser = async ({token})=>{
+  try{
+    const user = await axios.get(`${config.baseUrl}/api/user/profile`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    return user.data
+
+
+  } catch (error) {
+    console.log("user in getUser: ",error);
+    
+    throw new Error((error?.response?.data?.error) || (error.message))
+  }
+}
+
+
 
 // service for logoutUser
-export const logoutUser = async ({token, role}) => {
+export const logoutUser = async ({token}) => {
 
   try {
-    const result = await axios.get(`${config.baseUrl}/api/${role}/logout`,{
+    const result = await axios.get(`${config.baseUrl}/api/user/logout`,{
       headers:{
         Authorization:`Bearer ${token}`
       }
