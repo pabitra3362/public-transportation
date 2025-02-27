@@ -29,9 +29,9 @@ const Navbar = () => {
         if(result){
           localStorage.removeItem('token') // remove token from localstorage 
           removeUser(); // remove user info from store
+          navigate('/');
         }
         
-        navigate('/')
       }
       else {
         const result = await logoutDriver({token})
@@ -39,13 +39,13 @@ const Navbar = () => {
         if(result){
           localStorage.removeItem('token') // remove token from localstorage
           removeDriver(); // remove driver info from store
+          navigate('/drive');
         }
 
-        navigate('/drive')
       }
 
     } catch (error) {
-      toast.error(error.message)
+      console.error(error.message)
     }
   }
   

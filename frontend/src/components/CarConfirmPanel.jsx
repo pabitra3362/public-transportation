@@ -9,7 +9,12 @@ const CarConfirmPanel = ({ confirmedCar, setLookingDriverPanel, setCarConfirmPan
 
 
   const handleClick = async (confirmedCar) => {
-   
+    const rideResult = await createRide({
+          pickup: journeyDetails.pickup,
+          destination: journeyDetails.destination,
+          vehicleType: confirmedCar.vehicleType
+    })
+    
     setCarConfirmPanel(false)
     setLookingDriverPanel(true)
 

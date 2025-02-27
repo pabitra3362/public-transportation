@@ -45,7 +45,7 @@ const DriverLogin = () => {
       if(driver){
         setToken(driver.token,24);
         dispatch(saveDriver(driver))
-        navigate("/driver-home");
+        window.location.href='/driver-home';
       }
     } catch (error) {
       toast.error(error.message)

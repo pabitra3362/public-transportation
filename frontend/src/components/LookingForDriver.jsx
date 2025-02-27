@@ -11,24 +11,24 @@ const LookingForDriver = ({ confirmedCar }) => {
 
 
 
-  const handlePayment = async (confirmedCar) => {
-    const rideResult = await createRide({
-      pickup: journeyDetails.pickup,
-      destination: journeyDetails.destination,
-      vehicleType: confirmedCar.vehicleType
-    })
+  // const handlePayment = async (confirmedCar) => {
+  //   const rideResult = await createRide({
+  //     pickup: journeyDetails.pickup,
+  //     destination: journeyDetails.destination,
+  //     vehicleType: confirmedCar.vehicleType
+  //   })
 
-    console.log(rideResult);
-    navigate('/riding')
+  //   console.log(rideResult);
+  //   navigate('/riding')
     
-  }
+  // }
   
 
   return (
     <div className="py-2">
       {/* header */}
       <h1 className="text-2xl font-semibold text-center mt-3 mb-2">
-        Make Payment To Book Driver
+        Looking For Driver !!!
       </h1>
       <hr className="w-full bg-black h-[3px] opacity-20" />
 
@@ -76,12 +76,12 @@ const LookingForDriver = ({ confirmedCar }) => {
         </div>
 
         {/* Confirm Button */}
-      <button
+      {/* <button
         onClick={() => handlePayment(confirmedCar) }
         className="w-full bg-green-500 text-black py-2 mt-6 rounded hover:bg-black hover:text-white duration-300 font-bold"
       >
         Make Payment
-      </button>
+      </button> */}
       </div>
     </div>
   );

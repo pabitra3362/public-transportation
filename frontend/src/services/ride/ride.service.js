@@ -2,13 +2,14 @@ import axios from 'axios';
 import config from '../../config/config';
 import { getToken } from '../../utils/token';
 
-const token = getToken();
 
 
 
 // Service to get fare
 const getFare = async ({pickup, destination}) => {
-   try {
+    const token = getToken();
+    
+    try {
     const response = await axios.get(`${config.baseUrl}/ride/get-fare`,{
         headers: {
             Authorization: `Bearer ${token}`
@@ -18,7 +19,7 @@ const getFare = async ({pickup, destination}) => {
             destination
         }
     })
-
+    
     if(response.status === 200 ){
         return response.data;
     }
@@ -26,13 +27,14 @@ const getFare = async ({pickup, destination}) => {
 
    } catch (error) {
     throw new Error((error?.response?.data?.error) || (error.message))
-   }
+}
 
 }
 
 
 // Service to create ride for user
 const createRide = async ({pickup, destination, vehicleType}) => {
+    const token = getToken();
     try {
         const response = await axios.post(`${config.baseUrl}/ride/create`,{pickup, destination, vehicleType},{
             headers: {

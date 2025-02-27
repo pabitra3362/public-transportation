@@ -34,6 +34,7 @@ const HomeForm = () => {
   const [fare, setFare] = useState({})
   const dispatch = useDispatch();
   const token = getToken();
+  
 
   const {
     register,
@@ -110,8 +111,8 @@ const HomeForm = () => {
   // handle form submit
   const onSubmit =async (data) => {
     if(!token){
-      toast.error("Please login first");
-      return;
+      alert("Please login first");
+      return
     }
 
     // get fare
@@ -119,7 +120,7 @@ const HomeForm = () => {
       const response = await getFare({pickup: data.pickup, destination: data.destination })
       setFare(response)
     } catch (error) {
-      toast.error(error.message)
+      console.log(error.message)
     }
 
     setCarSuggestionPanel(true);
@@ -371,7 +372,7 @@ const HomeForm = () => {
                 LookingDriverPanel ? "h-[459px]" : "h-[0px]"
               } duration-500 gap-4 flex flex-col px-3`}
             >
-              <button
+              {/* <button
                 onClick={() => {
                   setLookingDriverPanel(false);
                   setCarConfirmPanel(true);
@@ -379,7 +380,7 @@ const HomeForm = () => {
                 className="w-fit h-10 mx-auto align-middle bg-gray-300 px-10 py-2 rounded-md"
               >
                 <IoIosArrowDropdown className="size-5" />
-              </button>
+              </button> */}
 
               <LookingForDriver confirmedCar={confirmedCar} />
             </div>

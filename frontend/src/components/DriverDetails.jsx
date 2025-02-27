@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaRupeeSign } from "react-icons/fa";
 import { FaRegClock } from "react-icons/fa6";
 import { SlSpeedometer, SlNotebook  } from "react-icons/sl";
 import { useSelector } from 'react-redux';
 
 const DriverDetails = () => {
+
   const {driver} = useSelector(state => state.driver)
-  console.log(driver);
-  
+ 
   return (
     <>
     <div className="flex justify-between items-center px-3 pt-0 bg-white h-20">
