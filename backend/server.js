@@ -6,7 +6,9 @@ import userRoutes from './routes/user.route.js';
 import captainRoutes from './routes/captain.route.js';
 import mapRoutes from './routes/map.route.js';
 import rideRoutes from './routes/ride.route.js';
-import cookieParser from 'cookie-parser'
+import cookieParser from 'cookie-parser';
+import { initializeSocket } from './socket.js';
+import http from 'http';
 
 
 connectDB();
@@ -14,11 +16,15 @@ connectDB();
 const port = config.port
 const app = express()
 
+const server = http.createServer(app);
+
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+
+initializeSocket(server);
 
 
 
@@ -38,6 +44,6 @@ app.use('/ride',rideRoutes);
 
 
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 })
