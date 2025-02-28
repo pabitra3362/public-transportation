@@ -16,14 +16,30 @@ const DriverHome = () => {
   const ridePopupPanelRef = useRef(null);
   const confirmRidePopupPanelRef = useRef(null);
   const token = getDriverToken();
-  const { driver } = useSelector(state => state.driver);
+  const { driver } = useSelector((state) => state.driver);
   const { sendMessage, receiveMessage } = useContext(SocketContext);
 
-  useEffect(()=>{
-    sendMessage('join',{userType: 'captain', userId: driver._id})
+  useEffect(() => {
+    sendMessage("join", { userType: "captain", userId: driver._id });
 
-  },[token])
+    const updateLocation = () => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        sendMessage("update-location-captain", {
+          userId: driver._id,
+          location:{
+            ltd:latitude,
+            lng:longitude,
+          }
+        });
+      });
+    };
 
+    const locationInterval = setInterval(updateLocation, 10000)
+
+    updateLocation()
+  }, [token]);
 
   useGSAP(() => {
     if (ridePopupPanel) {
