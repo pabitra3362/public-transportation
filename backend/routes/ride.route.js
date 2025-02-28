@@ -1,7 +1,7 @@
 import express from 'express';
 import { body, query } from 'express-validator';
-import { authUser } from '../middlewares/auth.middleware.js';
-import { createRide, getFare } from '../controller/ride.controller.js';
+import { authCaptain, authUser } from '../middlewares/auth.middleware.js';
+import { confirmRide, createRide, getFare } from '../controller/ride.controller.js';
 
 
 
@@ -26,7 +26,15 @@ router.get('/get-fare',
     query('pickup').isString().isLength({min: 3}).withMessage("Invalid pickup address"),
     query('destination').isString().isLength({min: 3}).withMessage("Invalid destination address"),
     getFare
-)
+);
+
+
+// Route to confirm ride
+router.post('/confirm',
+    authCaptain,
+    body('rideId').isString().withMessage("Invalid ride id"),
+    confirmRide
+);
 
 
 

@@ -9,15 +9,18 @@ import ConfirmRidePopup from "../components/ConfirmRidePopup";
 import { getDriverToken } from "../utils/token";
 import { useSelector } from "react-redux";
 import { SocketContext } from "../context/SocketContext";
+import axios from 'axios';
+import config from "../config/config";
 
 const DriverHome = () => {
-  const [ridePopupPanel, setRidePopupPanel] = useState(true);
+  const [ridePopupPanel, setRidePopupPanel] = useState(false);
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
   const ridePopupPanelRef = useRef(null);
   const confirmRidePopupPanelRef = useRef(null);
   const token = getDriverToken();
   const { driver } = useSelector((state) => state.driver);
   const { sendMessage, receiveMessage } = useContext(SocketContext);
+  const [ride, setRide] = useState(null)
 
   useEffect(() => {
     sendMessage("join", { userType: "captain", userId: driver._id });
@@ -39,7 +42,30 @@ const DriverHome = () => {
     const locationInterval = setInterval(updateLocation, 10000)
 
     updateLocation()
+
+    // return () => clearInterval(locationInterval)
   }, [token]);
+
+  receiveMessage('new-ride',(data)=>{
+    console.log(data);
+    setRide(data)
+    setRidePopupPanel(true)
+  })
+
+  async function confirmRide (){
+    const response = await axios.post(`${config.baseUrl}/ride/confirm`,{
+      rideId: ride._id,
+      captainId: driver._id
+    },{
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    
+
+    // setRidePopupPanel(false)
+    // setConfirmRidePopupPanel(true)
+  }
 
   useGSAP(() => {
     if (ridePopupPanel) {
@@ -98,8 +124,10 @@ const DriverHome = () => {
           className="sticky w-full z-10 bottom-0 translate-y-full bg-white px-3 py-5 pt-1"
         >
           <RidePopup
+            ride={ride}
             setRidePopupPanel={setRidePopupPanel}
             setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+            confirmRide={confirmRide}
           />
         </div>
 

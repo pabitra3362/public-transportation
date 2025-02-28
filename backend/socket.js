@@ -17,7 +17,6 @@ export function initializeSocket(server) {
 
     socket.on("join", async (data) => {
       const { userId, userType } = data;
-      console.log(data);
 
       if (userType === "user") {
         await User.findByIdAndUpdate(userId, {
@@ -32,7 +31,6 @@ export function initializeSocket(server) {
 
     socket.on("update-location-captain", async (data) => {
       const { userId, location } = data;
-      console.log(`Captain ${userId} updated location to ${location}`);
 
       if (!location || !location.ltd || !location.lng) {
         return socket.emit("error", { message: "Invalid location data" });
@@ -46,15 +44,18 @@ export function initializeSocket(server) {
       });
     });
 
+
     socket.on("disconnect", () => {
       console.log(`Client disconnected: ${socket.id}`);
     });
   });
 }
 
-export function sendMessageToSocketId(socketId, message) {
+export function sendMessageToSocketId(socketId, messageObject) {
+
+  console.log(`sending message to ${socketId}`, messageObject)
   if (io) {
-    io.to(socketId).emit("message", message);
+    io.to(socketId).emit(messageObject.event, messageObject.data);
   } else {
     console.error(
       "Socket not initialized. Please call initializeSocket first."

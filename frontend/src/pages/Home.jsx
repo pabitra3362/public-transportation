@@ -17,7 +17,7 @@ import driverIcon from '../assets/driverIcon.png'
 import Phone from '../components/Phone'
 import SlidingTestimonials from "../components/SlidingTestimonials";
 import ContactForm from "../components/ContactForm";
-import { getUserToken } from "../utils/token";
+import { getUserToken, setUserToken } from "../utils/token";
 import { useSelector } from "react-redux";
 import { SocketContext } from "../context/SocketContext";
 
@@ -69,16 +69,22 @@ const Home = () => {
         "Enjoy extra conveniences like airport transfers, priority booking, and personalized assistance for a seamless journey.",
     },
   ];
+
+  
   const token = getUserToken();
   const { user } = useSelector(state=>state.user);
   const { sendMessage , receiveMessage }= useContext(SocketContext);
+  receiveMessage('ride-confirmed',(data)=>{
+    console.log(data)
+  })
 
   useEffect(()=>{
     if(!token) return
 
     sendMessage('join',{userType: "user", userId: user._id})
 
-  },[token])
+  },[user])
+
 
   const planCardArray = [
     {

@@ -3,7 +3,7 @@ import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { RiArrowDownWideFill } from "react-icons/ri";
 
-const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
+const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride, confirmRide }) => {
   return (
     <div className="py-2">
       <div className="flex justify-center">
@@ -27,7 +27,7 @@ const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
             src="https://www.shutterstock.com/image-photo/portrait-smiling-young-girl-making-260nw-436447678.jpg"
             alt="driver-image"
           />
-          <h2 className="font-bold text-lg">Rakesh Mohanty</h2>
+          <h2 className="font-bold text-lg capitalize">{ride?.user.name}</h2>
         </div>
         <div className="font-bold text-lg">2.2 KM</div>
       </div>
@@ -41,7 +41,7 @@ const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
             <GiJourney className="w-6 h-6 " />
           </div>
           <div className="font-bold w-full">
-            sd;lfjksdj;flk
+            {ride?.pickup}
             <div className="w-full bg-black h-[3px] opacity-20 mt-2" />
           </div>
         </div>
@@ -50,7 +50,7 @@ const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
             <GiJourney className="w-6 h-6 " />
           </div>
           <div className="font-bold w-full">
-            sdlfksdjflsd;
+            {ride?.destination}
             <div className="w-full bg-black h-[3px] opacity-20 mt-2" />
           </div>
         </div>
@@ -59,7 +59,7 @@ const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
             <FaMoneyBillWave className="w-6 h-6 " />
           </div>
           <div className="font-bold flex justify-start items-center w-full ">
-            <FaRupeeSign /> 220
+            <FaRupeeSign /> {ride?.fare}
           </div>
         </div>
       </div>
@@ -70,6 +70,7 @@ const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
           onClick={() => {
             setRidePopupPanel(false);
             setConfirmRidePopupPanel(true);
+            confirmRide()
           }}
           className="px-8 bg-yellow-300 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2"
         >
