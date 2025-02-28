@@ -9,7 +9,7 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both 
 import { createDriver } from "../services/auth/driverAuth.service";
 import { useDispatch } from "react-redux";
 import { saveDriver } from "../features/auth/driverAuthSlice";
-import { setToken } from "../utils/token";
+import { setDriverToken } from "../utils/token";
 import { toast, ToastContainer } from "react-toastify";
 import { Spinner } from "flowbite-react";
 
@@ -41,7 +41,7 @@ const DriverSignUp = () => {
 
       if (driver) {
         dispatch(saveDriver(driver));
-        setToken(driver.token,24);
+        setDriverToken(driver.token,24);
         window.location.href='/driver-home';
       }
     } catch (error) {

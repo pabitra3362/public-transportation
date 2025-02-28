@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
 import DriverDetails from "../components/DriverDetails";
@@ -6,12 +6,23 @@ import RidePopup from "../components/RidePopup";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import ConfirmRidePopup from "../components/ConfirmRidePopup";
+import { getDriverToken } from "../utils/token";
+import { useSelector } from "react-redux";
+import { SocketContext } from "../context/SocketContext";
 
 const DriverHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(true);
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
   const ridePopupPanelRef = useRef(null);
   const confirmRidePopupPanelRef = useRef(null);
+  const token = getDriverToken();
+  const { driver } = useSelector(state => state.driver);
+  const { sendMessage, receiveMessage } = useContext(SocketContext);
+
+  useEffect(()=>{
+    sendMessage('join',{userType: 'captain', userId: driver._id})
+
+  },[token])
 
 
   useGSAP(() => {

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config/config.js';
+import Captain from '../models/captain.model.js';
 
 
 // Service to fetch coordinates
@@ -82,4 +83,18 @@ const fetchAutoCompleteSuggestions = async (input) => {
 
 
 
-export { fetchCoordinates, fetchDistanceTime, fetchAutoCompleteSuggestions };
+// Service for get captains/drivers in the radius
+const getCaptainsDriverInRadius = async (ltd, lng, radius) => {
+  
+  const captains = await Captain.find({
+    location:{
+      $geoWithIn:{
+        $centerSphere: [ [ ltd, lng ], radius/3963.2 ]
+      }
+    }
+  })
+} 
+
+
+
+export { fetchCoordinates, fetchDistanceTime, fetchAutoCompleteSuggestions, getCaptainsDriverInRadius };

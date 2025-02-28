@@ -17,7 +17,7 @@ import CarConfirmPanel from "./CarConfirmPanel";
 import { setConfirmedCarDetails } from "../features/car/confirmedCarSlice";
 import { useDispatch } from "react-redux";
 import LookingForDriver from "./LookingForDriver";
-import {getToken} from '../utils/token';
+import { getUserToken } from '../utils/token';
 import { toast, ToastContainer } from 'react-toastify';
 import { createRide, getFare } from "../services/ride/ride.service";
 
@@ -33,7 +33,7 @@ const HomeForm = () => {
   const [confirmedCar, setConfirmedCar] = useState({}); // empty state for storing confirmed Car values
   const [fare, setFare] = useState({})
   const dispatch = useDispatch();
-  const token = getToken();
+  const token = getUserToken();
   
 
   const {

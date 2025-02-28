@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Hero from "../components/Hero";
 import HomeForm from "../components/HomeForm";
 import {
@@ -17,6 +17,9 @@ import driverIcon from '../assets/driverIcon.png'
 import Phone from '../components/Phone'
 import SlidingTestimonials from "../components/SlidingTestimonials";
 import ContactForm from "../components/ContactForm";
+import { getUserToken } from "../utils/token";
+import { useSelector } from "react-redux";
+import { SocketContext } from "../context/SocketContext";
 
 const Home = () => {
   const homeCardArray = [
@@ -66,6 +69,16 @@ const Home = () => {
         "Enjoy extra conveniences like airport transfers, priority booking, and personalized assistance for a seamless journey.",
     },
   ];
+  const token = getUserToken();
+  const { user } = useSelector(state=>state.user);
+  const { sendMessage , receiveMessage }= useContext(SocketContext);
+
+  useEffect(()=>{
+    if(!token) return
+
+    sendMessage('join',{userType: "user", userId: user._id})
+
+  },[token])
 
   const planCardArray = [
     {

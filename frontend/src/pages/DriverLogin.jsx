@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg";
 import GoogleButton from "../components/GoogleButton";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
-import { setToken } from '../utils/token';
+import { setDriverToken } from '../utils/token';
 import { loginDriver } from "../services/auth/driverAuth.service";
 import { saveDriver } from "../features/auth/driverAuthSlice";
 import { useDispatch } from "react-redux";
@@ -43,7 +43,7 @@ const DriverLogin = () => {
       })
 
       if(driver){
-        setToken(driver.token,24);
+        setDriverToken(driver.token,24);
         dispatch(saveDriver(driver))
         window.location.href='/driver-home';
       }

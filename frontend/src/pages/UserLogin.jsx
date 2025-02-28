@@ -9,7 +9,7 @@ import {toast, ToastContainer} from 'react-toastify';
 import { loginUser } from "../services/auth/userAuth.service";
 import { useDispatch } from 'react-redux';
 import { saveUser } from "../features/auth/userAuthSlice";
-import { setToken } from "../utils/token";
+import { setUserToken } from "../utils/token";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5"; // Import both eye icons
 import { Spinner } from "flowbite-react";
 
@@ -45,8 +45,9 @@ const UserLogin = () => {
 
       if(user){
         dispatch(saveUser(user));
-        setToken(user.token,24)
+        setUserToken(user.token,24)
         navigate('/');
+        window.scrollTo(0,0)
       }
 
     } catch (error) {

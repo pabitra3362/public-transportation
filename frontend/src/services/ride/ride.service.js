@@ -1,13 +1,13 @@
 import axios from 'axios';
 import config from '../../config/config';
-import { getToken } from '../../utils/token';
+import { getUserToken } from '../../utils/token';
 
 
 
 
 // Service to get fare
 const getFare = async ({pickup, destination}) => {
-    const token = getToken();
+    const token = getUserToken();
     
     try {
     const response = await axios.get(`${config.baseUrl}/ride/get-fare`,{
@@ -34,7 +34,7 @@ const getFare = async ({pickup, destination}) => {
 
 // Service to create ride for user
 const createRide = async ({pickup, destination, vehicleType}) => {
-    const token = getToken();
+    const token = getUserToken();
     try {
         const response = await axios.post(`${config.baseUrl}/ride/create`,{pickup, destination, vehicleType},{
             headers: {

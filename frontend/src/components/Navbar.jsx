@@ -9,35 +9,34 @@ import { logoutDriver } from "../services/auth/driverAuth.service";
 import { removeUser } from '../features/auth/userAuthSlice'
 import { removeDriver } from '../features/auth/driverAuthSlice'
 import { jwtDecode } from "jwt-decode";
-import { getToken } from "../utils/token";
+import { getDriverToken, getUserToken } from "../utils/token";
 
 
 const Navbar = () => {
 
   const navigate = useNavigate();
-  const token = getToken(); //get token from local storage
-  if(token.length > 0 ){
-    var {role} = jwtDecode(token) //decode token to get user role
-  }
+  const userToken = getUserToken(); //get token from local storage
+  const driverToken = getDriverToken(); //get token from local storage
+ 
   
 
   const handleLogout = async () => {
     try {
-      if(role == 'user'){
+      if(userToken.length > 0){
 
-        const result = await logoutUser({token})
+        const result = await logoutUser({token:userToken})
         if(result){
-          localStorage.removeItem('token') // remove token from localstorage 
+          localStorage.removeItem('userToken') // remove token from localstorage 
           removeUser(); // remove user info from store
           navigate('/');
         }
         
       }
       else {
-        const result = await logoutDriver({token})
+        const result = await logoutDriver({token:driverToken})
 
         if(result){
-          localStorage.removeItem('token') // remove token from localstorage
+          localStorage.removeItem('driverToken') // remove token from localstorage
           removeDriver(); // remove driver info from store
           navigate('/drive');
         }
@@ -108,7 +107,7 @@ const Navbar = () => {
             <div className="text-black">4567890</div>
           </div>
 
-          {token.length == 0 ? (
+          {userToken.length == 0 && driverToken.length == 0 ? (
             <button
               onClick={() => navigate("/user-signup")}
               className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 hidden lg:block"

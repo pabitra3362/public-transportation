@@ -1,7 +1,7 @@
 import { Button, Drawer } from "flowbite-react";
 import { useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
-import { getToken } from "../utils/token";
+import { getDriverToken, getUserToken } from "../utils/token";
 import { logoutUser } from "../services/auth/userAuth.service";
 import { logoutDriver } from "../services/auth/driverAuth.service";
 import { removeDriver } from "../features/auth/driverAuthSlice";
@@ -11,10 +11,10 @@ import { jwtDecode } from "jwt-decode";
 
 
 export function MyDrawer() {
-  const token = getToken();
-  if(token.length > 0) {
-    var { role } = jwtDecode(token)
-  }
+  const userToken = getUserToken();
+  const driverToken =  getDriverToken();
+
+  
   const navigate = useNavigate();
   
   const [isOpen, setIsOpen] = useState(false);
@@ -25,21 +25,21 @@ export function MyDrawer() {
 
   const handleLogout = async () => {
       try {
-        if(role == 'user'){
+        if(userToken.length > 0){
   
-          const result = await logoutUser({token})
+          const result = await logoutUser({token:userToken})
           if(result){
-            localStorage.removeItem('token') // remove token from localstorage 
+            localStorage.removeItem('userToken') // remove token from localstorage 
             removeUser(); // remove user info from store
           }
           
           navigate('/')
         }
         else {
-          const result = await logoutDriver({token})
+          const result = await logoutDriver({token:driverToken})
   
           if(result){
-            localStorage.removeItem('token') // remove token from localstorage
+            localStorage.removeItem('driverToken') // remove token from localstorage
             removeDriver(); // remove driver info from store
           }
   
@@ -108,7 +108,7 @@ export function MyDrawer() {
               <div className="text-black">4567890</div>
             </div>
             <div>
-            {token.length == 0 ? (
+            {userToken.length == 0 && driverToken.length == 0 ? (
             <button
               onClick={() => {
                 handleClose()

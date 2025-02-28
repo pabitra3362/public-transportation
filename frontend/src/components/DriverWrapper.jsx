@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getToken } from "../utils/token";
+import { getDriverToken } from "../utils/token";
 import { jwtDecode } from "jwt-decode";
 
 const DriverWrapper = ({ children }) => {
   const navigate = useNavigate();
-  const token = getToken();
+  const token = getDriverToken();
 
   useEffect(() => {
     if (!token) return navigate("/drive");
