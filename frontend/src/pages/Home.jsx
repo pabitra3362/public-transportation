@@ -75,7 +75,7 @@ const Home = () => {
   const { user } = useSelector(state=>state.user);
   const { sendMessage , receiveMessage }= useContext(SocketContext);
   receiveMessage('ride-confirmed',(data)=>{
-    console.log(data)
+    console.log("ride:",data)
   })
 
   useEffect(()=>{
