@@ -4,8 +4,9 @@ import { GiJourney } from "react-icons/gi";
 import { RiArrowDownWideFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
+import { confirmRide } from "../services/ride/ride.service";
 
-const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
+const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride }) => {
   const navigate = useNavigate();
 
   const {
@@ -15,11 +16,17 @@ const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
   } = useForm();
 
 
-  const onSubmit = (data) => {
-    setConfirmRidePopupPanel(false);
-    setRidePopupPanel(false);
-    navigate("/driver-riding");
-    console.log(data);
+  const onSubmit =async (data) => {
+
+    
+      const response = await confirmRide({rideId: ride._id, otp: data.otp})
+
+      if(response){
+        setConfirmRidePopupPanel(false);
+        setRidePopupPanel(false);
+        navigate('/driver-riding',{ state : { ride }})
+      }
+    
     
   }
   
@@ -50,7 +57,7 @@ const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
             src="https://www.shutterstock.com/image-photo/portrait-smiling-young-girl-making-260nw-436447678.jpg"
             alt="driver-image"
           />
-          <h2 className="font-bold text-lg">Rakesh Mohanty</h2>
+          <h2 className="font-bold text-lg capitalize">{ride?.user.name}</h2>
         </div>
         <div className="font-bold text-lg">2.2 KM</div>
       </div>
@@ -64,7 +71,7 @@ const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
             <GiJourney className="w-6 h-6 " />
           </div>
           <div className="font-bold w-full">
-            sd;lfjksdj;flk
+            {ride?.pickup}
             <div className="w-full bg-black h-[3px] opacity-20 mt-2" />
           </div>
         </div>
@@ -73,7 +80,7 @@ const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
             <GiJourney className="w-6 h-6 " />
           </div>
           <div className="font-bold w-full">
-            sdlfksdjflsd;
+            {ride?.destination}
             <div className="w-full bg-black h-[3px] opacity-20 mt-2" />
           </div>
         </div>
@@ -82,7 +89,7 @@ const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
             <FaMoneyBillWave className="w-6 h-6 " />
           </div>
           <div className="font-bold flex justify-start items-center w-full ">
-            <FaRupeeSign /> 220
+            <FaRupeeSign /> {ride?.fare}
           </div>
         </div>
       </div>
@@ -109,7 +116,6 @@ const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
           {/* Confirm Button */}
           <button
           type='submit'
-            
             className="w-full bg-green-500 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2"
           >
             Confirm

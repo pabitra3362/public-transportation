@@ -44,10 +44,9 @@ const DriverHome = () => {
     updateLocation()
 
     // return () => clearInterval(locationInterval)
-  }, [token]);
+  }, [driver]);
 
   receiveMessage('new-ride',(data)=>{
-    console.log(data);
     setRide(data)
     setRidePopupPanel(true)
   })
@@ -121,7 +120,7 @@ const DriverHome = () => {
 
         <div
           ref={ridePopupPanelRef}
-          className="sticky w-full z-10 bottom-0 translate-y-full bg-white px-3 py-5 pt-1"
+          className="fixed lg:sticky w-full z-10 bottom-0 translate-y-full bg-white px-3 py-5 pt-1"
         >
           <RidePopup
             ride={ride}
@@ -133,9 +132,10 @@ const DriverHome = () => {
 
         <div
           ref={confirmRidePopupPanelRef}
-          className="sticky w-full z-10 h-screen bottom-0 translate-y-full bg-white px-3 py-5 pt-1"
+          className="fixed lg:sticky w-full z-10 h-screen bottom-0 translate-y-full bg-white px-3 py-5 pt-1"
         >
           <ConfirmRidePopup
+            ride = {ride}
             setConfirmRidePopupPanel={setConfirmRidePopupPanel}
             setRidePopupPanel={setRidePopupPanel}
           />

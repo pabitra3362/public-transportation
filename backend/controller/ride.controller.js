@@ -2,8 +2,9 @@ import {
   confirmRideService,
   createRideService,
   getFareService,
+  startRideService,
 } from "../services/ride.service.js";
-import { validationResult } from "express-validator";
+import { ExpressValidator, validationResult } from "express-validator";
 import {
   fetchCoordinates,
   getCaptainsInRadius,
@@ -95,4 +96,31 @@ const confirmRide = async (req, res) => {
   }
 };
 
-export { createRide, getFare, confirmRide };
+
+// Controller for start ride
+const startRide = async (req,res) => {
+  const errors = validationResult(req);
+
+  if(!errors.isEmpty()){
+    return res.status(400).json({errors: errors.array()});
+  }
+
+  const {rideId , otp} = req.query;
+
+  try {
+
+    const ride = await startRideService({rideId, otp, captain: req.captain});
+
+    sendMessageToSocketId(ride.user.socketId,{
+      event: 'ride-started',
+      data: ride
+    });
+
+    return res.status(200).json(ride);
+  } catch (error) {
+    return res.status(500).json({message: error.message});
+  }
+};
+
+
+export { createRide, getFare, confirmRide, startRide };

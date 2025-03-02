@@ -1,4 +1,5 @@
 import Ride from "../models/ride.model.js";
+import { sendMessageToSocketId } from "../socket.js";
 import { fetchDistanceTime } from "./map.service.js";
 import crypto from "crypto";
 
@@ -82,27 +83,72 @@ const createRideService = async ({
 };
 
 // Service to confirm ride
-const confirmRideService = async ({rideId, captain}) => {
-  if(!rideId){
+const confirmRideService = async ({ rideId, captain }) => {
+  if (!rideId) {
     throw new Error("Ride id is required");
   }
 
-  await Ride.findOneAndUpdate({
-    _id: rideId,
-  },{
-    status: 'accepted',
-    captain: captain._id
-  })
+  await Ride.findOneAndUpdate(
+    {
+      _id: rideId,
+    },
+    {
+      status: "accepted",
+      captain: captain._id,
+    }
+  );
 
-  const ride = await Ride.findOne({_id: rideId}).populate('user')
+  const ride = await Ride.findOne({ _id: rideId })
+    .populate("user")
+    .populate("captain")
+    .select("+otp");
 
-  if(!ride){
-    throw new Error('Ride not found');
+  if (!ride) {
+    throw new Error("Ride not found");
   }
 
   return ride;
+};
 
-}
+// Service to start ride
+const startRideService = async ({ rideId, otp, captain }) => {
+  if (!rideId || !otp || !captain) {
+    throw new Error("Ride id, otp and captain are required");
+  }
 
+  const ride = await Ride.findOne({ _id: rideId })
+    .populate("user")
+    .populate("captain")
+    .select("+otp");
 
-export { createRideService, getFareService, getOTP, confirmRideService };
+  if (!ride) {
+    throw new Error("Ride not found");
+  }
+
+  if (ride.otp !== otp) {
+    throw new Error("Invalid otp");
+  }
+
+  if (ride.status !== "accepted") {
+    throw new Error("Ride is not accepted");
+  }
+
+  await Ride.findOneAndUpdate(
+    {
+      _id: rideId,
+    },
+    {
+      status: "ongoing",
+    }
+  );
+
+  return ride;
+};
+
+export {
+  createRideService,
+  getFareService,
+  getOTP,
+  confirmRideService,
+  startRideService,
+};

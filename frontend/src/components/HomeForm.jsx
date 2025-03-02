@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import vdo from "../assets/Taxi booking.mp4";
 import { motion } from "framer-motion";
 import Input from "./Input";
@@ -15,11 +15,14 @@ import config from "../config/config";
 import CarSuggestionPanel from "./CarSuggestionPanel";
 import CarConfirmPanel from "./CarConfirmPanel";
 import { setConfirmedCarDetails } from "../features/car/confirmedCarSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LookingForDriver from "./LookingForDriver";
 import { getUserToken } from '../utils/token';
 import { toast, ToastContainer } from 'react-toastify';
 import { createRide, getFare } from "../services/ride/ride.service";
+import { SocketContext } from "../context/SocketContext";
+import WaitingForDriver from "./WaitingForDriver";
+import { useNavigate } from "react-router-dom";
 
 const HomeForm = () => {
   const [address1, setAddress1] = useState(""); // Starting point
@@ -30,10 +33,15 @@ const HomeForm = () => {
   const [carSuggestionPanel, setCarSuggestionPanel] = useState(false); // Toogle visibility for carSuggestionPanel
   const [carConfirmPanel, setCarConfirmPanel] = useState(false); // Toogle visibility for carConfirmPanel
   const [LookingDriverPanel, setLookingDriverPanel] = useState(false); // Toogle visibility for looking driver panel
+  const [ waitingDriverPanel , setWaitingDriverPanel ] = useState(false); // Toogle visibility for waiting driver panel
   const [confirmedCar, setConfirmedCar] = useState({}); // empty state for storing confirmed Car values
   const [fare, setFare] = useState({})
+  const [ride, setRide] = useState(null);
   const dispatch = useDispatch();
   const token = getUserToken();
+  const { user } = useSelector(state => state.user)
+  const { sendMessage , receiveMessage }= useContext(SocketContext);
+  const navigate = useNavigate();
   
 
   const {
@@ -42,6 +50,20 @@ const HomeForm = () => {
     control,
     formState: { errors },
   } = useForm();
+
+
+
+    receiveMessage('ride-confirmed',(data)=>{
+      setRide(data);
+      setWaitingDriverPanel(true);
+    })
+
+    receiveMessage('ride-started', ride=>{
+      setWaitingDriverPanel(false)
+      navigate('/riding', {state: {ride,confirmedCar}})
+    })
+
+
 
   // Debounced function to reduce API calls
   const fetchSuggestions = useCallback(
@@ -369,7 +391,7 @@ const HomeForm = () => {
             {/* looking driver panel */}
             <div
               className={` overflow-y-scroll overflow-x-visible w-full ${
-                LookingDriverPanel ? "h-[459px]" : "h-[0px]"
+                !waitingDriverPanel && LookingDriverPanel ? "h-[459px]" : "h-[0px]"
               } duration-500 gap-4 flex flex-col px-3`}
             >
               {/* <button
@@ -383,6 +405,26 @@ const HomeForm = () => {
               </button> */}
 
               <LookingForDriver confirmedCar={confirmedCar} />
+            </div>
+
+
+            {/* Waiting driver panel */}
+            <div
+              className={` overflow-y-scroll overflow-x-visible w-full ${
+                waitingDriverPanel ? "h-[459px]" : "h-[0px]"
+              } duration-500 gap-4 flex flex-col px-3`}
+            >
+              {/* <button
+                onClick={() => {
+                  setLookingDriverPanel(false);
+                  setCarConfirmPanel(true);
+                }}
+                className="w-fit h-10 mx-auto align-middle bg-gray-300 px-10 py-2 rounded-md"
+              >
+                <IoIosArrowDropdown className="size-5" />
+              </button> */}
+
+              <WaitingForDriver ride={ride} confirmedCar={confirmedCar} />
             </div>
           </div>
         </div>

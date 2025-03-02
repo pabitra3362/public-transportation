@@ -4,7 +4,7 @@ import { GiJourney } from "react-icons/gi";
 import { RiArrowDownWideFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
-const FinishRide = ({setFinishRide}) => {
+const FinishRide = ({setFinishRide, ride}) => {
 
     const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const FinishRide = ({setFinishRide}) => {
                 src="https://www.shutterstock.com/image-photo/portrait-smiling-young-girl-making-260nw-436447678.jpg"
                 alt="driver-image"
               />
-              <h2 className="font-bold text-lg">Rakesh Mohanty</h2>
+              <h2 className="font-bold text-lg">{ride?.user.name}</h2>
             </div>
             <div className="font-bold text-lg">2.2 KM</div>
           </div>
@@ -47,7 +47,7 @@ const FinishRide = ({setFinishRide}) => {
                 <GiJourney className="w-6 h-6 " />
               </div>
               <div className="font-bold w-full">
-                sd;lfjksdj;flk
+                {ride?.pickup}
                 <div className="w-full bg-black h-[3px] opacity-20 mt-2" />
               </div>
             </div>
@@ -56,7 +56,7 @@ const FinishRide = ({setFinishRide}) => {
                 <GiJourney className="w-6 h-6 " />
               </div>
               <div className="font-bold w-full">
-                sdlfksdjflsd;
+                {ride?.destination}
                 <div className="w-full bg-black h-[3px] opacity-20 mt-2" />
               </div>
             </div>
@@ -65,7 +65,7 @@ const FinishRide = ({setFinishRide}) => {
                 <FaMoneyBillWave className="w-6 h-6 " />
               </div>
               <div className="font-bold flex justify-start items-center w-full ">
-                <FaRupeeSign /> 220
+                <FaRupeeSign /> {ride?.fare}
               </div>
             </div>
           </div>

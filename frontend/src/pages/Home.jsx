@@ -74,9 +74,7 @@ const Home = () => {
   const token = getUserToken();
   const { user } = useSelector(state=>state.user);
   const { sendMessage , receiveMessage }= useContext(SocketContext);
-  receiveMessage('ride-confirmed',(data)=>{
-    console.log("ride:",data)
-  })
+  
 
   useEffect(()=>{
     if(!token) return

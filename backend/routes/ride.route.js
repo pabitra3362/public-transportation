@@ -1,7 +1,7 @@
 import express from 'express';
 import { body, query } from 'express-validator';
 import { authCaptain, authUser } from '../middlewares/auth.middleware.js';
-import { confirmRide, createRide, getFare } from '../controller/ride.controller.js';
+import { confirmRide, createRide, getFare, startRide } from '../controller/ride.controller.js';
 
 
 
@@ -35,6 +35,15 @@ router.post('/confirm',
     body('rideId').isString().withMessage("Invalid ride id"),
     confirmRide
 );
+
+
+// Route to start ride
+router.get('/start-ride',
+    authCaptain,
+    query('rideId').isString().withMessage("Invalid ride id"),
+    query('otp').isString().withMessage('Invalid Otp'),
+    startRide
+)
 
 
 

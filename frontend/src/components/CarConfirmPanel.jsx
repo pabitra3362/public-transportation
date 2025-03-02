@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { useSelector } from "react-redux";
 import { createRide } from "../services/ride/ride.service";
+import { SocketContext } from "../context/SocketContext";
 
 const CarConfirmPanel = ({ confirmedCar, setLookingDriverPanel, setCarConfirmPanel }) => {
   const journeyDetails = useSelector((state) => state.car);
+  const { sendMessage , receiveMessage } = useContext(SocketContext);
 
 
   const handleClick = async (confirmedCar) => {
@@ -14,6 +16,8 @@ const CarConfirmPanel = ({ confirmedCar, setLookingDriverPanel, setCarConfirmPan
           destination: journeyDetails.destination,
           vehicleType: confirmedCar.vehicleType
     })
+    
+    // sendMessage('new-ride')
     
     setCarConfirmPanel(false)
     setLookingDriverPanel(true)

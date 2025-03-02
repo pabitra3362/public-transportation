@@ -1,7 +1,7 @@
 import React,{ useRef, useState } from "react";
 import { MdOutlineLogout } from "react-icons/md";
 import { RiArrowUpWideFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import FinishRide from '../components/FinishRide';
 import gsap from 'gsap';
 import { useGSAP } from "@gsap/react";
@@ -11,6 +11,8 @@ const DriverRiding = () => {
 
   const [finishRide, setFinishRide] = useState(false);
   const finishRideRef = useRef(null)
+  const location = useLocation()
+  const rideData = location.state?.ride
 
   useGSAP(()=>{
     if(finishRide){
@@ -72,6 +74,7 @@ const DriverRiding = () => {
           className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-5 pt-1"
         >
           <FinishRide
+            ride={rideData}
             setFinishRide={setFinishRide}
           />
         </div>
