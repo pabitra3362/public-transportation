@@ -11,6 +11,9 @@ import { useSelector } from "react-redux";
 import { SocketContext } from "../context/SocketContext";
 import axios from 'axios';
 import config from "../config/config";
+import LiveTracking from "../components/LiveTracking";
+
+
 
 const DriverHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(false);
@@ -106,11 +109,7 @@ const DriverHome = () => {
 
         {/* image */}
         <div className="h-3/5">
-          <img
-            className="h-full w-full object-cover "
-            src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-            alt="map.gif"
-          />
+          <LiveTracking />
         </div>
 
         {/* information */}

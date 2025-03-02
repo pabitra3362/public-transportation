@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import vdo from "../assets/Taxi booking.mp4";
 import { motion } from "framer-motion";
 import Input from "./Input";
@@ -58,10 +58,12 @@ const HomeForm = () => {
       setWaitingDriverPanel(true);
     })
 
+   useEffect(()=>{
     receiveMessage('ride-started', ride=>{
       setWaitingDriverPanel(false)
       navigate('/riding', {state: {ride,confirmedCar}})
     })
+   },[navigate,confirmedCar,receiveMessage])
 
 
 

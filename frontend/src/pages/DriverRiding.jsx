@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import FinishRide from '../components/FinishRide';
 import gsap from 'gsap';
 import { useGSAP } from "@gsap/react";
+import LiveTracking from "../components/LiveTracking";
 
 
 const DriverRiding = () => {
@@ -44,11 +45,7 @@ const DriverRiding = () => {
 
         {/* image */}
         <div className="h-4/5">
-          <img
-            className="h-full w-full object-cover"
-            src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-            alt="map.gif"
-          />
+          <LiveTracking />
         </div>
 
         {/* information */}
@@ -71,7 +68,7 @@ const DriverRiding = () => {
 
         <div
           ref={finishRideRef}
-          className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-5 pt-1"
+          className="fixed lg:sticky w-full z-10 bottom-0 translate-y-full bg-white px-3 py-5 pt-1"
         >
           <FinishRide
             ride={rideData}

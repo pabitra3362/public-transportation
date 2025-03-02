@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     name: null,
+    image: null,
     phone: null,
     date: null,
     pickup: null,
@@ -24,11 +25,15 @@ const confirmedCarSlice = createSlice({
             state.pickup = action.payload.pickup;
             state.destination = action.payload.destination;
         },
+
+        setImageOfCar: (state, action) => {
+            state.image = action.payload.image;
+        }
         
     }
 })
 
 
-export const { setConfirmedCarDetails, getConfirmedCarDetails } = confirmedCarSlice.actions;
+export const { setConfirmedCarDetails, setImageOfCar } = confirmedCarSlice.actions;
 
 export default confirmedCarSlice.reducer;

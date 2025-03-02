@@ -20,6 +20,7 @@ import ContactForm from "../components/ContactForm";
 import { getUserToken, setUserToken } from "../utils/token";
 import { useSelector } from "react-redux";
 import { SocketContext } from "../context/SocketContext";
+import LiveTracking from "../components/LiveTracking";
 
 const Home = () => {
   const homeCardArray = [

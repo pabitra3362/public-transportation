@@ -1,17 +1,27 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
+import { SocketContext } from '../context/SocketContext';
+import LiveTracking from "../components/LiveTracking";
+import { useSelector } from "react-redux";
 
 const Riding = () => {
   const location = useLocation();
   const ride = location.state?.ride;
-  const car = location.state?.confirmedCar;
+  // const car = location.state?.confirmedCar;
+  const navigate = useNavigate();
+  const { receiveMessage } = useContext(SocketContext)
+  const car = useSelector(state => state.car)
+
+  receiveMessage('ride-ended',()=>{
+    navigate('/');
+  })
 
   return (
     <div className="min-h-screen flex justify-center items-center">
-      <div className="min-h-screen lg:h-[70vh] w-full lg:w-[70%] lg:my-12 relative lg:rounded-2xl lg:overflow-hidden lg:hover:shadow-2xl lg:hover:-translate-y-8 duration-300">
+      <div className="h-screen lg:h-[70vh] w-full lg:w-[70%] lg:my-12 relative lg:rounded-2xl lg:overflow-hidden lg:hover:shadow-2xl lg:hover:-translate-y-8 duration-300 overflow-y-scroll">
         <div className=" flex justify-between items-center w-full absolute top-3 px-4">
           <h1 className="bg-transparent text-black tracking-[0.25rem] w-fit font-custom text-2xl ">
             Safar
@@ -25,11 +35,7 @@ const Riding = () => {
 
         {/* image */}
         <div className="h-1/2">
-          <img
-            className="h-full w-full object-cover "
-            src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-            alt="map.gif"
-          />
+          <LiveTracking />
         </div>
 
         {/* information */}

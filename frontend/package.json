@@ -16,6 +16,7 @@
     "@gsap/react": "^2.1.2",
     "@mui/icons-material": "^6.3.0",
     "@mui/material": "^6.3.0",
+    "@react-google-maps/api": "^2.20.6",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
     "flowbite-react": "^0.10.2",

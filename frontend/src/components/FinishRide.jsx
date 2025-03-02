@@ -3,10 +3,24 @@ import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { RiArrowDownWideFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { endRide } from '../services/ride/ride.service';
 
 const FinishRide = ({setFinishRide, ride}) => {
 
     const navigate = useNavigate();
+
+
+    const handleFinishButton = async () => {
+
+      const response = await endRide({rideId: ride._id});
+
+      if(response){
+        navigate('/driver-home');
+        window.scrollTo(0,0);
+      }
+      
+    }
+    
 
   return (
     <div className="py-2">
@@ -75,8 +89,7 @@ const FinishRide = ({setFinishRide, ride}) => {
     
               {/* Confirm Button */}
               <button
-              type='submit'
-              onClick={()=>navigate('/driver-home')}
+              onClick={handleFinishButton}
                 
                 className="w-full bg-green-500 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2"
               >

@@ -4,11 +4,13 @@ import uberMoto from '../assets/uberMoto.jpg'
 import uberAuto from '../assets/uberAuto.jpg'
 import { FaUser, FaRupeeSign } from "react-icons/fa";
 import { createRide } from "../services/ride/ride.service";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setImageOfCar } from '../features/car/confirmedCarSlice';
 
 
 
 const CarSuggestionPanel = ({ setCarConfirmPanel, setConfirmedCar, fare }) => {
+  const dispatch = useDispatch()
 
   const journeyDetails = useSelector(state=>state.car)
 
@@ -48,6 +50,7 @@ const CarSuggestionPanel = ({ setCarConfirmPanel, setConfirmedCar, fare }) => {
   const handleClick = async (item) => {
     
     setConfirmedCar(item)
+    dispatch(setImageOfCar(item.image))
     setCarConfirmPanel(true)
 
   }

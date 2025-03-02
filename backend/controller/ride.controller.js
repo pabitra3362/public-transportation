@@ -1,6 +1,7 @@
 import {
   confirmRideService,
   createRideService,
+  endRideService,
   getFareService,
   startRideService,
 } from "../services/ride.service.js";
@@ -123,4 +124,29 @@ const startRide = async (req,res) => {
 };
 
 
-export { createRide, getFare, confirmRide, startRide };
+// Controller for end ride
+const endRide = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { rideId } = req.body;
+
+  try {
+    const ride = await endRideService({ rideId, captain: req.captain });
+
+    sendMessageToSocketId(ride.user.socketId, {
+      event: 'ride-ended',
+      data: ride
+    });
+
+    return res.status(200).json(ride);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+
+export { createRide, getFare, confirmRide, startRide, endRide };

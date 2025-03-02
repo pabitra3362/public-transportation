@@ -73,4 +73,25 @@ const confirmRide = async ({ rideId, otp }) => {
   }
 };
 
-export { getFare, createRide, confirmRide };
+// Service to end ride
+const endRide = async ({ rideId }) => {
+  const token = getDriverToken();
+
+  try {
+    const response = await axios.post(`${config.baseUrl}/ride/end-ride`, { rideId },{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+      
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    }
+    return false;
+  } catch (error) {
+    console.log("error in end ride service :: frontend :: ", error.message);
+  }
+};
+
+export { getFare, createRide, confirmRide, endRide };
