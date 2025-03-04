@@ -16,7 +16,7 @@ const Input = forwardRef(function Myinput(
         )}
         <input
           type={type}
-          className={`w-80 md:w-80 lg:w-full pl-10 text-black font-bold my-2 ${className}`} // Padding on left to create space for the icon
+          className={`w-80 md:w-80 lg:w-full pl-10 text-black rounded font-bold my-2 hover:placeholder:text-yellow-300 duration-300 ${className}`} // Padding on left to create space for the icon
           placeholder={placeholder}
           id={id}
           aria-label={label}

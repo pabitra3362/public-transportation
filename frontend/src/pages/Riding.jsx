@@ -6,11 +6,13 @@ import { GiJourney } from "react-icons/gi";
 import { SocketContext } from '../context/SocketContext';
 import { useSelector } from "react-redux";
 import LiveDirection from "../components/LiveDirection";
+import { loadStripe } from '@stripe/stripe-js'
+import config from "../config/config";
+import axios from 'axios';
 
 const Riding = () => {
   const location = useLocation();
   const ride = location.state?.ride;
-  // const car = location.state?.confirmedCar;
   const navigate = useNavigate();
   const { receiveMessage } = useContext(SocketContext)
   const car = useSelector(state => state.car)
@@ -20,6 +22,29 @@ const Riding = () => {
     navigate('/');
     window.scrollTo(0,0);
   })
+
+  const makePayment = async (params) => {
+    const stripe = await loadStripe(config.stripeKey)
+
+    const response = await axios.post(`${config.baseUrl}/api/payment/make-payment`,{
+      fare: ride?.fare,
+      pickup: ride?.pickup,
+      destination: ride?.destination
+    })
+
+    const session = response.data;
+
+    const result = stripe.redirectToCheckout({
+      sessionId: session.id
+    })
+
+    if(result.error){
+      console.log(result.error);
+      
+    }
+
+  }
+  
 
   return (
     <div className="min-h-screen flex justify-center items-center">
@@ -97,7 +122,7 @@ const Riding = () => {
                 </div>
               </div>
 
-              <button className="w-full bg-green-500 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2">
+              <button onClick={makePayment} className="w-full bg-green-500 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2">
                 make payment
               </button>
             </div>

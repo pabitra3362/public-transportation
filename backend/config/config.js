@@ -12,4 +12,5 @@ export default{
     cloudName: String(process.env.CLOUD_NAME),
     cloudAPIKey: Number(process.env.CLOUD_API_KEY),
     cloudSecret: String(process.env.CLOUD_SECRET),
+    stripeSecret: String(process.env.STRIPE_SECRET),
 }

@@ -27,7 +27,7 @@ const Hero = () => {
           <div>
             <a href="#taxi-form">
             <Button
-              className="px-4 py-2 border-black rounded-sm"
+              className="px-4 py-2 border-black rounded"
               bgColor="bg-black"
             >
               Get Taxi
