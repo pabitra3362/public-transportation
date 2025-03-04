@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import FinishRide from '../components/FinishRide';
 import gsap from 'gsap';
 import { useGSAP } from "@gsap/react";
-import LiveTracking from "../components/LiveTracking";
+import LiveDirection from "../components/LiveDirection";
 
 
 const DriverRiding = () => {
@@ -45,7 +45,7 @@ const DriverRiding = () => {
 
         {/* image */}
         <div className="h-4/5">
-          <LiveTracking />
+          <LiveDirection pickup={rideData?.pickup} destination={rideData?.destination} />
         </div>
 
         {/* information */}

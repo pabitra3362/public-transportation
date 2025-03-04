@@ -4,8 +4,8 @@ import { MdOutlineLogout } from "react-icons/md";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { SocketContext } from '../context/SocketContext';
-import LiveTracking from "../components/LiveTracking";
 import { useSelector } from "react-redux";
+import LiveDirection from "../components/LiveDirection";
 
 const Riding = () => {
   const location = useLocation();
@@ -14,9 +14,11 @@ const Riding = () => {
   const navigate = useNavigate();
   const { receiveMessage } = useContext(SocketContext)
   const car = useSelector(state => state.car)
+  
 
   receiveMessage('ride-ended',()=>{
     navigate('/');
+    window.scrollTo(0,0);
   })
 
   return (
@@ -35,7 +37,7 @@ const Riding = () => {
 
         {/* image */}
         <div className="h-1/2">
-          <LiveTracking />
+          <LiveDirection pickup={car?.pickup} destination={car?.destination} />
         </div>
 
         {/* information */}

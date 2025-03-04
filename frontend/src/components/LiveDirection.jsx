@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { LoadScriptNext, GoogleMap, MarkerF } from "@react-google-maps/api";
+import { LoadScriptNext, GoogleMap, MarkerF, DirectionsRenderer } from "@react-google-maps/api";
 import config from "../config/config";
 
 const containerStyle = {
@@ -12,9 +12,11 @@ const center = {
   lng: 0,
 };
 
-const LiveTracking = () => {
+const LiveDirection = ({ pickup, destination }) => {
   const [currentPosition, setCurrentPosition] = useState(center);
   const [error, setError] = useState(null);
+  const [directions, setDirections] = useState(null);
+  const [googleLoaded, setGoogleLoaded] = useState(false); // New state to track if Google Maps is loaded
 
   useEffect(() => {
     const handleError = (error) => {
@@ -67,18 +69,46 @@ const LiveTracking = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+
+  useEffect(() => {
+    if (googleLoaded) { // Only run this if Google Maps is loaded
+      const directionsService = new google.maps.DirectionsService();
+      if (pickup && destination) {
+        directionsService.route(
+          {
+            origin: pickup,
+            destination: destination,
+            travelMode: google.maps.TravelMode.DRIVING,
+          },
+          (result, status) => {
+            if (status === "OK") {
+              setDirections(result);
+            } else {
+              setError("Directions request failed due to " + status);
+            }
+          }
+        );
+      }
+    }
+  }, [pickup, destination, googleLoaded]);
+
   return (
-    <LoadScriptNext googleMapsApiKey={config.googleMapApiKey}>
+    <LoadScriptNext 
+      googleMapsApiKey={config.googleMapApiKey} 
+      onLoad={() => setGoogleLoaded(true)} // Set googleLoaded to true when loaded
+    >
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={currentPosition}
         zoom={15}
       >
         <MarkerF position={currentPosition} />
+        {directions && (
+          <DirectionsRenderer directions={directions} />
+        )}
       </GoogleMap>
-      {error && <div>Error: {error}</div>}
     </LoadScriptNext>
   );
 };
 
-export default LiveTracking;
+export default LiveDirection;

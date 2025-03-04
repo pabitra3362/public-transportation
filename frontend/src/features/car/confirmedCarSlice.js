@@ -26,8 +26,10 @@ const confirmedCarSlice = createSlice({
             state.destination = action.payload.destination;
         },
 
+        // reducer to set image of the car
         setImageOfCar: (state, action) => {
-            state.image = action.payload.image;
+            state.image = action.payload;
+            
         }
         
     }

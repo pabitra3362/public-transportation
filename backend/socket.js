@@ -53,7 +53,7 @@ export function initializeSocket(server) {
 
 export function sendMessageToSocketId(socketId, messageObject) {
 
-  console.log(`sending message to ${socketId}`, messageObject)
+  // console.log(`sending message to ${socketId}`, messageObject)
   if (io) {
     io.to(socketId).emit(messageObject.event, messageObject.data);
   } else {
