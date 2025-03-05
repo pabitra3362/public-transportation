@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "public-transportation/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "public-transportation/frontend/dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "public-transportation/frontend/$1"
+    }
+  ],
+  "env": {
+    "API_URL": "https://public-transportation-3l8k.onrender.com",
+    "ANOTHER_ENV_VAR": "value"
+  }
+}
