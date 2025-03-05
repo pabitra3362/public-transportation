@@ -3,48 +3,54 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
-import { SocketContext } from '../context/SocketContext';
+import { SocketContext } from "../context/SocketContext";
 import { useSelector } from "react-redux";
 import LiveDirection from "../components/LiveDirection";
-import { loadStripe } from '@stripe/stripe-js'
+import { loadStripe } from "@stripe/stripe-js";
 import config from "../config/config";
-import axios from 'axios';
+import axios from "axios";
+import { getUserToken } from "../utils/token";
 
 const Riding = () => {
   const location = useLocation();
   const ride = location.state?.ride;
   const navigate = useNavigate();
-  const { receiveMessage } = useContext(SocketContext)
-  const car = useSelector(state => state.car)
-  
+  const { receiveMessage } = useContext(SocketContext);
+  const car = useSelector((state) => state.car);
+  const token = getUserToken();
 
-  receiveMessage('ride-ended',()=>{
-    navigate('/');
-    window.scrollTo(0,0);
-  })
+  receiveMessage("ride-ended", () => {
+    navigate("/");
+    window.scrollTo(0, 0);
+  });
 
   const makePayment = async (params) => {
-    const stripe = await loadStripe(config.stripeKey)
+    const stripe = await loadStripe(config.stripeKey);
 
-    const response = await axios.post(`${config.baseUrl}/api/payment/make-payment`,{
-      fare: ride?.fare,
-      pickup: ride?.pickup,
-      destination: ride?.destination
-    })
+    const response = await axios.post(
+      `${config.baseUrl}/api/payment/make-payment`,
+      {
+        fare: ride?.fare,
+        pickup: ride?.pickup,
+        destination: ride?.destination,
+      },
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
 
     const session = response.data;
 
     const result = stripe.redirectToCheckout({
-      sessionId: session.id
-    })
+      sessionId: session.id,
+    });
 
-    if(result.error){
+    if (result.error) {
       console.log(result.error);
-      
     }
-
-  }
-  
+  };
 
   return (
     <div className="min-h-screen flex justify-center items-center">
@@ -122,7 +128,10 @@ const Riding = () => {
                 </div>
               </div>
 
-              <button onClick={makePayment} className="w-full bg-green-500 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2">
+              <button
+                onClick={makePayment}
+                className="w-full bg-green-500 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2"
+              >
                 make payment
               </button>
             </div>
