@@ -2,14 +2,21 @@ import { createSlice } from "@reduxjs/toolkit";
 import getProfileData from "../../utils/getProfileData";
 import { getDriverToken } from "../../utils/token";
 
-const token = getDriverToken()
-const { driver } = await getProfileData({token});
 
-const initialState = {
-    driver: driver || {},
-    token: token || null
+const loadIntialState = () => {
+    const token = getDriverToken();
+    if(!token) return { driver: {}, token: null};
+
+    let driver = {} ;
+    getProfileData({ token })
+    .then((data)=> driver=data.driver)
+    .catch(err=>console.log(err));
+
+    return { driver, token };
 }
 
+
+const initialState = loadIntialState();
 const driverAuthSlice = createSlice({
     name:'driver',
     initialState,

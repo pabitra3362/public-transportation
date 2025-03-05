@@ -2,15 +2,21 @@ import { createSlice } from '@reduxjs/toolkit';
 import getProfileData from '../../utils/getProfileData';
 import { getUserToken } from '../../utils/token';
 
-const token = getUserToken();
-const {user} = await getProfileData({token})
+const loadIntialState = () => {
+    const token = getUserToken();
+    if(!token) return { user: {}, token: null};
 
+    let user = {} ;
+    getProfileData({ token })
+    .then((data)=> user=data.user)
+    .catch(err=>console.log(err));
 
-
-const initialState = {
-    user: user || {},
-    token: token || null
+    return { user, token };
 }
+
+
+
+const initialState = loadIntialState();
 
 
 const userAuthSlice = createSlice({
