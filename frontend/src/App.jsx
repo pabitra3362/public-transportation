@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -21,10 +21,33 @@ import Riding from "./pages/Riding";
 import DriverHome from "./pages/DriverHome";
 import DriverRiding from "./pages/DriverRiding";
 import DriverWrapper from "./components/DriverWrapper";
+import getProfileData from "./utils/getProfileData";
+import { getDriverToken, getUserToken } from "./utils/token";
+import { useDispatch } from "react-redux";
+import { saveUser } from "./features/auth/userAuthSlice";
+import { saveDriver } from "./features/auth/driverAuthSlice";
 
 
 
 const App = () => {
+
+  const dispatch = useDispatch()
+  const userToken = getUserToken();
+  const driverToken = getDriverToken();
+  useEffect(()=>{
+    const fetchUserData = () =>{
+      if(userToken) {
+        const {user, token} = getProfileData({token:userToken})
+         dispatch(saveUser({user, token}))
+       }else{
+         const {driver, token} = getProfileData({token:driverToken})
+         dispatch(saveDriver({driver,token}))
+       }
+    }
+
+    fetchUserData();
+  },[dispatch])
+
   return (
     <div>
       <Router>

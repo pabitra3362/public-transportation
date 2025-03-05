@@ -26,7 +26,7 @@ const DriverHome = () => {
   const [ride, setRide] = useState(null)
 
   useEffect(() => {
-    sendMessage("join", { userType: "captain", userId: driver._id });
+    sendMessage("join", { userType: "captain", userId: driver?._id });
 
     const updateLocation = () => {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -44,9 +44,8 @@ const DriverHome = () => {
 
     const locationInterval = setInterval(updateLocation, 10000)
 
-    updateLocation()
 
-    // return () => clearInterval(locationInterval)
+    return () => clearInterval(locationInterval)
   }, [driver]);
 
   receiveMessage('new-ride',(data)=>{
