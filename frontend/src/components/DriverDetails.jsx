@@ -17,7 +17,7 @@ const DriverDetails = () => {
               src="https://www.shutterstock.com/image-photo/portrait-smiling-young-boy-making-260nw-436447678.jpg"
               alt=""
             />
-            <h3 className="font-bold text-lg">{driver.name}</h3>
+            <h3 className="font-bold text-lg">{driver?.name}</h3>
           </div>
           <div className="grid gap-2">
             <div className="flex justify-between items-center">
