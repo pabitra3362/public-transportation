@@ -18,7 +18,7 @@ const Riding = () => {
   const { receiveMessage } = useContext(SocketContext);
   const [car, setCar] = useState(useSelector((state) => state.car))
   const token = getUserToken();
-  const sessionId = localStorage.getItem('sessionId')
+  const sessionId = sessionStorage.getItem('sessionId')
 
   receiveMessage("ride-ended", () => {
     navigate("/");
@@ -33,12 +33,12 @@ const Riding = () => {
     if(car.name !== null){
       localStorage.setItem('car',JSON.stringify(car))
     }else{
-      setCar(localStorage.getItem('car').json())
+      setCar(JSON.parse(localStorage.getItem('car')) || {} )
     }
     console.log("car: ",car);
-    console.log("localstroge:",(localStorage.getItem('car').json()))
+    console.log("localstroge:",localStorage.getItem('car'))
     
-  },[ride,car])
+  },[ride])
 
   const makePayment = async (params) => {
     const stripe = await loadStripe(config.stripeKey);
@@ -62,7 +62,7 @@ const Riding = () => {
     const result = stripe.redirectToCheckout({
       sessionId: session.id,
     });
-    localStorage.setItem('sessionId',session.id)
+    sessionStorage.setItem('sessionId',session.id)
 
     if (result.error) {
       console.log(result.error);
