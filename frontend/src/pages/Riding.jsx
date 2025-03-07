@@ -16,7 +16,7 @@ const Riding = () => {
   const ride = location.state?.ride || localStorage.getItem('ride');
   const navigate = useNavigate();
   const { receiveMessage } = useContext(SocketContext);
-  const car = useSelector((state) => state.car) || localStorage.getItem('car');
+  const [car, setCar] = useState(useSelector((state) => state.car))
   const token = getUserToken();
   const sessionId = localStorage.getItem('sessionId')
 
@@ -30,8 +30,10 @@ const Riding = () => {
     if(ride){
       localStorage.setItem('ride',ride)
     }
-    if(car){
+    if(car.name){
       localStorage.setItem('car',car)
+    }else{
+      setCar(localStorage.getItem('car'))
     }
     console.log("car: ",car);
     
@@ -82,7 +84,7 @@ const Riding = () => {
 
         {/* image */}
         <div className="h-1/2">
-          <LiveDirection pickup={car?.pickup} destination={car?.destination} />
+          <LiveDirection pickup={ride?.pickup} destination={ride?.destination} />
         </div>
 
         {/* information */}
