@@ -101,10 +101,10 @@ const Riding = () => {
 
               <div className="text-right">
                 <h2 className="capitalize font-semibold text-lg">
-                  {ride?.captain.name}
+                  {ride?.captain?.name}
                 </h2>
                 <p className="font-bold text-lg">
-                  {ride?.captain.vehicle.plate}
+                  {ride?.captain?.vehicle.plate}
                 </p>
                 {/* <p className="">Maruti Suzuki</p> */}
                 <h1 className="font-bold">OTP: {ride?.otp}</h1>

@@ -7,64 +7,36 @@ const containerStyle = {
   height: "100%",
 };
 
-const center = {
-  lat: 0,
-  lng: 0,
+const defaultCenter = {
+  lat: 28.6139, // Default: New Delhi (Change as needed)
+  lng: 77.209,
 };
 
 const LiveTracking = () => {
-  const [currentPosition, setCurrentPosition] = useState(center);
+  const [currentPosition, setCurrentPosition] = useState(defaultCenter);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const handleError = (error) => {
-      setError(error.message);
-    };
+    if (!navigator.geolocation) {
+      setError("Geolocation is not supported by your browser.");
+      return;
+    }
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setCurrentPosition({
-          lat: latitude,
-          lng: longitude,
-        });
-      },
-      handleError
-    );
+    const handleError = (error) => {
+      console.error("Geolocation Error:", error);
+      setError(error.message || "Failed to get location.");
+    };
 
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        setCurrentPosition({
-          lat: latitude,
-          lng: longitude,
-        });
+        setCurrentPosition({ lat: latitude, lng: longitude });
       },
-      handleError
+      handleError,
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
     );
 
     return () => navigator.geolocation.clearWatch(watchId);
-  }, []);
-
-  useEffect(() => {
-    const updatePosition = () => {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setCurrentPosition({
-            lat: latitude,
-            lng: longitude,
-          });
-        },
-        (error) => setError(error.message)
-      );
-    };
-
-    updatePosition();
-
-    const intervalId = setInterval(updatePosition, 5000);
-
-    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -76,7 +48,12 @@ const LiveTracking = () => {
       >
         <MarkerF position={currentPosition} />
       </GoogleMap>
-      {error && <div>Error: {error}</div>}
+
+      {error && (
+        <div className="text-red-500 text-center p-2 bg-gray-200">
+          Error: {error}
+        </div>
+      )}
     </LoadScriptNext>
   );
 };
