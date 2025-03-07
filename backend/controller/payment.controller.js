@@ -32,8 +32,8 @@ const makePayment = async (req, res) => {
             }
         ],
         mode: 'payment',
-        success_url: 'http://localhost:5173/payment/success',
-        cancel_url:'http://localhost:5173/payment/cancel'
+        success_url: 'https://safar.vercel.app/payment/success',
+        cancel_url:'https://safar.vercel.app/payment/cancel'
     })
 
 
