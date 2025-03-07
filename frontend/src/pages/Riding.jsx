@@ -30,7 +30,7 @@ const Riding = () => {
     if(ride){
       localStorage.setItem('ride',ride)
     }
-    if(car.name){
+    if(car.name !== null){
       localStorage.setItem('car',car)
     }else{
       setCar(localStorage.getItem('car'))
