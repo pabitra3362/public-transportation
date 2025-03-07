@@ -2,8 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import getProfileData from '../../utils/getProfileData';
 import { getUserToken } from '../../utils/token';
 
-// const token = getUserToken();
-// const {user} = await getProfileData({token})
 
 
 

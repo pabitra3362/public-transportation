@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -21,6 +22,11 @@ import Riding from "./pages/Riding";
 import DriverHome from "./pages/DriverHome";
 import DriverRiding from "./pages/DriverRiding";
 import DriverWrapper from "./components/DriverWrapper";
+import getProfileData from "./utils/getProfileData";
+import { getDriverToken, getUserToken } from "./utils/token";
+import { useDispatch } from "react-redux";
+import { saveUser } from "./features/auth/userAuthSlice";
+import { saveDriver } from "./features/auth/driverAuthSlice";
 import getProfileData from "./utils/getProfileData";
 import { getDriverToken, getUserToken } from "./utils/token";
 import { useDispatch } from "react-redux";
