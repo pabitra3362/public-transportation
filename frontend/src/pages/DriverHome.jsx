@@ -48,7 +48,6 @@ const DriverHome = () => {
 
 
     return () => clearInterval(locationInterval)
-    return () => clearInterval(locationInterval)
   }, [driver]);
 
   receiveMessage('new-ride',(data)=>{

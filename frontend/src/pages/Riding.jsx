@@ -33,6 +33,8 @@ const Riding = () => {
     if(car){
       localStorage.setItem('car',car)
     }
+    console.log("car: ",car);
+    
   },[ride,car])
 
   const makePayment = async (params) => {
