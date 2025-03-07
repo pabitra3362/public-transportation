@@ -36,6 +36,7 @@ const Riding = () => {
       setCar(localStorage.getItem('car'))
     }
     console.log("car: ",car);
+    console.log("localstroge:",localStorage.getItem('car'))
     
   },[ride,car])
 
