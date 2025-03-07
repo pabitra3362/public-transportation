@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
@@ -16,9 +16,9 @@ const Riding = () => {
   const ride = location.state?.ride || localStorage.getItem('ride');
   const navigate = useNavigate();
   const { receiveMessage } = useContext(SocketContext);
-  const car = useSelector((state) => state.car) || localStorage.getItem('car');
+  const [car, setCar] = useState(useSelector((state) => state.car))
   const token = getUserToken();
-  const sessionId = localStorage.getItem('sessionId')
+  const sessionId = sessionStorage.getItem('sessionId')
 
   receiveMessage("ride-ended", () => {
     navigate("/");
@@ -30,10 +30,15 @@ const Riding = () => {
     if(ride){
       localStorage.setItem('ride',ride)
     }
-    if(car){
-      localStorage.setItem('car',car)
+    if(car.name !== null){
+      localStorage.setItem('car',JSON.stringify(car))
+    }else{
+      setCar(JSON.parse(localStorage.getItem('car')) || {} )
     }
-  },[ride,car])
+    console.log("car: ",car);
+    console.log("localstroge:",localStorage.getItem('car'))
+    
+  },[ride])
 
   const makePayment = async (params) => {
     const stripe = await loadStripe(config.stripeKey);
@@ -57,7 +62,7 @@ const Riding = () => {
     const result = stripe.redirectToCheckout({
       sessionId: session.id,
     });
-    localStorage.setItem('sessionId',session.id)
+    sessionStorage.setItem('sessionId',session.id)
 
     if (result.error) {
       console.log(result.error);
@@ -80,7 +85,7 @@ const Riding = () => {
 
         {/* image */}
         <div className="h-1/2">
-          <LiveDirection pickup={car?.pickup} destination={car?.destination} />
+          <LiveDirection pickup={ride?.pickup} destination={ride?.destination} />
         </div>
 
         {/* information */}
@@ -96,10 +101,10 @@ const Riding = () => {
 
               <div className="text-right">
                 <h2 className="capitalize font-semibold text-lg">
-                  {ride?.captain.name}
+                  {ride?.captain?.name}
                 </h2>
                 <p className="font-bold text-lg">
-                  {ride?.captain.vehicle.plate}
+                  {ride?.captain?.vehicle.plate}
                 </p>
                 {/* <p className="">Maruti Suzuki</p> */}
                 <h1 className="font-bold">OTP: {ride?.otp}</h1>

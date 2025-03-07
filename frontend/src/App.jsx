@@ -26,6 +26,7 @@ import { getDriverToken, getUserToken } from "./utils/token";
 import { useDispatch } from "react-redux";
 import { saveUser } from "./features/auth/userAuthSlice";
 import { saveDriver } from "./features/auth/driverAuthSlice";
+import PaymentResult from './pages/PaymentResult';
 
 
 
@@ -69,6 +70,7 @@ const App = () => {
           <Route path="/driver-login" element={<DriverLogin />} />
           <Route path="/forgotpassword/:role" element={<ForgotPassword />} />
           <Route path="/login/setNewPassword/:role/:id?" element={<ResetPassword />} />
+          <Route path="/payment/:paymentResult" element={<PaymentResult />} />
         </Routes>
         <Footer />
       </Router>

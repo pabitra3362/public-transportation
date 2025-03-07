@@ -6,11 +6,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getUserToken } from '../utils/token';
 import jsPDF from 'jspdf';
 
-const PayementResult = () => {
+const PaymentResult = () => {
   const [paymentInfo, setPaymentInfo] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const sessionId = localStorage.getItem('sessionId')
+  const sessionId = sessionStorage.getItem('sessionId')
   const { paymentResult } = useParams();
   const navigate = useNavigate();
   const token = getUserToken();
@@ -76,4 +76,4 @@ const PayementResult = () => {
   );
 };
 
-export default PayementResult;
+export default PaymentResult;

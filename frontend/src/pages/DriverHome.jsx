@@ -46,7 +46,6 @@ const DriverHome = () => {
 
     const locationInterval = setInterval(updateLocation, 10000)
 
-    updateLocation()
 
     return () => clearInterval(locationInterval)
   }, [driver]);
