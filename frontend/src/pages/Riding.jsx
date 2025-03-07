@@ -33,10 +33,10 @@ const Riding = () => {
     if(car.name !== null){
       localStorage.setItem('car',JSON.stringify(car))
     }else{
-      setCar(JSON.parse(localStorage.getItem('car')))
+      setCar(localStorage.getItem('car').json())
     }
     console.log("car: ",car);
-    console.log("localstroge:",JSON.parse(localStorage.getItem('car')))
+    console.log("localstroge:",(localStorage.getItem('car').json()))
     
   },[ride,car])
 
