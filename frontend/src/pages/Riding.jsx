@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
@@ -13,16 +13,27 @@ import { getUserToken } from "../utils/token";
 
 const Riding = () => {
   const location = useLocation();
-  const ride = location.state?.ride;
+  const ride = location.state?.ride || localStorage.getItem('ride');
   const navigate = useNavigate();
   const { receiveMessage } = useContext(SocketContext);
-  const car = useSelector((state) => state.car);
+  const car = useSelector((state) => state.car) || localStorage.getItem('car');
   const token = getUserToken();
+  const sessionId = localStorage.getItem('sessionId')
 
   receiveMessage("ride-ended", () => {
     navigate("/");
     window.scrollTo(0, 0);
   });
+
+
+  useEffect(()=>{
+    if(ride){
+      localStorage.setItem('ride',ride)
+    }
+    if(car){
+      localStorage.setItem('car',car)
+    }
+  },[ride,car])
 
   const makePayment = async (params) => {
     const stripe = await loadStripe(config.stripeKey);
@@ -46,6 +57,7 @@ const Riding = () => {
     const result = stripe.redirectToCheckout({
       sessionId: session.id,
     });
+    localStorage.setItem('sessionId',session.id)
 
     if (result.error) {
       console.log(result.error);
@@ -128,12 +140,22 @@ const Riding = () => {
                 </div>
               </div>
 
-              <button
+              { sessionId ? (
+                <button
+                onClick={makePayment}
+                disabled={true}
+                className="w-full bg-green-400 text-black py-2 rounded hover:cursor-not-allowed duration-300 font-bold my-2"
+              >
+                Already Paid
+              </button>
+              ) : (
+                <button
                 onClick={makePayment}
                 className="w-full bg-green-500 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2"
               >
                 make payment
               </button>
+              )}
             </div>
           </div>
         </div>

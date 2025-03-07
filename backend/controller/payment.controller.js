@@ -32,8 +32,8 @@ const makePayment = async (req, res) => {
             }
         ],
         mode: 'payment',
-        success_url: 'http://localhost:5173/success',
-        cancel_url:'http://localhost:5173/cancel'
+        success_url: 'http://localhost:5173/payment/success',
+        cancel_url:'http://localhost:5173/payment/cancel'
     })
 
 
@@ -42,4 +42,28 @@ const makePayment = async (req, res) => {
 }
 
 
-export {makePayment};
+
+
+
+// Controller to fetch session info
+const fetchPaymentInfo = async (req, res) => {
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array() })
+    }
+
+    const { sessionId } = req.query;
+
+    try {
+        const session = await stripeInstance.checkout.sessions.retrieve(sessionId)
+
+        return res.status(200).json({session})
+    } catch (error) {
+        return res.status(500).json({message:error.message})
+    }
+}
+
+
+
+export {makePayment, fetchPaymentInfo};

@@ -21,6 +21,7 @@ import Riding from "./pages/Riding";
 import DriverHome from "./pages/DriverHome";
 import DriverRiding from "./pages/DriverRiding";
 import DriverWrapper from "./components/DriverWrapper";
+import PayementResult from "./pages/PayementResult";
 
 
 
@@ -46,6 +47,7 @@ const App = () => {
           <Route path="/driver-login" element={<DriverLogin />} />
           <Route path="/forgotpassword/:role" element={<ForgotPassword />} />
           <Route path="/login/setNewPassword/:role/:id?" element={<ResetPassword />} />
+          <Route path='/payment/:PaymentResult' element={<PayementResult /> } />
         </Routes>
         <Footer />
       </Router>
