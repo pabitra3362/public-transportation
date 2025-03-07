@@ -19,7 +19,7 @@ const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride })
   const onSubmit =async (data) => {
 
     
-      const response = await confirmRide({rideId: ride._id, otp: data.otp})
+      const response = await confirmRide({rideId: ride?._id, otp: data.otp})
 
       if(response){
         setConfirmRidePopupPanel(false);

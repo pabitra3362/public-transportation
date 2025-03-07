@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -21,11 +21,33 @@ import Riding from "./pages/Riding";
 import DriverHome from "./pages/DriverHome";
 import DriverRiding from "./pages/DriverRiding";
 import DriverWrapper from "./components/DriverWrapper";
-import PayementResult from "./pages/PayementResult";
+import getProfileData from "./utils/getProfileData";
+import { getDriverToken, getUserToken } from "./utils/token";
+import { useDispatch } from "react-redux";
+import { saveUser } from "./features/auth/userAuthSlice";
+import { saveDriver } from "./features/auth/driverAuthSlice";
 
 
 
 const App = () => {
+
+  const dispatch = useDispatch()
+  const userToken = getUserToken();
+  const driverToken = getDriverToken();
+  useEffect(()=>{
+    const fetchUserData = async () =>{
+      if(userToken) {
+        const {user, token} = await getProfileData({token:userToken})
+         dispatch(saveUser({user, token}))
+       }else{
+         const {driver, token} = await getProfileData({token:driverToken})
+         dispatch(saveDriver({driver,token}))
+       }
+    }
+
+    fetchUserData();
+  },[dispatch])
+
   return (
     <div>
       <Router>
@@ -47,7 +69,6 @@ const App = () => {
           <Route path="/driver-login" element={<DriverLogin />} />
           <Route path="/forgotpassword/:role" element={<ForgotPassword />} />
           <Route path="/login/setNewPassword/:role/:id?" element={<ResetPassword />} />
-          <Route path='/payment/:PaymentResult' element={<PayementResult /> } />
         </Routes>
         <Footer />
       </Router>

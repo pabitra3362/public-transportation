@@ -26,14 +26,16 @@ const DriverHome = () => {
   const [ride, setRide] = useState(null)
 
   useEffect(() => {
-    sendMessage("join", { userType: "captain", userId: driver._id });
+    if(driver){
+      sendMessage("join", { userType: "captain", userId: driver._id });
+    }
 
     const updateLocation = () => {
       navigator.geolocation.getCurrentPosition((position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         sendMessage("update-location-captain", {
-          userId: driver._id,
+          userId: driver?._id,
           location:{
             ltd:latitude,
             lng:longitude,
@@ -46,7 +48,7 @@ const DriverHome = () => {
 
     updateLocation()
 
-    // return () => clearInterval(locationInterval)
+    return () => clearInterval(locationInterval)
   }, [driver]);
 
   receiveMessage('new-ride',(data)=>{
@@ -56,8 +58,8 @@ const DriverHome = () => {
 
   async function confirmRide (){
     const response = await axios.post(`${config.baseUrl}/ride/confirm`,{
-      rideId: ride._id,
-      captainId: driver._id
+      rideId: ride?._id,
+      captainId: driver?._id
     },{
       headers: {
         'Authorization': `Bearer ${token}`
