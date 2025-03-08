@@ -147,7 +147,7 @@ const endRide = async (req, res) => {
 
     const distanceTime = await fetchDistanceTime(ride.pickup, ride.destination)
     
-    await Captain.findByIdAndUpdate(req.captain._id, { $inc: { earning: ride.fare, totalJobs: 1, totalDistance: Math.round(distanceTime.distance.value / 1000), totalHours: Math.round(distanceTime.time.value / 60 * 60) } })
+    await Captain.findByIdAndUpdate(req.captain._id, { $inc: { earning: ride.fare, totalJobs: 1, totalDistance: Math.round(distanceTime.distance.value / 1000), totalHours: Math.round(distanceTime.duration.value / 60 * 60) } })
 
     return res.status(200).json(ride);
   } catch (error) {
