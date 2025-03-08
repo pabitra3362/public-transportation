@@ -144,8 +144,9 @@ const endRide = async (req, res) => {
     });
 
 
-
-    await Captain.findByIdAndUpdate(req.captain._id, { $inc: { earning: ride.fare } })
+    console.log(ride);
+    
+    await Captain.findByIdAndUpdate(req.captain._id, { $inc: { earning: ride.fare, totalJobs: 1 } })
 
     return res.status(200).json(ride);
   } catch (error) {

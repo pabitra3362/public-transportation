@@ -59,7 +59,7 @@ async function userLogin(req, res) {
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(400).json({ error: "Invalid email or password" });
     }
 
     const token = user.generateAuthToken();
