@@ -5,13 +5,14 @@ import {
   getFareService,
   startRideService,
 } from "../services/ride.service.js";
-import { ExpressValidator, validationResult } from "express-validator";
+import { validationResult } from "express-validator";
 import {
   fetchCoordinates,
   getCaptainsInRadius,
 } from "../services/map.service.js";
 import { sendMessageToSocketId } from "../socket.js";
 import Ride from "../models/ride.model.js";
+import Captain from "../models/captain.model.js";
 
 // Controller for create ride
 const createRide = async (req, res) => {
@@ -141,6 +142,10 @@ const endRide = async (req, res) => {
       event: 'ride-ended',
       data: ride
     });
+
+
+
+    await Captain.findByIdAndUpdate(req.captain._id, { $inc: { earning: ride.fare } })
 
     return res.status(200).json(ride);
   } catch (error) {

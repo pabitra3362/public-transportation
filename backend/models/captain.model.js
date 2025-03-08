@@ -42,6 +42,11 @@ const captainSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  earning: {
+    type: Number,
+    default: 0
+  },
   
   vehicle: {
     plate: {
