@@ -22,7 +22,7 @@ const DriverDetails = () => {
           <div className="grid gap-2">
             <div className="flex justify-between items-center">
               <FaRupeeSign />
-              <p className="font-bold text-lg">293.15</p>
+              <p className="font-bold text-lg">{driver?.earning}</p>
             </div>
             <div className=" text-white text-center rounded-lg bg-gradient-to-r from-black to-slate-500 ">
               Earned
