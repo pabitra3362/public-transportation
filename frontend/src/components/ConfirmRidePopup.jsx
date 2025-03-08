@@ -98,7 +98,7 @@ const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride })
         <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
           <input
             className="w-full rounded my-2 placeholder:font-semibold pl-5"
-            type="text"
+            type="number"
             placeholder="Enter OTP"
             {...register('otp',{
               required: "OTP is required",
