@@ -13,7 +13,7 @@ import { getUserToken } from "../utils/token";
 
 const Riding = () => {
   const location = useLocation();
-  const ride = location.state?.ride || localStorage.getItem('ride');
+  const [ ride, setRide ] = useState(location.state?.ride || localStorage.getItem('ride'))
   const navigate = useNavigate();
   const { receiveMessage } = useContext(SocketContext);
   const [car, setCar] = useState(useSelector((state) => state.car))
@@ -27,18 +27,19 @@ const Riding = () => {
 
 
   useEffect(()=>{
-    if(ride){
-      localStorage.setItem('ride',ride)
-    }
-    if(car.name !== null){
-      localStorage.setItem('car',JSON.stringify(car))
+    if(ride._id !== null){
+      sessionStorage.setItem('ride',JSON.stringify(ride))
     }else{
-      setCar(JSON.parse(localStorage.getItem('car')) || {} )
+      setRide(JSON.parse(sessionStorage.getItem('ride')) || {} )
     }
-    console.log("car: ",car);
-    console.log("localstroge:",localStorage.getItem('car'))
+
+    if(car.name !== null){
+      sessionStorage.setItem('car',JSON.stringify(car))
+    }else{
+      setCar(JSON.parse(sessionStorage.getItem('car')) || {} )
+    }
     
-  },[ride])
+  },[])
 
   const makePayment = async (params) => {
     const stripe = await loadStripe(config.stripeKey);

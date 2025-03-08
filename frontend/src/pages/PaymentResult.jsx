@@ -31,7 +31,7 @@ const PaymentResult = () => {
           }
         });
         setPaymentInfo(response.data.session);
-        localStorage.removeItem('sessionId')
+        sessionStorage.removeItem('sessionId')
       } catch (err) {
         setError('Failed to fetch payment information');
       } finally {
@@ -66,7 +66,7 @@ const PaymentResult = () => {
       <p className="text-lg font-medium mb-2">Currency: {paymentInfo.currency}</p>
       <div className='flex flex-col w-full gap-3'>
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={downloadPdf}>Download as PDF</button>
-      <button className="bg-yellow-300 hover:bg-black text-white font-bold py-2 px-4 rounded" onClick={()=>navigate('/riding')}>Back To Ride</button>
+      <button className="bg-yellow-300 hover:bg-black text-white font-bold py-2 px-4 rounded" onClick={()=>navigate('/')}>Back To Home</button>
       </div>
     </div>
   ) : (

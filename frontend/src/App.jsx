@@ -32,7 +32,7 @@ import PaymentResult from './pages/PaymentResult';
 
 const App = () => {
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const userToken = getUserToken();
   const driverToken = getDriverToken();
   useEffect(()=>{
