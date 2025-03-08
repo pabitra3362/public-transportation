@@ -34,19 +34,19 @@ const DriverDetails = () => {
 
             <div className="flex flex-col justify-center items-center gap-1">
             <FaRegClock className="font-extrabold text-xl" />
-            <p className="font-bold text-lg">10.2</p>
+            <p className="font-bold text-lg">{driver?.totalHours}</p>
             <h3>Hours Online</h3>
             </div>
 
             <div className="flex flex-col justify-center items-center gap-1">
             <SlSpeedometer className="font-extrabold text-xl" />
-            <p className="font-bold text-lg">30 KM</p>
+            <p className="font-bold text-lg">{driver?.totalDistance} KM</p>
             <h3>Total Distance</h3>
             </div>
 
             <div className="flex flex-col justify-center items-center gap-1">
             <SlNotebook className="font-extrabold text-xl"  />
-            <p className="font-bold text-lg">20</p>
+            <p className="font-bold text-lg">{driver?.totalJobs}</p>
             <h3>Total Jobs</h3>
             </div>
         </div>
