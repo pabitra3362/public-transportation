@@ -146,7 +146,7 @@ const Riding = () => {
                 </div>
               </div>
               
-              <p className="text-sm text-red-500">
+              <p className="text-sm text-center text-red-500">
                 make payment only after you have reached the destination !!!!
               </p>
 
