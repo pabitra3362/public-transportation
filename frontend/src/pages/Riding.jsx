@@ -145,6 +145,10 @@ const Riding = () => {
                   <div className="w-full bg-black h-[3px] opacity-20 mt-2" />
                 </div>
               </div>
+              
+              <p className="text-sm text-red-500">
+                make payment only after you have reached the destination !!!!
+              </p>
 
               { sessionId ? (
                 <button
