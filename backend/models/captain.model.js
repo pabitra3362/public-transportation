@@ -49,7 +49,7 @@ const captainSchema = new mongoose.Schema({
     expires: 30 * 24 * 60 * 60,
   },
 
-  hoursOnline: {
+  totalHours: {
     type: Number,
     default: 0,
     expires: 24 * 60 * 60,
