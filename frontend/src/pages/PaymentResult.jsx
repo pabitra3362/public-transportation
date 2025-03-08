@@ -30,7 +30,6 @@ const PaymentResult = () => {
           }
         });
         setPaymentInfo(response.data.session);
-        sessionStorage.removeItem('sessionId')
       } catch (err) {
         setError('Failed to fetch payment information');
       } finally {
