@@ -43,7 +43,6 @@ const PaymentResult = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
-  console.log(paymentInfo);
 
   const downloadPdf = () => {
     const doc = new jsPDF();
