@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
@@ -24,6 +25,7 @@ const Riding = () => {
     window.scrollTo(0, 0);
   });
 
+  // eslint-disable-next-line no-unused-vars
   const makePayment = async (params) => {
     const stripe = await loadStripe(config.stripeKey);
 
