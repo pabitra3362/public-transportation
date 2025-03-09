@@ -4,10 +4,12 @@ import { GiJourney } from "react-icons/gi";
 import { RiArrowDownWideFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { endRide } from '../services/ride/ride.service';
+import { useSelector } from "react-redux";
 
 const FinishRide = ({setFinishRide, ride}) => {
 
     const navigate = useNavigate();
+    const { driver } = useSelector(state => state.driver)
 
 
     const handleFinishButton = async () => {
@@ -44,12 +46,12 @@ const FinishRide = ({setFinishRide, ride}) => {
             <div className="flex items-center gap-3">
               <img
                 className="h-8 w-8 rounded-full object-cover"
-                src="https://www.shutterstock.com/image-photo/portrait-smiling-young-girl-making-260nw-436447678.jpg"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_ar6WjHrFQVRAlywciRUAbIn1iqVQGdyJYQ&s"
                 alt="driver-image"
               />
               <h2 className="font-bold text-lg">{ride?.user.name}</h2>
             </div>
-            <div className="font-bold text-lg">2.2 KM</div>
+            <div className="font-bold text-lg">{driver?.totalDistance} KM</div>
           </div>
     
           {/* <hr className="w-full bg-black h-[3px] opacity-20" /> */}

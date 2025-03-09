@@ -14,7 +14,7 @@ const DriverDetails = () => {
           <div className="flex justify-center items-center gap-4">
             <img
               className="w-10 h-10 object-cover rounded-full"
-              src="https://www.shutterstock.com/image-photo/portrait-smiling-young-boy-making-260nw-436447678.jpg"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_ar6WjHrFQVRAlywciRUAbIn1iqVQGdyJYQ&s"
               alt=""
             />
             <h3 className="font-bold text-lg">{driver?.name}</h3>

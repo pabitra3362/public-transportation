@@ -59,7 +59,7 @@ const DriverRiding = () => {
             </button>
           </div>
           <div className="flex justify-between items-center px-5">
-            <p className="font-semibold text-lg">4 KM away</p>
+            <p className="font-semibold text-lg">{rideData?.user?.name}</p>
             <button className="px-4 bg-green-500 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2">
               Complete Ride
             </button>
