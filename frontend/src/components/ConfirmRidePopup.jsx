@@ -1,4 +1,4 @@
-import React,{useEffect, usestate} from "react";
+import React,{useEffect, useState} from "react";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { RiArrowDownWideFill } from "react-icons/ri";
@@ -11,7 +11,7 @@ import { getDistanceAndTime } from "../services/map/map.service";
 const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride }) => {
   const navigate = useNavigate();
   const { driver } = useSelector(state => state.driver)
-  const [distanceTime, setDistanceTime]=  usestate(null)
+  const [distanceTime, setDistanceTime]=  useState(null)
 
   const {
     register,
