@@ -150,22 +150,12 @@ const Riding = () => {
                 make payment only after you have reached the destination !!!!
               </p>
 
-              { sessionId ? (
-                <button
-                onClick={makePayment}
-                disabled={true}
-                className="w-full bg-green-400 text-black py-2 rounded hover:cursor-not-allowed duration-300 font-bold my-2"
-              >
-                Already Paid
-              </button>
-              ) : (
-                <button
+              <button
                 onClick={makePayment}
                 className="w-full bg-green-500 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2"
               >
                 make payment
               </button>
-              )}
             </div>
           </div>
         </div>
