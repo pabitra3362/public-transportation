@@ -18,6 +18,7 @@ const PaymentResult = () => {
 
   useEffect(() => {
 
+      if(!sessionId) return navigate('/');
       
     const fetchPaymentInfo = async () => {
       try {
