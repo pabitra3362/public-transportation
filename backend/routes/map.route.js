@@ -1,5 +1,5 @@
 import express from 'express';
-import { authUser } from '../middlewares/auth.middleware.js';
+import { authUser,authCaptain } from '../middlewares/auth.middleware.js';
 import { getCoordinates, getDistanceAndTime, getAutoCompleteSuggestions } from '../controller/map.controller.js';
 import { query } from 'express-validator';
 
@@ -16,6 +16,7 @@ router.get('/get-coordinates',
 router.get('/get-distance-time',
     query('origin').isLength({min: 3}).withMessage("Please enter valid origin address"),
     query('destination').isLength({min: 3}).withMessage("Please enter valid destination address"),
+    authcaptain,
     getDistanceAndTime);
 
 

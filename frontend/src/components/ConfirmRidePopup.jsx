@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect, usestate} from "react";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { RiArrowDownWideFill } from "react-icons/ri";
@@ -6,16 +6,37 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { confirmRide } from "../services/ride/ride.service";
 import { useSelector } from "react-redux";
+import { getDistanceAndTime } from "../services/map/map.service";
 
 const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride }) => {
   const navigate = useNavigate();
   const { driver } = useSelector(state => state.driver)
+  const [distanceTime, setDistanceTime]=  usestate(null)
 
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm();
+
+    useEffect(() => {
+      async function callMe (){
+        const response =  await getDistanceAndTime({
+          pickup: ride?.pickup,
+          destination: ride?.destination
+        });
+  
+        if(response){
+          const distance = response.distance.value / 1000;
+          setDistanceTime(distance)
+        }else{
+          setDistanceTime(null)
+        }
+      }
+  
+  
+      callMe();
+    },[ride])
 
 
   const onSubmit =async (data) => {
@@ -61,7 +82,7 @@ const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride })
           />
           <h2 className="font-bold text-lg capitalize">{ride?.user.name}</h2>
         </div>
-        <div className="font-bold text-lg">{driver?.totalDistance} KM</div>
+        <div className="font-bold text-lg">{distanceTime} KM</div>
       </div>
 
       {/* <hr className="w-full bg-black h-[3px] opacity-20" /> */}
