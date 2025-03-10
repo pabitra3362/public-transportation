@@ -7,6 +7,12 @@ import { useSelector } from 'react-redux';
 const DriverDetails = () => {
 
   const {driver} = useSelector(state => state.driver)
+
+  function decimalToClock(decimal) {
+    let hours = Math.floor(decimal); 
+    let minutes = Math.round((decimal - hours) * 60); 
+    return `${hours}:${minutes.toString().padStart(2, '0')}`; 
+  }
  
   return (
     <>
@@ -34,7 +40,7 @@ const DriverDetails = () => {
 
             <div className="flex flex-col justify-center items-center gap-1">
             <FaRegClock className="font-extrabold text-xl" />
-            <p className="font-bold text-lg">{driver?.totalHours}</p>
+            <p className="font-bold text-lg">{decimalToClock(driver?.totalHours)}</p>
             <h3>Hours Online</h3>
             </div>
 
