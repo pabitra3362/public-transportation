@@ -16,7 +16,7 @@ router.get('/get-coordinates',
 router.get('/get-distance-time',
     query('origin').isLength({min: 3}).withMessage("Please enter valid origin address"),
     query('destination').isLength({min: 3}).withMessage("Please enter valid destination address"),
-    authUser, getDistanceAndTime);
+    getDistanceAndTime);
 
 
 // Route to get autoComplete suggestions

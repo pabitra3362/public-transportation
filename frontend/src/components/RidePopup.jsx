@@ -7,26 +7,26 @@ import { getDistanceAndTime } from "../services/map/map.service";
 
 const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride, confirmRide }) => {
   const { driver } = useSelector(state => state.driver )
-  const [ distanceTime , setDistanceTime ] = useState({});
+  const [ distanceTime , setDistanceTime ] = useState(null);
 
   useEffect(() => {
     async function callMe (){
       const response =  await getDistanceAndTime({
-        origin: driver?.pickup,
-        destination: driver?.destination
+        pickup: ride?.pickup,
+        destination: ride?.destination
       });
 
       if(response){
         const distance = response.distance.value / 1000;
         setDistanceTime(distance)
       }else{
-        setDistanceTime({})
+        setDistanceTime(null)
       }
     }
 
 
     callMe();
-  })
+  },[ride])
   return (
     <div className="py-2">
       <div className="flex justify-center">
