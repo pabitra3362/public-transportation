@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { RiArrowDownWideFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
+import { getDistanceAndTime } from "../services/map/map.service";
 
 const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride, confirmRide }) => {
   const { driver } = useSelector(state => state.driver )
+  const [ distanceTime , setDistanceTime ] = useState({});
+
+  useEffect(() => {
+    async function callMe (){
+      const response =  await getDistanceAndTime({
+        origin: driver?.pickup,
+        destination: driver?.destination
+      });
+
+      if(response){
+        const distance = response.distance.value / 1000;
+        setDistanceTime(distance)
+      }else{
+        setDistanceTime({})
+      }
+    }
+
+
+    callMe();
+  })
   return (
     <div className="py-2">
       <div className="flex justify-center">
@@ -31,7 +52,7 @@ const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride, confirmR
           />
           <h2 className="font-bold text-lg capitalize">{ride?.user.name}</h2>
         </div>
-        <div className="font-bold text-lg">{driver?.totalDistance} KM</div>
+        <div className="font-bold text-lg">{distanceTime} KM</div>
       </div>
 
       {/* <hr className="w-full bg-black h-[3px] opacity-20" /> */}
