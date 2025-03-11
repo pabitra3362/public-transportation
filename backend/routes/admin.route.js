@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 import express from "express";
-import { getAdminProfile, loginAdmin, registerAdmin, adminLogout, forgetAdminPassword, setPassword } from "../controller/admin.controller.js";
+import { getAdminProfile, loginAdmin, registerAdmin, adminLogout, forgetAdminPassword, setPassword, getUsers, deleteUser, updateUser, getCaptains, deleteCaptain, updateCaptain } from "../controller/admin.controller.js";
 import { authAdmin } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
@@ -18,6 +18,7 @@ router.post(
       .isLength({ min: 7 })
       .withMessage("Password must be atleast 7 characters long"),
   ],
+  authAdmin,
   registerAdmin
 );
 
@@ -44,10 +45,62 @@ router.post('/forgetPassword',[
     body('email').isEmail().withMessage("Email is not valid"),
 ], forgetAdminPassword )
 
+
+
 // POST request for set new password
 router.post('/setNewPassword',[
     body('password').isLength({min:7,max:12}).withMessage("Password must be between 7 to 12 characters long")
 ],setPassword)
+
+
+// GET request for getting all users
+router.get('/getUsers',authAdmin, getUsers)
+
+// DELETE request to delete user
+router.delete('/deleteUser',
+  [
+    body('id').isString().withMessage("Please enter a valid id"),
+  ],
+  authAdmin,
+  deleteUser
+);
+
+
+// update request to update user details
+router.put('/updateUser',
+  [
+    body('id').isString().withMessage("Please enter a valid id"),
+    body('name').isString().isLength({ min: 3 }).withMessage("Name must be atleast 3 characters long"),
+    body('email').isEmail().withMessage("Please enter a valid email"),
+  ],
+  authAdmin,
+  updateUser
+);
+
+
+// GET request for getting all users
+router.get('/getCaptains',authAdmin, getCaptains)
+
+// DELETE request to delete user
+router.delete('/deleteCaptain',
+  [
+    body('id').isString().withMessage("Please enter a valid id"),
+  ],
+  authAdmin,
+  deleteCaptain
+);
+
+
+// update request to update user details
+router.put('/updateCaptain',
+  [
+    body('id').isString().withMessage("Please enter a valid id"),
+    body('name').isString().isLength({ min: 3 }).withMessage("Name must be atleast 3 characters long"),
+    body('email').isEmail().withMessage("Please enter a valid email"),
+  ],
+  authAdmin,
+  updateCaptain
+);
 
 
 export default router;
