@@ -4,6 +4,7 @@ import connectDB from './db/connection.js';
 import cors from 'cors';
 import userRoutes from './routes/user.route.js';
 import captainRoutes from './routes/captain.route.js';
+import adminRoutes from './routes/admin.route.js';
 import mapRoutes from './routes/map.route.js';
 import rideRoutes from './routes/ride.route.js';
 import paymentRoutes from './routes/payment.route.js';
@@ -37,6 +38,7 @@ app.get("/", (req, res) => {
 // all routes
 app.use('/api/user',userRoutes);
 app.use('/api/captain',captainRoutes);
+app.use('/api/admin',adminRoutes);
 app.use('/maps',mapRoutes);
 app.use('/ride',rideRoutes);
 app.use("/api/payment",paymentRoutes)

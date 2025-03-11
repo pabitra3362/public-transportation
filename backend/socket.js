@@ -25,6 +25,7 @@ export function initializeSocket(server) {
       } else if (userType === "captain") {
         await Captain.findByIdAndUpdate(userId, {
           socketId: socket.id,
+          status: active
         });
       }
     });
@@ -45,8 +46,18 @@ export function initializeSocket(server) {
     });
 
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", async (data) => {
       console.log(`Client disconnected: ${socket.id}`);
+      if(data){
+        const { userType, userId } = data;
+        if(userType === 'captain'){
+          await Captain.findByIdAndUpdate( userId, {
+            status: inactive
+          })
+        }
+      }else{
+        return;
+      }
     });
   });
 }

@@ -46,27 +46,25 @@ const captainSchema = new mongoose.Schema({
   earning: {
     type: Number,
     default: 0,
-    expires: 30 * 24 * 60 * 60,
+    expiresAt: Date.now() + 30 * 24 * 60 * 60,
   },
 
   totalHours: {
     type: Number,
     default: 0,
-    expires: 24 * 60 * 60,
+    expiresAt: Date.now() + 24 * 60 * 60,
   },
-
   totalDistance: {
     type: Number,
     default: 0,
-    expires: 30 * 24 * 60 * 60,
+    expiresAt: Date.now() + 30 * 24 * 60 * 60,
   },
 
   totalJobs: {
     type: Number,
     default: 0,
-    expires: 30 * 24 * 60 * 60,
+    expiresAt: Date.now() + 30 * 24 * 60 * 60,
   },
-
 
   vehicle: {
     plate: {

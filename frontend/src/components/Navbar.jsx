@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { MyDrawer } from "./Drawer";
 import Logo from "../assets/Logo.jpg";
@@ -10,6 +10,9 @@ import { removeUser } from '../features/auth/userAuthSlice'
 import { removeDriver } from '../features/auth/driverAuthSlice'
 import { jwtDecode } from "jwt-decode";
 import { getDriverToken, getUserToken } from "../utils/token";
+import { SocketContext } from "../context/SocketContext";
+import { useSelector } from "react-redux";
+const { sendMessage, receiveMessage } = useContext(SocketContext);
 
 
 const Navbar = () => {
@@ -17,6 +20,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const userToken = getUserToken(); //get token from local storage
   const driverToken = getDriverToken(); //get token from local storage
+  const { driver } = useSelector(state => state.driver)
  
   
 
@@ -38,6 +42,7 @@ const Navbar = () => {
         if(result){
           localStorage.removeItem('driverToken') // remove token from localstorage
           removeDriver(); // remove driver info from store
+          sendMessage('disconnect',{ userType: 'captain', userId: driver?._id })
           navigate('/drive');
         }
 

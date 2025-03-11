@@ -4,6 +4,7 @@ export default{
     mongodb_uri: String(process.env.MONGODB_URI),
     port: Number(process.env.PORT) || 3000,
     jwtSecret: String(process.env.JWT_SECRET),
+    adminJwtSecret: String(process.env.ADMIN_JWT_SECRET),
     clientID: String(process.env.GOOGLE_CLIENT_ID),
     clientSecret: String(process.env.GOOGLE_CLIENT_SECRET),
     mapApiKey: String(process.env.GOOGLE_MAPS_API),

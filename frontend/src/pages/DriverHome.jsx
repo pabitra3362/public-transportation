@@ -27,7 +27,7 @@ const DriverHome = () => {
 
   useEffect(() => {
     if(driver){
-      sendMessage("join", { userType: "captain", userId: driver._id });
+      sendMessage("join", { userType: "captain", userId: driver?._id });
     }
 
     const updateLocation = () => {
