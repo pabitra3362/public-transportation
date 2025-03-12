@@ -1,6 +1,6 @@
-import { body } from "express-validator";
+import { body, query } from "express-validator";
 import express from "express";
-import { getAdminProfile, loginAdmin, registerAdmin, adminLogout, forgetAdminPassword, setPassword, getUsers, deleteUser, updateUser, getCaptains, deleteCaptain, updateCaptain } from "../controller/admin.controller.js";
+import { getAdminProfile, loginAdmin, registerAdmin, adminLogout, forgetAdminPassword, setPassword, getUsers, deleteUser, updateUser, getCaptains, deleteCaptain, updateCaptain, getRides, getCaptain, cancelRide } from "../controller/admin.controller.js";
 import { authAdmin } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
@@ -78,10 +78,21 @@ router.put('/updateUser',
 );
 
 
-// GET request for getting all users
+// GET request for getting single captain
+
+router.get('/getCaptain',
+  [
+    query('id').isString().withMessage("Please enter a valid id"),
+  ],
+  authAdmin,
+  getCaptain
+);
+
+
+// GET request for getting all captains
 router.get('/getCaptains',authAdmin, getCaptains)
 
-// DELETE request to delete user
+// DELETE request to delete captain
 router.delete('/deleteCaptain',
   [
     body('id').isString().withMessage("Please enter a valid id"),
@@ -91,7 +102,7 @@ router.delete('/deleteCaptain',
 );
 
 
-// update request to update user details
+// UPDATE request to update captain details
 router.put('/updateCaptain',
   [
     body('id').isString().withMessage("Please enter a valid id"),
@@ -101,6 +112,22 @@ router.put('/updateCaptain',
   authAdmin,
   updateCaptain
 );
+
+
+// GET request for getting rides based on status
+router.get('/getRides',
+  query('status').isString().withMessage('Please enter a valid status'),
+  authAdmin,
+  getRides
+);
+
+
+// POST request to cancel ride
+router.post('/cancelRide',
+  body('rideId').isString().withMessage("Invalid ride id"),
+  authAdmin,
+  cancelRide
+)
 
 
 export default router;

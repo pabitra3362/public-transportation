@@ -1,11 +1,13 @@
 import React,{ useRef, useState } from "react";
 import { MdOutlineLogout } from "react-icons/md";
 import { RiArrowUpWideFill } from "react-icons/ri";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import FinishRide from '../components/FinishRide';
 import gsap from 'gsap';
 import { useGSAP } from "@gsap/react";
 import LiveDirection from "../components/LiveDirection";
+import { receiveMessage } from '../context/SocketContext';
+import { toast , ToastContainer } from 'react-toastify';
 
 
 const DriverRiding = () => {
@@ -14,6 +16,7 @@ const DriverRiding = () => {
   const finishRideRef = useRef(null)
   const location = useLocation()
   const rideData = location.state?.ride
+  const navigate = useNavigate()
 
   useGSAP(()=>{
     if(finishRide){
@@ -29,8 +32,21 @@ const DriverRiding = () => {
   },[finishRide])
 
 
+  receiveMessage('ride-canceled',(ride) => {
+    setFinishRide(false)
+    toast.error('ride canceled by admin',{
+      onclose: () => {
+        navigate('/driver-home')
+        window.scrollTo(0,0)
+      }
+    })
+    
+  })
+
+
   return (
     <div className="h-screen flex justify-center items-center">
+      <ToastContainer theme="dark" />
       <div className="h-screen lg:h-[70vh] w-full lg:w-[70%] lg:my-12 relative lg:rounded-2xl lg:overflow-hidden lg:hover:shadow-2xl lg:hover:-translate-y-8 duration-300">
         <div className=" flex justify-between items-center w-full absolute top-3 px-4">
           <h1 className="bg-transparent text-black tracking-[0.25rem] w-fit font-custom text-2xl ">

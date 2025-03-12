@@ -17,7 +17,6 @@ const CarConfirmPanel = ({ confirmedCar, setLookingDriverPanel, setCarConfirmPan
           vehicleType: confirmedCar.vehicleType
     })
     
-    // sendMessage('new-ride')
     
     setCarConfirmPanel(false)
     setLookingDriverPanel(true)

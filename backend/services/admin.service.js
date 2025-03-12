@@ -1,6 +1,7 @@
 import Admin from "../models/admin.model.js";
 import User from "../models/user.model.js";
 import Captain from '../models/captain.model.js';
+import Ride from '../models/ride.model.js';
 
 // Service for admin register
 const createAdminService = async ({ name, email, password }) => {
@@ -82,14 +83,30 @@ const updateUserService = async ({ id, name, email }) => {
 };
 
 
-// Service for getting all users
+
+// Service to get single captain details
+const getCaptainService = async ({ id }) => {
+  if (!id) {
+    throw new Error("All fields are required");
+  }
+
+  const captain = await Captain.findOne({ _id: id });
+  if (!captain) {
+    throw new Error("Driver with this id does not exist");
+  }
+
+  return captain;
+}
+
+
+// Service for getting all captains
 const getCaptainsService = async () => {
   const captains = await Captain.find({});
 
   return captains;
 };
 
-// Service to delete user
+// Service to delete captain
 const deleteCaptainService = async ({ id }) => {
   if (!id) {
     throw new Error("All fields are required");
@@ -103,7 +120,7 @@ const deleteCaptainService = async ({ id }) => {
   return captain;
 };
 
-// Service to update user details
+// Service to update captain details
 const updateCaptainService = async ({ id, name, email }) => {
   if (!id || !name || !email) {
     throw new Error("All fields are required");
@@ -118,6 +135,44 @@ const updateCaptainService = async ({ id, name, email }) => {
 };
 
 
+// Serive to get rides based on status
+const getRidesService = async({status}) => {
+  if (!status) {
+    throw new Error("Status is required");
+  }
+
+  if(status === 'all'){
+    return await Ride.find({}).populate('captain');
+  }
+
+  const rides = await Ride.find({ status }).populate('captain');
+
+  return rides;
+}
+
+
+// Servuce to cancel ride
+const cancelRideService = async ({ rideId }) => {
+  if (!rideId) {
+    throw new Error("Rid id is required");
+  }
+
+  const detailedRide = await Ride.findOne({_id: rideId }).populate("user");
+  
+
+  if (!detailedRide) {
+    throw new Error("Ride with this id does not exist");
+  }
+
+  if(detailedRide.status === 'cancelled'){
+    throw new Error("Ride is already cancelled");
+  }
+
+  await Ride.findOneAndUpdate({_id: rideId},{status: 'cancelled'});
+  return detailedRide;
+}
+
+
 
 export {
   createAdminService,
@@ -126,7 +181,10 @@ export {
   getUsersService,
   deleteUserService,
   updateUserService,
+  getCaptainService,
   getCaptainsService,
   deleteCaptainService,
   updateCaptainService,
+  getRidesService,
+  cancelRideService
 };

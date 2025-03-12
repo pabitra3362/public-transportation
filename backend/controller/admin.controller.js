@@ -9,10 +9,14 @@ import {
   loginAdminService,
   updateUserService,
   updateCaptainService,
+  getRidesService,
+  getCaptainService,
+  cancelRideService,
 } from "../services/admin.service.js";
 import Admin from "../models/admin.model.js";
 import BlacklistedToken from "../models/blacklistToken.model.js";
 import { FPES } from "../utils/emailSender.js";
+import { sendMessageToSocketId } from "../socket.js";
 
 // Controller for admin register
 const registerAdmin = async (req, res) => {
@@ -191,7 +195,27 @@ const updateUser = async (req, res) => {
 }
 
 
-// Controller for  get all users
+// Controller to get single captain details
+const getCaptain = async (req, res) => {
+  const errors = validationResult(req);
+
+  if(!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { id } = req.query;
+
+  try {
+    const captain = await getCaptainService({ id });
+    res.status(200).json(captain);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
+
+// Controller for  get all captains
 const getCaptains = async (req, res) => {
   const errors = validationResult(req);
 
@@ -209,7 +233,7 @@ const getCaptains = async (req, res) => {
 };
 
 
-// Controller to delete user
+// Controller to delete captain
 const deleteCaptain = async (req, res) => {
   const errors = validationResult(req);
 
@@ -228,7 +252,7 @@ const deleteCaptain = async (req, res) => {
 }
 
 
-// Controller to update user details
+// Controller to update captain details
 const updateCaptain = async (req, res) => {
   const errors = validationResult(req);
 
@@ -247,6 +271,52 @@ const updateCaptain = async (req, res) => {
   }
 }
 
+
+// Controller to getRides
+const getRides = async (req, res) => {
+  const errors = validationResult(req);
+
+  if(!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { status } = req.query;
+
+  try {
+    const rides = await getRidesService({ status });
+    res.status(200).json(rides);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
+// Controller to cancel ride
+const cancelRide = async (req, res) => {
+  const errors = validationResult(req);
+
+  if(!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { rideId } = req.body;
+
+  try {
+    const ride = await cancelRideService( { rideId });
+    
+
+    sendMessageToSocketId(ride.user?.socketId,{
+      event: 'ride-canceled',
+      data: ride
+    });
+
+    res.status(200).json({ message: `Ride cancelled successfully` });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
 export {
   registerAdmin,
   loginAdmin,
@@ -257,7 +327,10 @@ export {
   getUsers,
   deleteUser,
   updateUser,
+  getCaptain,
   getCaptains,
   deleteCaptain,
   updateCaptain,
+  getRides,
+  cancelRide
 };

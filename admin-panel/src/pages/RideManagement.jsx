@@ -1,5 +1,8 @@
 import React from 'react';
 
+
+// here the idea: on view click... admin ko dynamic navigate karo with captain id in params and state me ride details save karo so next page me pickup and destination use kar pao then wahan captain details fetch karo through id and for captain location? fetched captain details use karo. done!!!  isko delete mat karna page modify kare toh isko bhi modified page me daal dena sehzad!!!
+
 const RideManagement = () => {
     return (
         <div className="p-4">

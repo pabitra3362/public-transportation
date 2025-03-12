@@ -25,6 +25,11 @@ const Riding = () => {
     window.scrollTo(0, 0);
   });
 
+  receiveMessage('ride-canceled', (ride) => {
+    navigate('/');
+    window.scrollTo(0, 0);
+  })
+
 
   useEffect(()=>{
     if(ride._id !== null){
