@@ -1,4 +1,4 @@
-import React,{ useRef, useState } from "react";
+import React,{ useContext, useRef, useState } from "react";
 import { MdOutlineLogout } from "react-icons/md";
 import { RiArrowUpWideFill } from "react-icons/ri";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -6,7 +6,7 @@ import FinishRide from '../components/FinishRide';
 import gsap from 'gsap';
 import { useGSAP } from "@gsap/react";
 import LiveDirection from "../components/LiveDirection";
-import { receiveMessage } from '../context/SocketContext';
+import { SocketContext } from '../context/SocketContext';
 import { toast , ToastContainer } from 'react-toastify';
 
 
@@ -17,6 +17,7 @@ const DriverRiding = () => {
   const location = useLocation()
   const rideData = location.state?.ride
   const navigate = useNavigate()
+  const { receiveMessage } = useContext(SocketContext)
 
   useGSAP(()=>{
     if(finishRide){
@@ -32,7 +33,7 @@ const DriverRiding = () => {
   },[finishRide])
 
 
-  receiveMessage('ride-canceled',(ride) => {
+  receiveMessage('ride-cancelled',(ride) => {
     setFinishRide(false)
     toast.error('ride canceled by admin',{
       onclose: () => {

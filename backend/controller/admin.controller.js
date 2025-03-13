@@ -306,7 +306,7 @@ const cancelRide = async (req, res) => {
     
 
     sendMessageToSocketId(ride.user?.socketId,{
-      event: 'ride-canceled',
+      event: 'ride-cancelled',
       data: ride
     });
 
