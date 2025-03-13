@@ -1,7 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import getProfileData from '../../utils/getProfileData';
-import { getUserToken } from '../../utils/token';
-
 
 
 

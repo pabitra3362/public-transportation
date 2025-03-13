@@ -1,10 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaUser, FaCar, FaMoneyBill, FaChartLine, FaTag, FaRegFilePowerpoint, FaHeadset } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaUser, FaCar, FaMoneyBill, FaChartLine, FaTag, FaRegFilePowerpoint, FaHeadset, FaDoorOpen } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { toast , ToastContainer } from 'react-toastify';
+import { logoutAdminService } from '../services/admin.service';
+import { logoutAdmin } from '../features/adminAuthSlice';
+
 
 const Sidebar = () => {
+
+    const dispatch = useDispatch()
+
+    const handleLogout = async (params) => {
+        try {
+            const response = await logoutAdminService();
+            if(response){
+                dispatch(logoutAdmin())
+                window.location.href = '/'
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+    
     return (
         <div className="h-screen sticky top-0 w-64 bg-gray-800 text-white">
+            <ToastContainer />
             <h2 className="text-2xl font-bold p-4">Admin Panel</h2>
             <ul className="mt-6">
                 <li>
@@ -42,6 +63,12 @@ const Sidebar = () => {
                         <FaHeadset className="mr-2" /> Support & Complaints
                     </Link>
                 </li>
+                <li>
+                    <button onClick={handleLogout} className="flex w-full items-center p-4 hover:bg-gray-700">
+                        <FaDoorOpen className="mr-2" /> Logout
+                    </button>
+                </li>
+                
             </ul>
         </div>
     );

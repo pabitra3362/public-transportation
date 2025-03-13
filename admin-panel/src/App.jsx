@@ -8,21 +8,32 @@ import ReportsAnalytics from './pages/ReportsAnalytics';
 import PromotionsDiscounts from './pages/PromotionsDiscounts';
 import SupportComplaints from './pages/SupportComplaints';
 import DriverManagement from './pages/DriverManagement';
+import Login from './pages/Login';
+// import ForgetPassword from './components/ForgetPassword';
+import TokenWrapper from './components/TokenWrapper';
+
+
 
 function App() {
+
+  const token = localStorage.getItem('token');
   return (
     <Router>
       <div className="flex flex-col md:flex-row">
-        <Sidebar />
+        {
+          token && <Sidebar />
+        }
         <div className="flex-grow p-4">
           <Routes>
-            <Route path="/users" element={<UserManagement />} />
-            <Route path="/drivers" element={<DriverManagement />} />
-            <Route path="/rides" element={<RideManagement />} />
-            <Route path="/earnings" element={<EarningsPayments />} />
-            <Route path="/reports" element={<ReportsAnalytics />} />
-            <Route path="/promotions" element={<PromotionsDiscounts />} />
-            <Route path="/support" element={<SupportComplaints />} />
+            <Route path="/" element={<Login />} />
+            {/* <Route path="/forgetPassword" element={<ForgetPassword />} /> */}
+            <Route path="/users" element={<TokenWrapper><UserManagement /></TokenWrapper>} />
+            <Route path="/drivers" element={ <TokenWrapper><DriverManagement /></TokenWrapper>} />
+            <Route path="/rides" element={ <TokenWrapper><RideManagement /></TokenWrapper>} />
+            <Route path="/earnings" element={ <TokenWrapper><EarningsPayments /></TokenWrapper>} />
+            <Route path="/reports" element={ <TokenWrapper><ReportsAnalytics /></TokenWrapper>} />
+            <Route path="/promotions" element={ <TokenWrapper><PromotionsDiscounts /></TokenWrapper>} />
+            <Route path="/support" element={ <TokenWrapper><SupportComplaints /></TokenWrapper>} />
           </Routes>
         </div>
       </div>
