@@ -37,3 +37,33 @@ export const logoutAdminService = async () => {
     throw new Error((error?.response?.data?.message) || (error.message))
   }
 }
+
+
+export const forgetPassword = async ({email}) => {
+  try {
+    
+    const response = await axios.post(`${config.baseUrl}/api/admin/forgetPassword`,{email})
+    
+    if(response.status === 200){
+        return response.data.message
+    }
+    return false;
+  } catch (error) {
+    throw new Error((error?.response?.data?.error) || (error.message))
+  }
+}
+
+
+export const setNewPassword = async ({id, password}) => {
+  try{
+      const res = await axios.post(`${config.baseUrl}/api/admin/setNewPassword`,{id, password})
+
+      if(res.status === 200){
+          return res.data.message
+      }
+      return false;
+      
+  } catch ( error ) {
+      throw new Error((error?.response?.data?.error) || (error.message))
+  }
+}

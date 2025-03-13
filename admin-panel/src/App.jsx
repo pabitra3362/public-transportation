@@ -9,8 +9,9 @@ import PromotionsDiscounts from './pages/PromotionsDiscounts';
 import SupportComplaints from './pages/SupportComplaints';
 import DriverManagement from './pages/DriverManagement';
 import Login from './pages/Login';
-// import ForgetPassword from './components/ForgetPassword';
+import ForgetPassword from './components/ForgetPassword';
 import TokenWrapper from './components/TokenWrapper';
+import ResetPassword from './components/ResetPassword';
 
 
 
@@ -26,7 +27,8 @@ function App() {
         <div className="flex-grow p-4">
           <Routes>
             <Route path="/" element={<Login />} />
-            {/* <Route path="/forgetPassword" element={<ForgetPassword />} /> */}
+            <Route path="/forgetPassword" element={<ForgetPassword />} />
+            <Route path="/login/setNewPassword/admin/:id?" element={<ResetPassword />} />
             <Route path="/users" element={<TokenWrapper><UserManagement /></TokenWrapper>} />
             <Route path="/drivers" element={ <TokenWrapper><DriverManagement /></TokenWrapper>} />
             <Route path="/rides" element={ <TokenWrapper><RideManagement /></TokenWrapper>} />
