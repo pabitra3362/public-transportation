@@ -17,6 +17,7 @@ import Admin from "../models/admin.model.js";
 import BlacklistedToken from "../models/blacklistToken.model.js";
 import { FPES } from "../utils/emailSender.js";
 import { sendMessageToSocketId } from "../socket.js";
+import Ride from "../models/ride.model.js";
 
 // Controller for admin register
 const registerAdmin = async (req, res) => {
@@ -317,6 +318,63 @@ const cancelRide = async (req, res) => {
 }
 
 
+// Controller to get total fares of drivers
+const getDriverFares = async (req, res) => {
+  const errors = validationResult(req);
+
+  if(!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+ try {
+    const ridesPerDriver = await Ride.aggregate([
+      {
+        $match: { status: "completed" } // Filter only completed rides
+      },
+      {
+        $group: {
+          _id: "$captain",
+          totalRides: { $sum: 1 },
+          totalFare: { $sum: "$fare" }
+        }
+      },
+      {
+        $lookup: {
+          from: "captains", // Collection name in MongoDB
+          localField: "_id", // The driverId in the rides collection
+          foreignField: "_id", // The _id field in the drivers collection
+          as: "driverDetails"
+        }
+      },
+      {
+        $unwind: "$driverDetails" // Convert array to object (since lookup returns an array)
+      },
+      {
+        $project: {
+          _id: 0, // Remove _id from the output
+          name: "$driverDetails.name", // Rename field
+          totalRides: 1,
+          totalFare: 1,
+          commission: {
+            $multiply: ["$totalFare", 0.1]
+          },
+          netFare: {
+            $subtract: ["$totalFare", {
+              $multiply: ["$totalFare", 0.1]
+            }]
+          }
+        }
+      }
+    ]);
+
+    res.status(200).json(ridesPerDriver);
+  } catch (error) {
+    res.status(500).json({error: error.message})
+  }
+
+}
+
+
 export {
   registerAdmin,
   loginAdmin,
@@ -332,5 +390,6 @@ export {
   deleteCaptain,
   updateCaptain,
   getRides,
-  cancelRide
+  cancelRide,
+  getDriverFares
 };

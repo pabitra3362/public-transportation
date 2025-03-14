@@ -1,6 +1,6 @@
 import { body, query } from "express-validator";
 import express from "express";
-import { getAdminProfile, loginAdmin, registerAdmin, adminLogout, forgetAdminPassword, setPassword, getUsers, deleteUser, updateUser, getCaptains, deleteCaptain, updateCaptain, getRides, getCaptain, cancelRide } from "../controller/admin.controller.js";
+import { getAdminProfile, getDriverFares, loginAdmin, registerAdmin, adminLogout, forgetAdminPassword, setPassword, getUsers, deleteUser, updateUser, getCaptains, deleteCaptain, updateCaptain, getRides, getCaptain, cancelRide } from "../controller/admin.controller.js";
 import { authAdmin } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
@@ -127,7 +127,11 @@ router.post('/cancelRide',
   body('rideId').isString().withMessage("Invalid ride id"),
   authAdmin,
   cancelRide
-)
+);
+
+
+// GET request to getDriversFares
+router.get('/getDriverFares',authAdmin,getDriverFares)
 
 
 export default router;
