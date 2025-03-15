@@ -1,35 +1,39 @@
 import mongoose from 'mongoose';
 
-
 const complaintSchema = new mongoose.Schema({
     name: {
         type: String,
-        require: true
+        required: true
     },
     email: {
         type: String,
-        require: true
+        required: true
     },
     subject: {
         type: String,
-        require: true
+        required: true
     },
     message: {
         type: String,
-        require: true
+        required: true
     },
     status: {
         type: String,
         enum: ['pending','resolved','rejected'],
         default: 'pending'
     },
-    CreatedAt: {
+    createdAt: {
         type: Date,
-        default: Date.now,
-        expires: 30 * 24 * 60 * 60
-      }
+        default: Date.now
+    }
+}, {
+    timestamps: true
 })
 
+complaintSchema.index({ createdAt: 1 }, {
+    expireAfterSeconds: 30 * 24 * 60 * 60,
+    partialFilterExpression: { status: { $ne: 'pending' } }
+})
 
 const Complaint = mongoose.model('complaint', complaintSchema);
 
