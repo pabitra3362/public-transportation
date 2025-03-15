@@ -5,7 +5,6 @@ import UserManagement from './pages/UserManagement';
 import RideManagement from './pages/RideManagement';
 import EarningsPayments from './pages/EarningsPayments';
 import ReportsAnalytics from './pages/ReportsAnalytics';
-import PromotionsDiscounts from './pages/PromotionsDiscounts';
 import SupportComplaints from './pages/SupportComplaints';
 import DriverManagement from './pages/DriverManagement';
 import Login from './pages/Login';
@@ -34,7 +33,6 @@ function App() {
             <Route path="/rides" element={ <TokenWrapper><RideManagement /></TokenWrapper>} />
             <Route path="/earnings" element={ <TokenWrapper><EarningsPayments /></TokenWrapper>} />
             <Route path="/reports" element={ <TokenWrapper><ReportsAnalytics /></TokenWrapper>} />
-            <Route path="/promotions" element={ <TokenWrapper><PromotionsDiscounts /></TokenWrapper>} />
             <Route path="/support" element={ <TokenWrapper><SupportComplaints /></TokenWrapper>} />
           </Routes>
         </div>

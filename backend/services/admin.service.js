@@ -173,6 +173,19 @@ const cancelRideService = async ({ rideId }) => {
 }
 
 
+// Service to get count of rides and active drivers
+const activeDriverService = async () => {
+  
+  const rides = await Ride.find({ status: 'completed' })
+  const activeDrivers = await Captain.find({ status: "active" })
+
+  return {
+    ridesCount: rides.length,
+    activeDriversCount: activeDrivers.length
+  }
+}
+
+
 
 export {
   createAdminService,
@@ -186,5 +199,6 @@ export {
   deleteCaptainService,
   updateCaptainService,
   getRidesService,
-  cancelRideService
+  cancelRideService,
+  activeDriverService
 };

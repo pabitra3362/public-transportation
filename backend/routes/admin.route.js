@@ -1,7 +1,8 @@
 import { body, query } from "express-validator";
 import express from "express";
-import { getAdminProfile, getDriverFares, loginAdmin, registerAdmin, adminLogout, forgetAdminPassword, setPassword, getUsers, deleteUser, updateUser, getCaptains, deleteCaptain, updateCaptain, getRides, getCaptain, cancelRide } from "../controller/admin.controller.js";
+import { getAdminProfile, getDriverFares, loginAdmin, registerAdmin, adminLogout, forgetAdminPassword, setPassword, getUsers, deleteUser, updateUser, getCaptains, deleteCaptain, updateCaptain, getRides, getCaptain, cancelRide, totalRevenue } from "../controller/admin.controller.js";
 import { authAdmin } from "../middlewares/auth.middleware.js";
+import { updateComplaint } from "../controller/complaint.controller.js";
 
 const router = express.Router();
 
@@ -132,6 +133,19 @@ router.post('/cancelRide',
 
 // GET request to getDriversFares
 router.get('/getDriverFares',authAdmin,getDriverFares)
+
+
+// GET request for total revenue
+router.get('/totalRevenue',authAdmin,totalRevenue)
+
+
+// PUT request to update complaint
+router.put('/updateComplaint',
+  body('complaintId').isString().withMessage("Please enter a valid complaint id"),
+  body('status').isIn(['resolved', 'rejected']).withMessage('Please enter a valid status'),
+  authAdmin,
+  updateComplaint
+);
 
 
 export default router;

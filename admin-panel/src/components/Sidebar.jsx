@@ -54,11 +54,6 @@ const Sidebar = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/promotions" className="flex items-center p-4 hover:bg-gray-700">
-                        <FaTag className="mr-2" /> Promotions & Discounts
-                    </Link>
-                </li>
-                <li>
                     <Link to="/support" className="flex items-center p-4 hover:bg-gray-700">
                         <FaHeadset className="mr-2" /> Support & Complaints
                     </Link>

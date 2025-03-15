@@ -756,6 +756,159 @@ This is the backend API for the public transportation system. It provides endpoi
     }
     ```
 
+#### Get Driver Fares
+* **Endpoint:** `/api/admin/getDriverFares`
+* **Method:** `GET`
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + Array of objects containing driver details and fare information
+* **Request Example:**
+    ```http
+    GET /api/admin/getDriverFares HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    [
+      {
+        "name": "Driver One",
+        "totalRides": 10,
+        "totalFare": 500,
+        "commission": 50,
+        "netFare": 450
+      },
+      {
+        "name": "Driver Two",
+        "totalRides": 5,
+        "totalFare": 250,
+        "commission": 25,
+        "netFare": 225
+      }
+    ]
+    ```
+
+#### Get Total Revenue
+* **Endpoint:** `/api/admin/totalRevenue`
+* **Method:** `GET`
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + Object containing total revenue, total rides, and active drivers count
+* **Request Example:**
+    ```http
+    GET /api/admin/totalRevenue HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    {
+      "totalRevenue": 1000,
+      "totalRides": 50,
+      "activeDrivers": 10
+    }
+    ```
+
+### Complaint API Endpoints
+
+#### Register Complaint
+* **Endpoint:** `/api/complaint/register`
+* **Method:** `POST`
+* **Request Body:**
+	+ `name`: User's name (required, must be at least 3 characters long)
+	+ `email`: User's email address (required, must be valid email)
+	+ `subject`: Complaint subject (required, must be at least 3 characters long)
+	+ `message`: Complaint message (required, must be at least 3 characters long)
+* **Response:**
+	+ `complaint`: Complaint object with id, name, email, subject, message, and status
+* **Request Example:**
+    ```json
+    {
+      "name": "John Doe",
+      "email": "user@example.com",
+      "subject": "Driver Behavior",
+      "message": "The driver was rude during the ride"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "complaint": {
+        "id": "1",
+        "name": "John Doe",
+        "email": "user@example.com",
+        "subject": "Driver Behavior",
+        "message": "The driver was rude during the ride",
+        "status": "pending"
+      }
+    }
+    ```
+
+#### Update Complaint Status
+* **Endpoint:** `/api/admin/updateComplaint`
+* **Method:** `PUT`
+* **Request Body:**
+	+ `complaintId`: Complaint ID (required)
+	+ `status`: New status (required, must be 'resolved' or 'rejected')
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + `complaint`: Updated complaint object
+* **Request Example:**
+    ```json
+    {
+      "complaintId": "1",
+      "status": "resolved"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "complaint": {
+        "id": "1",
+        "name": "John Doe",
+        "email": "user@example.com",
+        "subject": "Driver Behavior",
+        "message": "The driver was rude during the ride",
+        "status": "resolved"
+      }
+    }
+    ```
+
+#### Get Pending Complaints
+* **Endpoint:** `/api/complaint/pendingComplaints`
+* **Method:** `GET`
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + Array of pending complaint objects
+* **Request Example:**
+    ```http
+    GET /api/complaint/pendingComplaints HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    [
+      {
+        "id": "1",
+        "name": "John Doe",
+        "email": "user@example.com",
+        "subject": "Driver Behavior",
+        "message": "The driver was rude during the ride",
+        "status": "pending"
+      },
+      {
+        "id": "2",
+        "name": "Jane Smith",
+        "email": "jane@example.com",
+        "subject": "Late Arrival",
+        "message": "The driver arrived 30 minutes late",
+        "status": "pending"
+      }
+    ]
+    ```
+
 ## Validation Errors for Admin Endpoints
 * If the name is less than 3 characters long, a 400 error will be returned with the message: "Name must be at least 3 characters long"
 * If the email is not valid, a 400 error will be returned with the message: "Please enter a valid email"
