@@ -63,7 +63,7 @@ const UserManagement = () => {
                   Edit
                 </button> */}
                 <Modal />
-                <button className="bg-red-500 text-white px-2 w-28 py-2 py-1 rounded ml-2">
+                <button className="bg-red-500 text-white px-2 w-28 py-2 rounded ml-2">
                   Ban
                 </button>
               </td>
