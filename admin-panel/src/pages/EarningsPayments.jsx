@@ -20,6 +20,7 @@ const EarningsPayments = () => {
     getPaymentDetails();
   }, []);
 
+
   return (
     <div className="p-4">
       <ToastContainer />
@@ -37,9 +38,9 @@ const EarningsPayments = () => {
           {paymentDetails?.map((driver, index) => (
             <tr key={index}>
               <td className="border px-4 py-2">{driver.name}</td>
-              <td className="border px-4 py-2 flex items-center gap-1"><FaRupeeSign />{driver.totalFare}</td>
-              <td className="border px-4 py-2 flex items-center gap-1"><FaRupeeSign />{driver.commission}</td>
-              <td className="border px-4 py-2 flex items-center gap-1"><FaRupeeSign />{driver.netFare}</td>
+              <td className="border px-4 py-2"><span className="flex items-center gap-1"><FaRupeeSign />{driver.totalFare}</span></td>
+              <td className="border px-4 py-2"><span className="flex items-center gap-1"><FaRupeeSign />{driver.commission.toFixed(2)}</span></td>
+              <td className="border px-4 py-2"><span className="flex items-center gap-1"><FaRupeeSign />{driver.netFare}</span></td>
             </tr>
           ))}
         </tbody>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getDrivers } from "../services/driverManagement.service";
+import { deleteDriver, getDrivers } from "../services/driverManagement.service";
 import { toast, ToastContainer } from "react-toastify";
+import CustomModal from '../components/Modal';
 
 const DriverManagement = () => {
   const [drivers, setDrivers] = useState([]);
@@ -19,6 +20,17 @@ const DriverManagement = () => {
 
     fetchDrivers();
   }, []);
+
+
+   const handleBanBtn = async (id) => {
+      try {
+        await deleteDriver(id);
+        setDrivers((prevDrivers) => prevDrivers.filter((driver) => driver._id !== id));
+        toast.success("User banned successfully");
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
 
   const filteredDrivers = searchDriver
     ? drivers.filter(
@@ -58,11 +70,11 @@ const DriverManagement = () => {
               <td className="border px-4 py-2">{driver._id}</td>
               <td className="border px-4 py-2">{driver.name}</td>
               <td className="border px-4 py-2">{driver.email}</td>
-              <td className="border px-4 py-2">
-                <button className="bg-blue-500 text-white px-2 py-1 rounded">
-                  Edit
-                </button>
-                <button className="bg-red-500 text-white px-2 py-1 rounded ml-2">
+              <td className="border px-4 py-2 flex items-center gap-1">
+                <CustomModal user={driver} />
+                <button
+                onClick={() => handleBanBtn(driver._id)}
+                className="bg-red-500 text-white px-2 w-28 py-2 rounded ml-2">
                   Ban
                 </button>
               </td>

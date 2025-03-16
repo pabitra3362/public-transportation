@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getUsers } from "../services/userManagement.service";
+import { deleteUser, getUsers } from "../services/userManagement.service";
 import { toast, ToastContainer } from "react-toastify";
-import Modal from "../components/Modal";
+import CustomModal from "../components/Modal";
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -11,7 +11,7 @@ const UserManagement = () => {
     const fetchUsers = async () => {
       try {
         const response = await getUsers();
-        setUsers(response)
+        setUsers(response);
       } catch (error) {
         toast.error(error.message);
       }
@@ -19,6 +19,16 @@ const UserManagement = () => {
 
     fetchUsers();
   }, []);
+
+  const handleBanBtn = async (id) => {
+    try {
+      await deleteUser(id);
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
+      toast.success("Driver banned successfully");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   const filteredUsers = searchUser
     ? users.filter(
@@ -28,10 +38,6 @@ const UserManagement = () => {
       )
     : users;
 
-  const handleSearch = (e) => {
-    setSearchUser(e.target.value);
-  };
-
   return (
     <div className="p-4">
       <ToastContainer />
@@ -40,7 +46,7 @@ const UserManagement = () => {
         type="text"
         placeholder="Search users..."
         value={searchUser}
-        onChange={handleSearch}
+        onChange={(e) => setSearchUser(e.target.value)}
         className="border p-2 mb-4 w-full"
       />
       <table className="min-w-full border border-gray-300">
@@ -59,11 +65,11 @@ const UserManagement = () => {
               <td className="border px-4 py-2">{user.name}</td>
               <td className="border px-4 py-2">{user.email}</td>
               <td className="border px-4 py-2 flex items-center gap-2">
-                {/* <button className="bg-blue-500 text-white px-2 py-1 rounded">
-                  Edit
-                </button> */}
-                <Modal />
-                <button className="bg-red-500 text-white px-2 w-28 py-2 rounded ml-2">
+                <CustomModal user={user} />
+                <button
+                  onClick={() => handleBanBtn(user._id)}
+                  className="bg-red-500 text-white px-2 w-28 py-2 rounded ml-2"
+                >
                   Ban
                 </button>
               </td>

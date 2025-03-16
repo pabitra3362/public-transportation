@@ -9,8 +9,10 @@ const DriverDetails = () => {
   const {driver} = useSelector(state => state.driver)
 
   function decimalToClock(decimal) {
+    
+    if(decimal === 0 ) return 0;
     let hours = Math.floor(decimal); 
-    let minutes = Math.round((decimal - hours) * 60); 
+    let minutes = Math.round((decimal - hours) * 60);
     return `${hours}:${minutes.toString().padStart(2, '0')}`; 
   }
  
@@ -52,7 +54,7 @@ const DriverDetails = () => {
 
             <div className="flex flex-col justify-center items-center gap-1">
             <SlNotebook className="font-extrabold text-xl"  />
-            <p className="font-bold text-lg">{driver?.totalJobs}</p>
+            <p className="font-bold text-lg">{driver?.totalJobs || 0}</p>
             <h3>Total Jobs</h3>
             </div>
         </div>

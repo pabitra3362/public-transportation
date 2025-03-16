@@ -1,3 +1,1 @@
 https://preview.themeforest.net/item/pickme-modern-taxi-cab-rental-service-html-template/full_screen_preview/23216434
-
-npx shadcn@latest add "https://v0.dev/chat/b/b_2WoiSKCXCQu?token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..Gm28N9rx47eKIwMj.1KBprr9Cp7cC6PpP6mtSXhaBrjyYl2lQH6e3eSbuCrCclcGaRtLhkowpy_I.1nOaFQwnALzRsh_1SwyK4w"

@@ -142,10 +142,10 @@ const getRidesService = async({status}) => {
   }
 
   if(status === 'all'){
-    return await Ride.find({}).populate('captain');
+    return await Ride.find({}).populate('captain').populate('user');
   }
 
-  const rides = await Ride.find({ status }).populate('captain');
+  const rides = await Ride.find({ status }).populate('captain').populate('user');
 
   return rides;
 }

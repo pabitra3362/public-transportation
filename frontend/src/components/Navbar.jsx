@@ -12,14 +12,14 @@ import { jwtDecode } from "jwt-decode";
 import { getDriverToken, getUserToken } from "../utils/token";
 import { SocketContext } from "../context/SocketContext";
 import { useSelector } from "react-redux";
-const { sendMessage, receiveMessage } = useContext(SocketContext);
 
 
 const Navbar = () => {
-
+  
   const navigate = useNavigate();
   const userToken = getUserToken(); //get token from local storage
   const driverToken = getDriverToken(); //get token from local storage
+  const { sendMessage, receiveMessage } = useContext(SocketContext);
   const { driver } = useSelector(state => state.driver)
  
   
@@ -42,7 +42,7 @@ const Navbar = () => {
         if(result){
           localStorage.removeItem('driverToken') // remove token from localstorage
           removeDriver(); // remove driver info from store
-          sendMessage('disconnect',{ userType: 'captain', userId: driver?._id })
+          sendMessage('update-captain-status',{ userType: 'captain', userId: driver?._id })
           navigate('/drive');
         }
 

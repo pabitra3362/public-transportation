@@ -19,4 +19,24 @@ export async function getPendingComplaints () {
     } catch (error) {
         throw new Error( (error?.response?.data?.message) || (error.message))
     }
-}
+};
+
+
+// Service to update complaint status
+export async function updateComplaintStatus ({ complaintId, status}) {
+    
+    try {
+        
+        const response = await axios.put(`${config.baseUrl}/api/admin/updateComplaint`,{ complaintId, status },{
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        return response.data;
+
+    } catch (error) {
+        throw new Error( (error?.response?.data?.message) || (error.message))
+    }
+};
+

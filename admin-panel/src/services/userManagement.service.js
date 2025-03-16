@@ -21,3 +21,43 @@ export const getUsers = async () => {
     throw new Error(error?.response?.data?.message || error.message);
   }
 };
+
+
+
+// Service to update user details
+export const updateUser = async ({ id, name, email }) => {
+
+  try {
+    
+    const user = await axios.put(`${config.baseUrl}/api/admin/updateUser`,{ id, name, email },{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      }
+    })
+
+    return user.data
+  } catch (error) {
+    throw new Error(error?.response?.data?.message || error.message);
+  }
+}
+
+
+// Service to delete user
+export const deleteUser = async (id) => {
+
+  try {
+    
+    const user = await axios.delete(`${config.baseUrl}/api/admin/deleteUser`,{
+      data: {
+        id
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      }
+    })
+
+    return user.data;
+  } catch (error) {
+    throw new Error(error?.response?.data?.message || error.message);
+  }
+}

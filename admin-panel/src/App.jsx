@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import ForgetPassword from './components/ForgetPassword';
 import TokenWrapper from './components/TokenWrapper';
 import ResetPassword from './components/ResetPassword';
+import LiveDirection from './components/LiveDirection';
 
 
 
@@ -34,6 +35,7 @@ function App() {
             <Route path="/earnings" element={ <TokenWrapper><EarningsPayments /></TokenWrapper>} />
             <Route path="/reports" element={ <TokenWrapper><ReportsAnalytics /></TokenWrapper>} />
             <Route path="/support" element={ <TokenWrapper><SupportComplaints /></TokenWrapper>} />
+            <Route path="/live-direction/:id" element={ <TokenWrapper><LiveDirection /></TokenWrapper>} />
           </Routes>
         </div>
       </div>

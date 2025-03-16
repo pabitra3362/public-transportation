@@ -21,4 +21,22 @@ export const getRides = async ({ status }) => {
   } catch (error) {
     throw new Error((error?.response?.data?.message) || (error.message))
   }
+};
+
+
+// Service for cancel ride
+export const cancelRide = async ({ rideId }) => {
+
+  try {
+    const rides = await axios.post(`${config.baseUrl}/api/admin/cancelRide`,{ rideId },{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+
+    return rides.data;
+    
+  } catch (error) {
+    throw new Error((error?.response?.data?.error) || (error.message))
+  }
 }

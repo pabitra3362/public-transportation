@@ -16,7 +16,7 @@ const ReportsAnalytics = () => {
       const response = await revenueSevice();      
       setData([
         { name: 'Total Rides', value: response.totalRides },
-        { name: 'Total Revenue', value: response.totalRevenue },
+        { name: 'Total Revenue', value: response.totalRevenue.toFixed(2) },
         { name: 'Active Drivers', value: response.activeDrivers },
       ])
 
@@ -39,7 +39,6 @@ const ReportsAnalytics = () => {
           </tr>
         </thead>
         <tbody>
-          {/* Example report data */}
           <tr>
             <td className="border px-4 py-2">Total Rides</td>
             <td className="border px-4 py-2">{data[0]?.value}</td>
@@ -50,9 +49,8 @@ const ReportsAnalytics = () => {
           </tr>
           <tr>
             <td className="border px-4 py-2">Active Drivers</td>
-            <td className="border px-4 py-2">{data[2]?.activeDrivers || 0}</td>
+            <td className="border px-4 py-2">{data[2]?.value || 0}</td>
           </tr>
-          {/* Add more report rows as needed */}
         </tbody>
       </table>
       <h2 className="text-xl font-bold mt-4">Details Chart</h2>
