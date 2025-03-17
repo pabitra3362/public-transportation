@@ -13,6 +13,7 @@ router.post('/make-payment',
     body('fare').isNumeric().withMessage('Fare is required'),
     body('pickup').isString().isLength({min:3}).withMessage('pickup location is required'),
     body('destination').isString().isLength({min:3}).withMessage('destination location is required'),
+    body('ride').isObject().withMessage('Ride details are required'),
     makePayment
 )
 

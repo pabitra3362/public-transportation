@@ -59,6 +59,7 @@ const Riding = () => {
         fare: ride?.fare,
         pickup: ride?.pickup,
         destination: ride?.destination,
+        ride: ride
       },
       {
         headers: {
@@ -69,9 +70,7 @@ const Riding = () => {
 
     const session = response.data;
 
-    const result = stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
+    const result = window.open(session.url, '_blank');
     sessionStorage.setItem('sessionId',session.id)
 
     if (result.error) {
