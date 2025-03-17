@@ -19,7 +19,7 @@ export const getRides = async ({ status }) => {
     return rides.data;
     
   } catch (error) {
-    throw new Error((error?.response?.data?.message) || (error.message))
+    throw new Error((error?.response?.data?.error) || (error.message))
   }
 };
 

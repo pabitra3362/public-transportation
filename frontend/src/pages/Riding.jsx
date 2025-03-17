@@ -25,9 +25,13 @@ const Riding = () => {
     window.scrollTo(0, 0);
   });
 
-  receiveMessage('ride-canceled', (ride) => {
-    navigate('/');
-    window.scrollTo(0, 0);
+  receiveMessage('ride-cancelled', (ride) => {
+   toast.erro("ride cancelled by admin", {
+    onclose: () => {
+      navigate('/');
+      window.scrollTo(0, 0);
+    }
+   })
   })
 
 

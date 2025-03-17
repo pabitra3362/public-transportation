@@ -3,7 +3,6 @@ import { cancelRide, getRides } from "../services/rideManagement.service";
 import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 
-// here the idea: on view click... admin ko dynamic navigate karo with captain id in params and state me ride details save karo so next page me pickup and destination use kar pao then wahan captain details fetch karo through id and for captain location? fetched captain details use karo. done!!!  sehzad gaandu iss comment ko delete kiya na toh tu gaya samajh !!!
 
 const RideManagement = () => {
   const [rides, setRides] = useState([]);
@@ -42,7 +41,7 @@ const RideManagement = () => {
 
   const handleView = async (ride) => {
     localStorage.setItem('rideDetails', JSON.stringify(ride));
-    naivgate(`/live-direction/${ride.captain._id}`);
+    naivgate(`/live-direction/${ride?.captain?._id}`);
   }
   
   
@@ -86,12 +85,12 @@ const RideManagement = () => {
               <td className="border px-4 py-2">
                 <button
                 onClick={()=> handleView(ride)}
-                className="bg-blue-500 text-white px-2 py-1 rounded">
+                className="bg-indigo-600 text-white px-2 w-28 py-2 rounded ml-2">
                   View
                 </button>
                 <button
                 onClick={()=> handleCancelBtn(ride._id)}
-                className="bg-red-500 text-white px-2 py-1 rounded ml-2">
+                className="bg-red-500 text-white px-2 w-28 py-2 rounded ml-2">
                   Cancel
                 </button>
               </td>

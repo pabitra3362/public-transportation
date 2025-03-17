@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from "react";
+import React,{useEffect, useState, useContext } from "react";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { RiArrowDownWideFill } from "react-icons/ri";
@@ -6,12 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { endRide } from '../services/ride/ride.service';
 import { useSelector } from "react-redux";
 import { getDistanceAndTime } from "../services/map/map.service";
+import { SocketContext } from "../context/SocketContext";
 
 const FinishRide = ({setFinishRide, ride}) => {
 
     const navigate = useNavigate();
-    const { driver } = useSelector(state => state.driver)
+    const { driver } = useSelector(state => state.driver);
     const [ distanceTime , setDistanceTime ] = useState(null);
+    const { sendMessage } = useContext(SocketContext);
 
   useEffect(() => {
     async function callMe (){
@@ -36,6 +38,17 @@ const FinishRide = ({setFinishRide, ride}) => {
     const handleFinishButton = async () => {
 
       const response = await endRide({rideId: ride._id});
+
+      navigator.geolocation.getCurrentPosition(position=>{
+        const { latitude, longitude } = position.coords;
+        sendMessage('update-location-captain',{
+          userId: driver?._id,
+          location: {
+            ltd: latitude,
+            lng: longitude,
+          }
+        });
+      })
 
       if(response){
         navigate('/driver-home');

@@ -43,4 +43,49 @@ async function forgetPasswordEmailService({ email, name, id, role }) {
   return info;
 }
 
-export { registrationEmailService as RES, forgetPasswordEmailService as FPES };
+
+
+async function complaintRegisterEmailService({ email, name, complaintId, complaintDescription }) {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: config.nodemailerAuthUser,
+      pass: config.nodemailerAuthPass,
+    },
+  });
+
+  const mailOptions = {
+    from: '"Safar" <pmohanty2344@gmail.com>',
+    to: email,
+    subject: "Complaint Registered Successfully",
+    html: `Hi ${name},<br><br>This is to confirm that your complaint with ID ${complaintId} has been successfully registered with us. The details of your complaint are as follows:<br><br>Complaint Description: ${complaintDescription}<br><br>We will look into this matter and get back to you soon. If you have any further queries or concerns, please feel free to reply to this email or reach out to our support team. We're always here to help. Best regards, The Team.`,
+  };
+
+  const info = await transporter.sendMail(mailOptions);
+  return info;
+}
+
+
+
+async function complaintStatusUpdateEmailService({ email, name, complaintId, status }) {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: config.nodemailerAuthUser,
+      pass: config.nodemailerAuthPass,
+    },
+  });
+
+  const mailOptions = {
+    from: '"Safar" <pmohanty2344@gmail.com>',
+    to: email,
+    subject: `Complaint ${complaintId} - ${status}`,
+    html: `Hi ${name},<br><br>This is to inform you that your complaint with ID ${complaintId} has been ${status} by our team.<br><br>We appreciate your patience and cooperation in this matter. If you have any further queries or concerns, please feel free to reply to this email or reach out to our support team. We're always here to help. Best regards, The Team.`,
+  };
+
+  const info = await transporter.sendMail(mailOptions);
+  return info;
+}
+
+
+export { registrationEmailService as RES, forgetPasswordEmailService as FPES, complaintRegisterEmailService as CRES, complaintStatusUpdateEmailService as CSUES };
