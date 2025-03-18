@@ -1,38 +1,49 @@
-
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import config from '../config/config';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getUserToken } from '../utils/token';
-import jsPDF from 'jspdf';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import config from "../config/config";
+import { useNavigate } from "react-router-dom";
+import { getUserToken } from "../utils/token";
+import jsPDF from "jspdf";
+import { FaCheckCircle } from "react-icons/fa";
+import { IoCloseCircle } from "react-icons/io5";
 
 const PaymentResult = () => {
   const [paymentInfo, setPaymentInfo] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const sessionId = sessionStorage.getItem('sessionId')
-  const { paymentResult } = useParams();
+  const sessionId = sessionStorage.getItem("sessionId");
   const navigate = useNavigate();
   const token = getUserToken();
 
-
   useEffect(() => {
+    if (!sessionId) return navigate("/");
 
-      if(!sessionId) return navigate('/');
-      
     const fetchPaymentInfo = async () => {
       try {
-        const response = await axios.get(`${config.baseUrl}/api/payment/getPaymentInfo`,{
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-          params:{
-            sessionId: sessionId
+        const response = await axios.get(
+          `${config.baseUrl}/api/payment/getPaymentInfo`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              sessionId: sessionId,
+            },
           }
-        });
+        );
         setPaymentInfo(response.data.session);
+
+        await axios.post(
+          `${config.baseUrl}/api/payment/updatePaymentStatus`,
+          { paymentId: sessionId, status: response.data.session.status },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
       } catch (err) {
-        setError('Failed to fetch payment information');
+        setError("Failed to fetch payment information");
       } finally {
         setLoading(false);
       }
@@ -48,29 +59,57 @@ const PaymentResult = () => {
     const doc = new jsPDF();
     doc.text(`Payment ID: ${paymentInfo.id}`, 10, 10);
     doc.text(`Status: ${paymentInfo.status}`, 10, 20);
-    doc.text(`Amount: ${paymentInfo.amount_total/100}`, 10, 30);
+    doc.text(`Amount: ${paymentInfo.amount_total / 100}`, 10, 30);
     doc.text(`Currency: ${paymentInfo.currency}`, 10, 40);
-    doc.save('payment_details.pdf');
+    doc.save("payment_details.pdf");
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4 md:p-6 lg:p-8 xl:p-10">
-  <h1 className="text-3xl font-bold mb-4">Payment Result</h1>
-  {paymentInfo ? (
-    <div className="bg-white rounded-lg shadow-md p-4 md:p-6 lg:p-8 xl:p-10">
-      <p className="text-lg font-medium mb-2 text-wrap">Payment ID: {paymentInfo.id}</p>
-      <p className="text-lg font-medium mb-2">Status: {paymentInfo.status}</p>
-      <p className="text-lg font-medium mb-2">Amount: {paymentInfo.amount_total/100}</p>
-      <p className="text-lg font-medium mb-2">Currency: {paymentInfo.currency}</p>
-      <div className='flex flex-col w-full gap-3'>
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={downloadPdf}>Download as PDF</button>
-      <button className="bg-yellow-300 hover:bg-black text-white font-bold py-2 px-4 rounded" onClick={()=>navigate('/')}>Back To Home</button>
+    <div className="min-h-screen flex justify-center items-center ">
+      <div className="box flex flex-col justify-center items-center gap-5 shadow-2xl rounded-lg p-5 w-[90%] md:w-96">
+        <div className="icon">
+          {paymentInfo.status === 'complete' ? <FaCheckCircle className="size-16 text-[#2ee237]" /> : <IoCloseCircle className="size-16 text-red-500" />}
+        </div>
+
+          <div className="text text-center font-bold text-black">
+            {paymentInfo.status === "complete" ? (
+              <div>
+                Payment successful. Your transaction has been processed. Thank
+                you for your payment.
+              </div>
+            ) : paymentInfo.status === "failed" ? (
+              <div>
+                Payment failed. Please try again or contact our support team for
+                assistance.
+              </div>
+            ) : paymentInfo.status === "pending" ? (
+              <div>
+                Payment is pending. Please wait for the payment to be processed.
+              </div>
+            ) : (
+              <div>
+                Unknown payment status. Please contact our support team for
+                assistance.
+              </div>
+            )}
+        </div>
+
+        <div className="flex flex-col w-full gap-3">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={downloadPdf}
+          >
+            Download payment receipt
+          </button>
+          <button
+            className="bg-yellow-300 hover:bg-black text-white font-bold py-2 px-4 rounded"
+            onClick={() => navigate("/")}
+          >
+            Back To Home
+          </button>
+        </div>
       </div>
     </div>
-  ) : (
-    <p className="text-lg font-medium text-gray-500">No payment information available.</p>
-  )}
-</div>
   );
 };
 

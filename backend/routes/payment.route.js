@@ -1,7 +1,7 @@
 import express from 'express';
 import { authUser } from '../middlewares/auth.middleware.js';
 import { body,query } from 'express-validator';
-import { fetchPaymentInfo, makePayment } from '../controller/payment.controller.js';
+import { fetchPaymentInfo, makePayment, updatePaymentStatus } from '../controller/payment.controller.js';
 
 const router = express.Router();
 
@@ -23,6 +23,15 @@ router.get('/getPaymentInfo',
     authUser,
     query('sessionId').isString().withMessage('Session id is required'),
     fetchPaymentInfo
+)
+
+
+// Route to update payment status
+router.post('/updatePaymentStatus',
+    authUser,
+    body('paymentId').isString().withMessage('Payment id is required'),
+    body('status').isString().withMessage('Invalid status'),
+    updatePaymentStatus
 )
 
 

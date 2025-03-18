@@ -70,7 +70,9 @@ const Riding = () => {
 
     const session = response.data;
 
-    const result = window.open(session.url, '_blank');
+    const result = stripe.redirectToCheckout({
+      sessionId: session.id
+    })
     sessionStorage.setItem('sessionId',session.id)
 
     if (result.error) {
