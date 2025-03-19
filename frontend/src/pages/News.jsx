@@ -7,15 +7,6 @@ const News = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
 
-  const fetchdata = async () => {
-    setLoading(true); // Start loading
-    let response = await fetch(
-      "https://newsapi.org/v2/top-headlines?country=us&apiKey=691c85765b6d4ea9b398a08c93f9171b"
-    );
-    let data = await response.json();
-    setNews(shuffleArray(data.articles)); // Shuffle the articles
-    setTimeout(() => setLoading(false), 3000); // Stop loading after 3 seconds
-  };
 
   // Function to shuffle an array
   const shuffleArray = (array) => {
@@ -27,6 +18,15 @@ const News = () => {
   };
 
   useEffect(() => {
+    const fetchdata = async () => {
+      setLoading(true); // Start loading
+      let response = await fetch(
+        "https://newsapi.org/v2/top-headlines?country=us&apiKey=691c85765b6d4ea9b398a08c93f9171b"
+      );
+      let data = await response.json();
+      setNews(shuffleArray(data.articles)); // Shuffle the articles
+      setTimeout(() => setLoading(false), 3000); // Stop loading after 3 seconds
+    };
     fetchdata();
   }, []);
 
@@ -72,7 +72,7 @@ const News = () => {
               <figure className="w-full md:w-1/3">
                 <img
                   src={
-                    e.urlToImage == null
+                    e?.urlToImage == null
                       ? "https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled-1150x647.png"
                       : e.urlToImage
                   }
@@ -82,11 +82,11 @@ const News = () => {
               </figure>
               {/* Text Section */}
               <div className="card-body w-full md:w-2/3 p-5">
-                <h2 className="card-title text-lg md:text-2xl">{e.title}</h2>
-                <p className="text-sm md:text-base">{e.description}</p>
+                <h2 className="card-title text-lg md:text-2xl">{e?.title}</h2>
+                <p className="text-sm md:text-base">{e?.description}</p>
                 <div className="card-actions lg:justify-end justify-center my-4">
                   <button className="btn bg-yellow-300 duration-500 hover:text-white text-black hover:bg-black ">
-                    <a href={e.url} target="_blank" rel="noopener noreferrer">
+                    <a href={e?.url} target="_blank" rel="noopener noreferrer">
                       Read More
                     </a>
                   </button>
