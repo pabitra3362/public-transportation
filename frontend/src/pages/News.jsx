@@ -65,7 +65,7 @@ const News = () => {
       </div>
 
       <div className="p-10 mb-10">
-        {news.map((e, index) => (
+        {news?.map((e, index) => (
           <div className="mb-5" key={index}>
             <div className="card flex flex-col md:flex-row mb-10 p-8 bg-base-100 xl:w-5/6 mx-auto max-w-full md:max-w-4xl shadow-xl">
               {/* Image Section */}
