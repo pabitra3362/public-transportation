@@ -1,0 +1,421 @@
+import { validationResult } from "express-validator";
+import {
+  createAdminService,
+  deleteUserService,
+  deleteCaptainService,
+  forgetPassword,
+  getCaptainsService,
+  getUsersService,
+  loginAdminService,
+  updateUserService,
+  updateCaptainService,
+  getRidesService,
+  getCaptainService,
+  cancelRideService,
+  activeDriverService,
+} from "../services/admin.service.js";
+import Admin from "../models/admin.model.js";
+import BlacklistedToken from "../models/blacklistToken.model.js";
+import { FPES } from "../utils/emailSender.js";
+import { sendMessageToSocketId } from "../socket.js";
+import Ride from "../models/ride.model.js";
+
+// Controller for admin register
+const registerAdmin = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { name, email, password } = req.body;
+
+  try {
+    const hadshedPassword = await Admin.hashPassword(password);
+    const admin = await createAdminService({
+      name,
+      email,
+      password: hadshedPassword,
+    });
+    const token = admin.generateAuthToken();
+
+    return res.status(201).json({ admin, token });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Controller for admin login
+const loginAdmin = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { email, password } = req.body;
+
+  try {
+    const admin = await loginAdminService({ email });
+    if (!admin) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    admin.password;
+    const isPasswordValid = await admin.comparePassword(password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const token = admin.generateAuthToken();
+    res.status(200).json({ admin, token });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Controller for get profile
+const getAdminProfile = async (req, res) => {
+  res.status(200).json(req.admin);
+};
+
+// Controller for admin logout
+const adminLogout = async (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    await BlacklistedToken.create({ token });
+
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    return res.status(401).json({ error });
+  }
+};
+
+// Controller for forget password
+async function forgetAdminPassword(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { email } = req.body;
+  try {
+    const admin = await forgetPassword({ email });
+    const emailService = await FPES({
+      email,
+      name: admin.name,
+      id: admin._id,
+      role: admin.role,
+    });
+    res.status(200).json({ message: "Email sent successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+// Controller for set password
+async function setPassword(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { id, password } = req.body;
+
+  try {
+    const hashedPassword = await Admin.hashPassword(password);
+    const updatedUser = await Admin.findByIdAndUpdate(
+      id,
+      { password: hashedPassword },
+      { new: true }
+    );
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+// Controller for  get all users
+const getUsers = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const users = await getUsersService();
+
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Controller to delete user
+const deleteUser = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { id } = req.body;
+
+  try {
+    const userDeleted = await deleteUserService({ id });
+    res.status(200).json({ message: `User deleted successfully` });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// Controller to update user details
+const updateUser = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { id, name, email } = req.body;
+
+  try {
+    const user = await updateUserService({ id, name, email });
+    res.status(200).json({ message: `User details updated successfully` });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Controller to get single captain details
+const getCaptain = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { id } = req.query;
+
+  try {
+    const captain = await getCaptainService({ id });
+    res.status(200).json(captain);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Controller for  get all captains
+const getCaptains = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const captains = await getCaptainsService();
+
+    res.status(200).json(captains);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Controller to delete captain
+const deleteCaptain = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { id } = req.body;
+
+  try {
+    const captainDeleted = await deleteCaptainService({ id });
+    res.status(200).json({ message: `Driver deleted successfully` });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// Controller to update captain details
+const updateCaptain = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { id, name, email } = req.body;
+
+  try {
+    const captain = await updateCaptainService({ id, name, email });
+    res.status(200).json({ message: `Driver details updated successfully` });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Controller to getRides
+const getRides = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { status } = req.query;
+
+  try {
+    const rides = await getRidesService({ status });
+    res.status(200).json(rides);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Controller to cancel ride
+const cancelRide = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { rideId } = req.body;
+
+  try {
+    const ride = await cancelRideService({ rideId });
+
+    sendMessageToSocketId(ride.user?.socketId, {
+      event: "ride-cancelled",
+      data: ride,
+    });
+
+    res.status(200).json({ message: `Ride cancelled successfully` });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Controller to get total fares of drivers
+const getDriverFares = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const ridesPerDriver = await Ride.aggregate([
+      {
+        $match: { status: "completed" }, // Filter only completed rides
+      },
+      {
+        $group: {
+          _id: "$captain",
+          totalRides: { $sum: 1 },
+          totalFare: { $sum: "$fare" },
+        },
+      },
+      {
+        $lookup: {
+          from: "captains", // Collection name in MongoDB
+          localField: "_id", // The driverId in the rides collection
+          foreignField: "_id", // The _id field in the drivers collection
+          as: "driverDetails",
+        },
+      },
+      {
+        $unwind: "$driverDetails", // Convert array to object (since lookup returns an array)
+      },
+      {
+        $project: {
+          _id: 0, // Remove _id from the output
+          name: "$driverDetails.name", // Rename field
+          totalRides: 1,
+          totalFare: 1,
+          commission: {
+            $multiply: ["$totalFare", 0.1],
+          },
+          netFare: {
+            $subtract: [
+              "$totalFare",
+              {
+                $multiply: ["$totalFare", 0.1],
+              },
+            ],
+          },
+        },
+      },
+    ]);
+
+    res.status(200).json(ridesPerDriver);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Controller to total revenu
+const totalRevenue = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const totalRevenue = await Ride.aggregate([
+      {
+        $match: { status: "completed" }, // Filter only completed rides
+      },
+      {
+        $group: {
+          _id: null,
+          totalRevenue: { $sum: { $multiply: ["$fare", 0.1] } },
+        },
+      },
+      {
+        $project: {
+          _id: 0, // Remove _id from the output
+          totalRevenue: 1,
+        },
+      },
+    ]);
+
+    const count = await activeDriverService();
+
+    res.status(200).json({totalRevenue: totalRevenue[0].totalRevenue, totalRides: count.ridesCount, activeDrivers: count.activeDriversCount});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+export {
+  registerAdmin,
+  loginAdmin,
+  getAdminProfile,
+  adminLogout,
+  forgetAdminPassword,
+  setPassword,
+  getUsers,
+  deleteUser,
+  updateUser,
+  getCaptain,
+  getCaptains,
+  deleteCaptain,
+  updateCaptain,
+  getRides,
+  cancelRide,
+  getDriverFares,
+  totalRevenue
+};

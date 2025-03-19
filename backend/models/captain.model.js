@@ -25,13 +25,13 @@ const captainSchema = new mongoose.Schema({
 
   role: {
     type: String,
-    default: "captain"
+    default: "captain",
   },
 
   socketId: {
     type: String,
   },
-  
+
   status: {
     type: String,
     enum: ["active", "inactive"],
@@ -42,7 +42,30 @@ const captainSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  
+
+  earning: {
+    type: Number,
+    default: 0,
+    expiresAt: Date.now() + 30 * 24 * 60 * 60,
+  },
+
+  totalHours: {
+    type: Number,
+    default: 0,
+    expiresAt: Date.now() + 24 * 60 * 60,
+  },
+  totalDistance: {
+    type: Number,
+    default: 0,
+    expiresAt: Date.now() + 30 * 24 * 60 * 60,
+  },
+
+  totalJobs: {
+    type: Number,
+    default: 0,
+    expiresAt: Date.now() + 30 * 24 * 60 * 60,
+  },
+
   vehicle: {
     plate: {
       type: String,
@@ -58,7 +81,7 @@ const captainSchema = new mongoose.Schema({
       type: Number,
       required: true,
       minlength: [1, "Capacity must be atleast 1"],
-      maxlength: [8, "Capacity must be less than 9"]
+      maxlength: [8, "Capacity must be less than 9"],
     },
   },
 
@@ -70,11 +93,12 @@ const captainSchema = new mongoose.Schema({
       type: Number,
     },
   },
-  
 });
 
 captainSchema.methods.generateAuthToken = function () {
-  return jwt.sign({ _id: this._id, role: this.role }, config.jwtSecret, { expiresIn: '24h' });
+  return jwt.sign({ _id: this._id, role: this.role }, config.jwtSecret, {
+    expiresIn: "24h",
+  });
 };
 
 captainSchema.methods.comparePassword = async function (password) {

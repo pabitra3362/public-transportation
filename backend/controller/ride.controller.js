@@ -5,13 +5,15 @@ import {
   getFareService,
   startRideService,
 } from "../services/ride.service.js";
-import { ExpressValidator, validationResult } from "express-validator";
+import { validationResult } from "express-validator";
 import {
   fetchCoordinates,
+  fetchDistanceTime,
   getCaptainsInRadius,
 } from "../services/map.service.js";
 import { sendMessageToSocketId } from "../socket.js";
 import Ride from "../models/ride.model.js";
+import Captain from "../models/captain.model.js";
 
 // Controller for create ride
 const createRide = async (req, res) => {
@@ -141,6 +143,11 @@ const endRide = async (req, res) => {
       event: 'ride-ended',
       data: ride
     });
+
+
+    const distanceTime = await fetchDistanceTime(ride.pickup, ride.destination)
+    
+    await Captain.findByIdAndUpdate(req.captain._id, { $inc: { earning: ride.fare, totalJobs: 1, totalDistance: Math.round(distanceTime.distance.value / 1000), totalHours: Number((distanceTime.duration.value / 3600).toFixed(2)) } })
 
     return res.status(200).json(ride);
   } catch (error) {

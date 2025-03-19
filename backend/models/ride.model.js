@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import moment from 'moment';
 
 const rideSchema = new mongoose.Schema({
     user:{
@@ -49,8 +50,15 @@ const rideSchema = new mongoose.Schema({
     }
 })
 
-
-
 const Ride = mongoose.model("ride",rideSchema);
+
+const deleteRides = async () => {
+    const date = moment();
+    if (date.date() === 1) {
+        await Ride.deleteMany({});
+    }
+}
+
+deleteRides();
 
 export default Ride;

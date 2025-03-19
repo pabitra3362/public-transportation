@@ -7,6 +7,14 @@ import { useSelector } from 'react-redux';
 const DriverDetails = () => {
 
   const {driver} = useSelector(state => state.driver)
+
+  function decimalToClock(decimal) {
+    
+    if(decimal === 0 ) return 0;
+    let hours = Math.floor(decimal); 
+    let minutes = Math.round((decimal - hours) * 60);
+    return `${hours}:${minutes.toString().padStart(2, '0')}`; 
+  }
  
   return (
     <>
@@ -14,15 +22,15 @@ const DriverDetails = () => {
           <div className="flex justify-center items-center gap-4">
             <img
               className="w-10 h-10 object-cover rounded-full"
-              src="https://www.shutterstock.com/image-photo/portrait-smiling-young-boy-making-260nw-436447678.jpg"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_ar6WjHrFQVRAlywciRUAbIn1iqVQGdyJYQ&s"
               alt=""
             />
-            <h3 className="font-bold text-lg">{driver.name}</h3>
+            <h3 className="font-bold text-lg">{driver?.name}</h3>
           </div>
           <div className="grid gap-2">
             <div className="flex justify-between items-center">
               <FaRupeeSign />
-              <p className="font-bold text-lg">293.15</p>
+              <p className="font-bold text-lg">{driver?.earning}</p>
             </div>
             <div className=" text-white text-center rounded-lg bg-gradient-to-r from-black to-slate-500 ">
               Earned
@@ -34,19 +42,19 @@ const DriverDetails = () => {
 
             <div className="flex flex-col justify-center items-center gap-1">
             <FaRegClock className="font-extrabold text-xl" />
-            <p className="font-bold text-lg">10.2</p>
+            <p className="font-bold text-lg">{decimalToClock(driver?.totalHours)}</p>
             <h3>Hours Online</h3>
             </div>
 
             <div className="flex flex-col justify-center items-center gap-1">
             <SlSpeedometer className="font-extrabold text-xl" />
-            <p className="font-bold text-lg">30 KM</p>
+            <p className="font-bold text-lg">{driver?.totalDistance} KM</p>
             <h3>Total Distance</h3>
             </div>
 
             <div className="flex flex-col justify-center items-center gap-1">
             <SlNotebook className="font-extrabold text-xl"  />
-            <p className="font-bold text-lg">20</p>
+            <p className="font-bold text-lg">{driver?.totalJobs || 0}</p>
             <h3>Total Jobs</h3>
             </div>
         </div>

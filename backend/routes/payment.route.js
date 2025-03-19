@@ -1,7 +1,7 @@
 import express from 'express';
 import { authUser } from '../middlewares/auth.middleware.js';
-import { body } from 'express-validator';
-import { makePayment } from '../controller/payment.controller.js';
+import { body,query } from 'express-validator';
+import { fetchPaymentInfo, makePayment } from '../controller/payment.controller.js';
 
 const router = express.Router();
 
@@ -14,6 +14,14 @@ router.post('/make-payment',
     body('pickup').isString().isLength({min:3}).withMessage('pickup location is required'),
     body('destination').isString().isLength({min:3}).withMessage('destination location is required'),
     makePayment
+)
+
+
+// Route to fetch payment info
+router.get('/getPaymentInfo',
+    authUser,
+    query('sessionId').isString().withMessage('Session id is required'),
+    fetchPaymentInfo
 )
 
 

@@ -80,7 +80,7 @@ const Home = () => {
   useEffect(()=>{
     if(!token) return
 
-    sendMessage('join',{userType: "user", userId: user._id})
+    sendMessage('join',{userType: "user", userId: user?._id})
 
   },[user])
 

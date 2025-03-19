@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 // eslint-disable-next-line no-unused-vars
 import React, { useContext } from "react";
+=======
+import React, { useContext, useEffect, useState } from "react";
+>>>>>>> b026fba79e3c91cf5eb6e95eac5401212db61dac
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
@@ -14,18 +18,43 @@ import { getUserToken } from "../utils/token";
 
 const Riding = () => {
   const location = useLocation();
-  const ride = location.state?.ride;
+  const [ ride, setRide ] = useState(location.state?.ride || localStorage.getItem('ride'))
   const navigate = useNavigate();
   const { receiveMessage } = useContext(SocketContext);
-  const car = useSelector((state) => state.car);
+  const [car, setCar] = useState(useSelector((state) => state.car))
   const token = getUserToken();
+  const sessionId = sessionStorage.getItem('sessionId')
 
   receiveMessage("ride-ended", () => {
     navigate("/");
     window.scrollTo(0, 0);
   });
 
+<<<<<<< HEAD
   // eslint-disable-next-line no-unused-vars
+=======
+  receiveMessage('ride-canceled', (ride) => {
+    navigate('/');
+    window.scrollTo(0, 0);
+  })
+
+
+  useEffect(()=>{
+    if(ride._id !== null){
+      sessionStorage.setItem('ride',JSON.stringify(ride))
+    }else{
+      setRide(JSON.parse(sessionStorage.getItem('ride')) || {} )
+    }
+
+    if(car.name !== null){
+      sessionStorage.setItem('car',JSON.stringify(car))
+    }else{
+      setCar(JSON.parse(sessionStorage.getItem('car')) || {} )
+    }
+    
+  },[])
+
+>>>>>>> b026fba79e3c91cf5eb6e95eac5401212db61dac
   const makePayment = async (params) => {
     const stripe = await loadStripe(config.stripeKey);
 
@@ -48,6 +77,7 @@ const Riding = () => {
     const result = stripe.redirectToCheckout({
       sessionId: session.id,
     });
+    sessionStorage.setItem('sessionId',session.id)
 
     if (result.error) {
       console.log(result.error);
@@ -70,7 +100,7 @@ const Riding = () => {
 
         {/* image */}
         <div className="h-1/2">
-          <LiveDirection pickup={car?.pickup} destination={car?.destination} />
+          <LiveDirection pickup={ride?.pickup} destination={ride?.destination} />
         </div>
 
         {/* information */}
@@ -86,10 +116,10 @@ const Riding = () => {
 
               <div className="text-right">
                 <h2 className="capitalize font-semibold text-lg">
-                  {ride?.captain.name}
+                  {ride?.captain?.name}
                 </h2>
                 <p className="font-bold text-lg">
-                  {ride?.captain.vehicle.plate}
+                  {ride?.captain?.vehicle.plate}
                 </p>
                 {/* <p className="">Maruti Suzuki</p> */}
                 <h1 className="font-bold">OTP: {ride?.otp}</h1>
@@ -129,6 +159,10 @@ const Riding = () => {
                   <div className="w-full bg-black h-[3px] opacity-20 mt-2" />
                 </div>
               </div>
+              
+              <p className="text-sm text-center text-red-500">
+                make payment only after you have reached the destination !!!!
+              </p>
 
               <button
                 onClick={makePayment}

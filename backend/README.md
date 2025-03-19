@@ -181,7 +181,7 @@ This is the backend API for the public transportation system. It provides endpoi
 	+ `name`: Captain's name (required, must be at least 5 characters long)
 	+ `password`: Captain's password (required, must be at least 7 characters long)
 	+ `color`: Vehicle color (required, must be at least 3 characters long)
-	+ `plate`: Vehicle plate number (required, must be at least 3 characters long)
+	+ `plate`: Vehicle plate number ( required, must be at least 3 characters long)
 	+ `vehicleType`: Type of vehicle (required, must be one of 'car', 'motorcycle', 'bike')
 	+ `capacity`: Seating capacity of the vehicle (required, must be at least 1)
 * **Response:**
@@ -365,3 +365,555 @@ This is the backend API for the public transportation system. It provides endpoi
 
 ### Error Handling
 * If an internal server error occurs during captain operations, a 500 error will be returned with a JSON response containing the error message.
+
+### Admin API Endpoints
+
+#### Admin Registration
+* **Endpoint:** `/api/admin/registerAdmin`
+* **Method:** `POST`
+* **Request Body:**
+	+ `name`: Admin's name (required, must be at least 3 characters long)
+	+ `email`: Admin's email address (required, must be valid email)
+	+ `password`: Admin's password (required, must be at least 7 characters long)
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+	+ `admin`: Admin object with id, name, email
+	+ `token`: JWT token for authentication
+* **Request Example:**
+    ```json
+    {
+      "name": "Admin User",
+      "email": "admin@example.com",
+      "password": "admin1234"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "admin": {
+        "id": "1",
+        "name": "Admin User",
+        "email": "admin@example.com"
+      },
+      "token": "your_jwt_token"
+    }
+    ```
+
+#### Admin Login
+* **Endpoint:** `/api/admin/login`
+* **Method:** `POST`
+* **Request Body:**
+	+ `email`: Admin's email address (required, must be valid email)
+	+ `password`: Admin's password (required, must be at least 7 characters long)
+* **Response:**
+	+ `admin`: Admin object with id, name, email
+	+ `token`: JWT token for authentication
+* **Request Example:**
+    ```json
+    {
+      "email": "admin@example.com",
+      "password": "admin1234"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "admin": {
+        "id": "1",
+        "name": "Admin User",
+        "email": "admin@example.com"
+      },
+      "token": "your_jwt_token"
+    }
+    ```
+
+#### Admin Profile
+* **Endpoint:** `/api/admin/profile`
+* **Method:** `GET`
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + `admin`: Admin object with id, name, email
+* **Request Example:**
+    ```http
+    GET /api/admin/profile HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    {
+      "admin": {
+        "id": "1",
+        "name": "Admin User",
+        "email": "admin@example.com"
+      }
+    }
+    ```
+
+#### Admin Logout
+* **Endpoint:** `/api/admin/logout`
+* **Method:** `GET`
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + `message`: Confirmation message
+* **Request Example:**
+    ```http
+    GET /api/admin/logout HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    {
+      "message": "Logged out successfully"
+    }
+    ```
+
+#### Forget Admin Password
+* **Endpoint:** `/api/admin/forgetPassword`
+* **Method:** `POST`
+* **Request Body:**
+	+ `email`: Admin's email address (required, must be valid email)
+* **Response:**
+	+ `message`: Confirmation message
+* **Request Example:**
+    ```json
+    {
+      "email": "admin@example.com"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "message": "Email sent successfully"
+    }
+    ```
+
+#### Set New Password
+* **Endpoint:** `/api/admin/setNewPassword`
+* **Method:** `POST`
+* **Request Body:**
+	+ `password`: New password (required, must be between 7 and 12 characters long)
+* **Response:**
+	+ `message`: Confirmation message
+* **Request Example:**
+    ```json
+    {
+      "password": "newpassword123"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "message": "Password updated successfully"
+    }
+    ```
+
+#### Get All Users
+* **Endpoint:** `/api/admin/getUsers`
+* **Method:** `GET`
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + Array of user objects with id, name, email
+* **Request Example:**
+    ```http
+    GET /api/admin/getUsers HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    [
+      {
+        "id": "1",
+        "name": "User One",
+        "email": "user1@example.com"
+      },
+      {
+        "id": "2",
+        "name": "User Two",
+        "email": "user2@example.com"
+      }
+    ]
+    ```
+
+#### Delete User
+* **Endpoint:** `/api/admin/deleteUser`
+* **Method:** `DELETE`
+* **Request Body:**
+	+ `id`: User's ID (required)
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + `message`: Confirmation message
+* **Request Example:**
+    ```json
+    {
+      "id": "1"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "message": "User deleted successfully"
+    }
+    ```
+
+#### Update User
+* **Endpoint:** `/api/admin/updateUser`
+* **Method:** `PUT`
+* **Request Body:**
+	+ `id`: User's ID (required)
+	+ `name`: User's new name (required, must be at least 3 characters long)
+	+ `email`: User's new email (required, must be valid email)
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + `message`: Confirmation message
+* **Request Example:**
+    ```json
+    {
+      "id": "1",
+      "name": "Updated Name",
+      "email": "updated@example.com"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "message": "User details updated successfully"
+    }
+    ```
+
+#### Get All Captains
+* **Endpoint:** `/api/admin/getCaptains`
+* **Method:** `GET`
+* **Headers:**
+    + `Authorization`: Bearer token ( required)
+* **Response:**
+    + Array of captain objects with id, name, email, and vehicle details
+* **Request Example:**
+    ```http
+    GET /api/admin/getCaptains HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    [
+      {
+        "id": "1",
+        "name": "Captain One",
+        "email": "captain1@example.com",
+        "vehicle": {
+          "plate": "ABC123",
+          "vehicleType": "car",
+          "capacity": 4
+        }
+      },
+      {
+        "id": "2",
+        "name": "Captain Two",
+        "email": "captain2@example.com",
+        "vehicle": {
+          "plate": "XYZ789",
+          "vehicleType": "motorcycle",
+          "capacity": 2
+        }
+      }
+    ]
+    ```
+
+#### Get Single Captain
+* **Endpoint:** `/api/admin/getCaptain`
+* **Method:** `GET`
+* **Query Parameters:**
+	+ `id`: Captain's ID (required)
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + Captain object with full details
+* **Request Example:**
+    ```http
+    GET /api/admin/getCaptain?id=1 HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    {
+      "id": "1",
+      "name": "Captain One",
+      "email": "captain1@example.com",
+      "vehicle": {
+        "plate": "ABC123",
+        "vehicleType": "car",
+        "capacity": 4
+      }
+    }
+    ```
+
+#### Delete Captain
+* **Endpoint:** `/api/admin/deleteCaptain`
+* **Method:** `DELETE`
+* **Request Body:**
+	+ `id`: Captain's ID (required)
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + `message`: Confirmation message
+* **Request Example:**
+    ```json
+    {
+      "id": "1"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "message": "Driver deleted successfully"
+    }
+    ```
+
+#### Update Captain
+* **Endpoint:** `/api/admin/updateCaptain`
+* **Method:** `PUT`
+* **Request Body:**
+	+ `id`: Captain's ID (required)
+	+ `name`: Captain's new name (required, must be at least 3 characters long)
+	+ `email`: Captain's new email (required, must be valid email)
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + `message`: Confirmation message
+* **Request Example:**
+    ```json
+    {
+      "id": "1",
+      "name": "Updated Captain",
+      "email": "updated@example.com"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "message": "Driver details updated successfully"
+    }
+    ```
+
+#### Get Rides
+* **Endpoint:** `/api/admin/getRides`
+* **Method:** `GET`
+* **Query Parameters:**
+	+ `status`: Ride status (required)
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + Array of ride objects with full details
+* **Request Example:**
+    ```http
+    GET /api/admin/getRides?status=active HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    [
+      {
+        "id": "1",
+        "user": {
+          "id": "1",
+          "name": "User One"
+        },
+        "captain": {
+          "id": "1",
+          "name": "Captain One"
+        },
+        "status": "active",
+        "startLocation": "Location A",
+        "endLocation": "Location B"
+      }
+    ]
+    ```
+
+#### Cancel Ride
+* **Endpoint:** `/api/admin/cancelRide`
+* **Method:** `POST`
+* **Request Body:**
+	+ `rideId`: Ride's ID (required)
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + `message`: Confirmation message
+* **Request Example:**
+    ```json
+    {
+      "rideId": "1"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "message": "Ride cancelled successfully"
+    }
+    ```
+
+#### Get Driver Fares
+* **Endpoint:** `/api/admin/getDriverFares`
+* **Method:** `GET`
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + Array of objects containing driver details and fare information
+* **Request Example:**
+    ```http
+    GET /api/admin/getDriverFares HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    [
+      {
+        "name": "Driver One",
+        "totalRides": 10,
+        "totalFare": 500,
+        "commission": 50,
+        "netFare": 450
+      },
+      {
+        "name": "Driver Two",
+        "totalRides": 5,
+        "totalFare": 250,
+        "commission": 25,
+        "netFare": 225
+      }
+    ]
+    ```
+
+#### Get Total Revenue
+* **Endpoint:** `/api/admin/totalRevenue`
+* **Method:** `GET`
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + Object containing total revenue, total rides, and active drivers count
+* **Request Example:**
+    ```http
+    GET /api/admin/totalRevenue HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    {
+      "totalRevenue": 1000,
+      "totalRides": 50,
+      "activeDrivers": 10
+    }
+    ```
+
+### Complaint API Endpoints
+
+#### Register Complaint
+* **Endpoint:** `/api/complaint/register`
+* **Method:** `POST`
+* **Request Body:**
+	+ `name`: User's name (required, must be at least 3 characters long)
+	+ `email`: User's email address (required, must be valid email)
+	+ `subject`: Complaint subject (required, must be at least 3 characters long)
+	+ `message`: Complaint message (required, must be at least 3 characters long)
+* **Response:**
+	+ `complaint`: Complaint object with id, name, email, subject, message, and status
+* **Request Example:**
+    ```json
+    {
+      "name": "John Doe",
+      "email": "user@example.com",
+      "subject": "Driver Behavior",
+      "message": "The driver was rude during the ride"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "complaint": {
+        "id": "1",
+        "name": "John Doe",
+        "email": "user@example.com",
+        "subject": "Driver Behavior",
+        "message": "The driver was rude during the ride",
+        "status": "pending"
+      }
+    }
+    ```
+
+#### Update Complaint Status
+* **Endpoint:** `/api/admin/updateComplaint`
+* **Method:** `PUT`
+* **Request Body:**
+	+ `complaintId`: Complaint ID (required)
+	+ `status`: New status (required, must be 'resolved' or 'rejected')
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + `complaint`: Updated complaint object
+* **Request Example:**
+    ```json
+    {
+      "complaintId": "1",
+      "status": "resolved"
+    }
+    ```
+* **Response Example:**
+    ```json
+    {
+      "complaint": {
+        "id": "1",
+        "name": "John Doe",
+        "email": "user@example.com",
+        "subject": "Driver Behavior",
+        "message": "The driver was rude during the ride",
+        "status": "resolved"
+      }
+    }
+    ```
+
+#### Get Pending Complaints
+* **Endpoint:** `/api/complaint/pendingComplaints`
+* **Method:** `GET`
+* **Headers:**
+    + `Authorization`: Bearer token (required)
+* **Response:**
+    + Array of pending complaint objects
+* **Request Example:**
+    ```http
+    GET /api/complaint/pendingComplaints HTTP/1.1
+    Authorization: Bearer your_jwt_token
+    ```
+* **Response Example:**
+    ```json
+    [
+      {
+        "id": "1",
+        "name": "John Doe",
+        "email": "user@example.com",
+        "subject": "Driver Behavior",
+        "message": "The driver was rude during the ride",
+        "status": "pending"
+      },
+      {
+        "id": "2",
+        "name": "Jane Smith",
+        "email": "jane@example.com",
+        "subject": "Late Arrival",
+        "message": "The driver arrived 30 minutes late",
+        "status": "pending"
+      }
+    ]
+    ```
+
+## Validation Errors for Admin Endpoints
+* If the name is less than 3 characters long, a 400 error will be returned with the message: "Name must be at least 3 characters long"
+* If the email is not valid, a 400 error will be returned with the message: "Please enter a valid email"
+* If the password is less than 7 characters long, a 400 error will be returned with the message: "Password must be at least 7 characters long"
+* If any required field is missing, a 400 error will be returned with the message: "All fields are required"
+
+## Error Handling
+* If an internal server error occurs, a 500 error will be returned with a JSON response containing the error message

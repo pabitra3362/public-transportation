@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg";
 import { setNewPassword } from "../services/password/setNewPassword.service";
 import { toast, ToastContainer } from 'react-toastify';
-import { replace } from "lodash";
 
 const ResetPassword = () => {
   const [isPwdOpen, setIsPwdOpen] = useState(true);

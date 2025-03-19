@@ -25,6 +25,7 @@ export function initializeSocket(server) {
       } else if (userType === "captain") {
         await Captain.findByIdAndUpdate(userId, {
           socketId: socket.id,
+          status: "active"
         });
       }
     });
@@ -45,15 +46,30 @@ export function initializeSocket(server) {
     });
 
 
-    socket.on("disconnect", () => {
+    socket.on('update-captain-status', async(data)=>{
+      if(data){
+        const { userType, userId } = data;
+        if(userType === 'captain'){
+          await Captain.findByIdAndUpdate( userId, {
+            status: "inactive"
+          })
+        }
+      }else{
+        return;
+      }
+    })
+
+
+    socket.on("disconnect", async (data) => {
       console.log(`Client disconnected: ${socket.id}`);
+      
     });
   });
 }
 
 export function sendMessageToSocketId(socketId, messageObject) {
 
-  // console.log(`sending message to ${socketId}`, messageObject)
+  console.log(`sending message to ${socketId}`, messageObject)
   if (io) {
     io.to(socketId).emit(messageObject.event, messageObject.data);
   } else {

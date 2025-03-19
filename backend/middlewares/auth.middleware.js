@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import Captain from "../models/captain.model.js";
+import Admin from '../models/admin.model.js';
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
 import BlacklistedToken from "../models/blacklistToken.model.js";
@@ -57,4 +58,32 @@ async function authCaptain(req, res, next) {
   }
 }
 
-export { authUser, authCaptain };
+
+
+// auth middleware for admin
+async function authAdmin(req, res, next) {
+  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+
+  if(!token){
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const isBlackListed = await BlacklistedToken.findOne({token})
+  if(isBlackListed){
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    const decode = jwt.decode(token, config.adminJwtSecret);
+
+    const admin = await Admin.findById(decode._id);
+
+    req.admin = admin;
+
+    return next();
+  } catch (error) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+}
+
+export { authUser, authCaptain, authAdmin };

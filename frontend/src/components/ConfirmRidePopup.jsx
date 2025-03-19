@@ -1,13 +1,17 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { RiArrowDownWideFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { confirmRide } from "../services/ride/ride.service";
+import { useSelector } from "react-redux";
+import { getDistanceAndTime } from "../services/map/map.service";
 
 const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride }) => {
   const navigate = useNavigate();
+  const { driver } = useSelector(state => state.driver)
+  const [distanceTime, setDistanceTime]=  useState(null)
 
   const {
     register,
@@ -15,11 +19,30 @@ const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride })
     formState: { errors }
   } = useForm();
 
+    useEffect(() => {
+      async function callMe (){
+        const response =  await getDistanceAndTime({
+          pickup: ride?.pickup,
+          destination: ride?.destination
+        });
+  
+        if(response){
+          const distance = response.distance.value / 1000;
+          setDistanceTime(distance)
+        }else{
+          setDistanceTime(null)
+        }
+      }
+  
+  
+      callMe();
+    },[ride])
+
 
   const onSubmit =async (data) => {
 
     
-      const response = await confirmRide({rideId: ride._id, otp: data.otp})
+      const response = await confirmRide({rideId: ride?._id, otp: data.otp})
 
       if(response){
         setConfirmRidePopupPanel(false);
@@ -54,12 +77,12 @@ const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride })
         <div className="flex items-center gap-3">
           <img
             className="h-8 w-8 rounded-full object-cover"
-            src="https://www.shutterstock.com/image-photo/portrait-smiling-young-girl-making-260nw-436447678.jpg"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_ar6WjHrFQVRAlywciRUAbIn1iqVQGdyJYQ&s"
             alt="driver-image"
           />
           <h2 className="font-bold text-lg capitalize">{ride?.user.name}</h2>
         </div>
-        <div className="font-bold text-lg">2.2 KM</div>
+        <div className="font-bold text-lg">{distanceTime} KM</div>
       </div>
 
       {/* <hr className="w-full bg-black h-[3px] opacity-20" /> */}
@@ -98,7 +121,7 @@ const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride })
         <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
           <input
             className="w-full rounded my-2 placeholder:font-semibold pl-5"
-            type="text"
+            type="number"
             placeholder="Enter OTP"
             {...register('otp',{
               required: "OTP is required",
