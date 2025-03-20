@@ -14,7 +14,9 @@ const CarConfirmPanel = ({ confirmedCar, setLookingDriverPanel, setCarConfirmPan
     const rideResult = await createRide({
           pickup: journeyDetails.pickup,
           destination: journeyDetails.destination,
-          vehicleType: confirmedCar.vehicleType
+          vehicleType: confirmedCar.vehicleType,
+          phone: journeyDetails.phone,
+          name: journeyDetails.name,
     })
     
     

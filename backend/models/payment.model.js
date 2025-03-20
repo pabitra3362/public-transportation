@@ -5,6 +5,11 @@ const paymentSchema = new mongoose.Schema({
   paymentMethod: { type: Array, required: true },
   paymentDate: { type: Date, required: true, default: Date.now() },
   amount: { type: Number, required: true },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  },
   status: {
     type: String,
     required: true

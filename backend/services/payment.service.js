@@ -2,12 +2,12 @@ import Payment from "../models/payment.model.js";
 
 
 // Service to save payment information
-export const savePayment = async ({paymentId, paymentMethod, amount, status, ride}) => {
-    if(!paymentId || !paymentMethod || !amount || !status || !ride){
+export const savePayment = async ({paymentId, paymentMethod, amount, status, ride, user}) => {
+    if(!paymentId || !paymentMethod || !amount || !status || !ride || !user){
         throw new Error("Missing required fields");
     }
 
-    const newPayment = Payment.create({paymentId, paymentMethod, amount, status, ride})
+    const newPayment = Payment.create({paymentId, paymentMethod, amount, status, ride, user})
     
     return newPayment;
 }
@@ -19,7 +19,7 @@ export const updatePaymentStatusService = async ({paymentId, status}) => {
         throw new Error("Missing required fields");
     }
 
-    const updatedPayment = await Payment.findOne({paymentId}, {status});
+    const updatedPayment = await Payment.updateOne({paymentId}, {status});
 
     return updatedPayment;
 }

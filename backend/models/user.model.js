@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "user"
   },
+  file: {
+    type: String
+  },
   socketId: {
     type: String,
   },
