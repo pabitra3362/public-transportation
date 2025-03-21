@@ -27,12 +27,12 @@ const getFare = async ({ pickup, destination }) => {
 };
 
 // Service to create ride for user
-const createRide = async ({ pickup, destination, vehicleType }) => {
+const createRide = async ({ pickup, destination, vehicleType, phone, name }) => {
   const token = getUserToken();
   try {
     const response = await axios.post(
       `${config.baseUrl}/ride/create`,
-      { pickup, destination, vehicleType },
+      { pickup, destination, vehicleType, phone, name },
       {
         headers: {
           Authorization: `bearer ${token}`,
