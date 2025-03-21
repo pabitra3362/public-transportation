@@ -5,35 +5,33 @@ import Button from "./Button";
 import Input from "./Input";
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdEmail, MdOutlineEventNote } from "react-icons/md";
-import { FaMessage } from "react-icons/fa6";
 import TextArea from "./TextArea";
 import { toast, ToastContainer } from 'react-toastify'
+import { registerComplaint } from "../services/complaint/complaint.service";
 
 const ContactForm = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = async (data,event) => {
-    const formData = new FormData(event.target);
+  const onSubmit = async (data) => {
 
-    formData.append("access_key", "7c8cb446-ff39-47d0-99fa-9c3d6bdfafd1");
+    try {
+      const complaint = await registerComplaint({
+        name: data.name,
+        email: data.email,
+        subject: data.title,
+        message: data.message,
+      })
 
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData,
-    });
+      toast.success(complaint.message);
+      reset();
 
-    const apiData = await response.json();
-
-    if (apiData.success) {
-      toast.success("Form Submitted Successfully");
-      event.target.reset();
-    } else {
-      console.log("Error", apiData);
-      toast.error(apiData.message);
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 

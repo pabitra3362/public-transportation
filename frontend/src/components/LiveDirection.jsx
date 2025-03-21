@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { LoadScriptNext, GoogleMap, MarkerF, DirectionsRenderer } from "@react-google-maps/api";
 import config from "../config/config";
+import { SocketContext } from "../context/SocketContext";
+import { useSelector } from "react-redux";
+
 
 const containerStyle = {
   width: "100%",
@@ -17,6 +20,8 @@ const LiveDirection = ({ pickup, destination }) => {
   const [error, setError] = useState(null);
   const [directions, setDirections] = useState(null);
   const [googleLoaded, setGoogleLoaded] = useState(false); // New state to track if Google Maps is loaded
+  const { sendMessage } = useContext(SocketContext);
+  const { driver } = useSelector(state=> state.driver);
 
   useEffect(() => {
     const handleError = (error) => {
@@ -40,6 +45,14 @@ const LiveDirection = ({ pickup, destination }) => {
         setCurrentPosition({
           lat: latitude,
           lng: longitude,
+        });
+
+        sendMessage('update-location-captain',{
+          userId: driver?._id,
+          location: {
+            ltd: latitude,
+            lng: longitude,
+          }
         });
       },
       handleError

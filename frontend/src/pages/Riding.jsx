@@ -30,12 +30,13 @@ const Riding = () => {
     window.scrollTo(0, 0);
   });
 
-<<<<<<< HEAD
-  // eslint-disable-next-line no-unused-vars
-=======
-  receiveMessage('ride-canceled', (ride) => {
-    navigate('/');
-    window.scrollTo(0, 0);
+  receiveMessage('ride-cancelled', (ride) => {
+   toast.erro("ride cancelled by admin", {
+    onclose: () => {
+      navigate('/');
+      window.scrollTo(0, 0);
+    }
+   })
   })
 
 
@@ -64,6 +65,7 @@ const Riding = () => {
         fare: ride?.fare,
         pickup: ride?.pickup,
         destination: ride?.destination,
+        ride: ride
       },
       {
         headers: {
@@ -75,8 +77,8 @@ const Riding = () => {
     const session = response.data;
 
     const result = stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
+      sessionId: session.id
+    })
     sessionStorage.setItem('sessionId',session.id)
 
     if (result.error) {

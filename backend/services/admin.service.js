@@ -157,7 +157,7 @@ const cancelRideService = async ({ rideId }) => {
     throw new Error("Rid id is required");
   }
 
-  const detailedRide = await Ride.findOne({_id: rideId }).populate("user");
+  const detailedRide = await Ride.findOne({_id: rideId }).populate("user").populate('captain');
   
 
   if (!detailedRide) {

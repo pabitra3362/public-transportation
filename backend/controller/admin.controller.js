@@ -295,10 +295,16 @@ const cancelRide = async (req, res) => {
   try {
     const ride = await cancelRideService({ rideId });
 
-    sendMessageToSocketId(ride.user?.socketId, {
+    sendMessageToSocketId(ride?.user?.socketId, {
       event: "ride-cancelled",
       data: ride,
     });
+
+    sendMessageToSocketId(ride?.captain?.socketId, {
+      event: "ride-cancelled",
+      data: ride,
+    });
+
 
     res.status(200).json({ message: `Ride cancelled successfully` });
   } catch (error) {

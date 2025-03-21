@@ -57,13 +57,13 @@ const SupportComplaints = () => {
               <td className="border px-4 py-2">
                 <button
                 onClick={()=> handleComplaint(complaint._id, "resolved")}
-                className="bg-green-500 text-white px-2 py-1 rounded">
+                className="bg-green-500 text-white px-2 w-28 py-2 rounded ml-2">
                   Resolve
                 </button>
                 <button
                 onClick={()=> handleComplaint(complaint._id, "rejected")}
-                className="bg-red-500 text-white px-2 py-1 rounded ml-2">
-                  Delete
+                className="bg-red-500 text-white px-2 w-28 py-2 rounded ml-2">
+                  Reject
                 </button>
               </td>
             </tr>

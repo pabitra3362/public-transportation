@@ -4,6 +4,7 @@ import {
   registerComplaintService,
   updateComplaintService,
 } from "../services/complaint.service.js";
+import { CRES, CSUES } from "../utils/emailSender.js";
 
 // Controller to register a complaint
 export const registerComplaint = async (req, res) => {
@@ -23,7 +24,9 @@ export const registerComplaint = async (req, res) => {
       message,
     });
 
-    res.status(201).json(complaint);
+    await CRES({email, name, complaintId: complaint._id, complaintDescription: message})
+
+    res.status(201).json({message: "Complaint successfully registered"});
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -41,6 +44,8 @@ export const updateComplaint = async (req, res) => {
 
   try {
     const complaint = await updateComplaintService({ complaintId, status });
+
+    await CSUES({email: complaint.email, name: complaint.name, complaintId: complaint._id, status })
 
     res.status(200).json(complaint);
   } catch (error) {
