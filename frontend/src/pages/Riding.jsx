@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-// eslint-disable-next-line no-unused-vars
-import React, { useContext } from "react";
-=======
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
->>>>>>> b026fba79e3c91cf5eb6e95eac5401212db61dac
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
@@ -15,6 +11,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import config from "../config/config";
 import axios from "axios";
 import { getUserToken } from "../utils/token";
+import { toast , ToastContainer } from 'react-toastify';
 
 const Riding = () => {
   const location = useLocation();
@@ -55,7 +52,6 @@ const Riding = () => {
     
   },[])
 
->>>>>>> b026fba79e3c91cf5eb6e95eac5401212db61dac
   const makePayment = async (params) => {
     const stripe = await loadStripe(config.stripeKey);
 
@@ -88,6 +84,7 @@ const Riding = () => {
 
   return (
     <div className="min-h-screen flex justify-center items-center">
+      <ToastContainer />
       <div className="h-screen lg:h-[70vh] w-full lg:w-[70%] lg:my-12 relative lg:rounded-2xl lg:overflow-hidden lg:hover:shadow-2xl lg:hover:-translate-y-8 duration-300 overflow-y-scroll">
         <div className=" flex justify-between items-center w-full absolute top-3 px-4">
           <h1 className="bg-transparent text-black tracking-[0.25rem] w-fit font-custom text-2xl ">
