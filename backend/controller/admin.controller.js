@@ -7,13 +7,13 @@ import {
   getCaptainsService,
   getUsersService,
   loginAdminService,
-  updateUserService,
   updateCaptainService,
   getRidesService,
   getCaptainService,
   cancelRideService,
   activeDriverService,
 } from "../services/admin.service.js";
+import { updateUserService } from "../services/user.service.js";
 import Admin from "../models/admin.model.js";
 import BlacklistedToken from "../models/blacklistToken.model.js";
 import { FPES } from "../utils/emailSender.js";

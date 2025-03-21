@@ -92,9 +92,36 @@ const getCaptainsInRadius = async (ltd, lng, radius) => {
   return captains;
 };
 
+// Service to get address through coordinates
+const getAddressThroughCoordinates = async (lat, lng) => {
+  if (!lat || !lng) {
+    throw new Error("Latitude and longitude are required");
+  }
+
+  try {
+    const apiKey = config.mapApiKey;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
+
+    const response = await axios.get(url);
+
+    if (response.data.status === "OK") {
+      const address = response.data.results[0].formatted_address;
+      return address;
+    } else {
+      throw new Error("Unable to get address for the given coordinates");
+    }
+  } catch (error) {
+    console.error("Error getting address:", error.message);
+    throw error;
+  }
+};
+
+
+
 export {
   fetchCoordinates,
   fetchDistanceTime,
   fetchAutoCompleteSuggestions,
   getCaptainsInRadius,
+  getAddressThroughCoordinates
 };

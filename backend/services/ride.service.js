@@ -12,9 +12,9 @@ const getFareService = async (pickup, destination) => {
   const distanceTime = await fetchDistanceTime(pickup, destination);
 
   const baseFare = {
-    auto: 30,
-    car: 50,
-    moto: 20,
+    auto: 20,
+    car: 30,
+    moto: 10,
   };
 
   const perKmRate = {
