@@ -68,19 +68,6 @@ const deleteUserService = async ({ id }) => {
   return user;
 };
 
-// Service to update user details
-const updateUserService = async ({ id, name, email }) => {
-  if (!id || !name || !email) {
-    throw new Error("All fields are required");
-  }
-  const user = await User.findByIdAndUpdate(id, { name, email }, { new: true });
-
-  if (!user) {
-    throw new Error("User with this id does not exist");
-  }
-
-  return user;
-};
 
 
 
@@ -193,7 +180,6 @@ export {
   forgetPassword,
   getUsersService,
   deleteUserService,
-  updateUserService,
   getCaptainService,
   getCaptainsService,
   deleteCaptainService,

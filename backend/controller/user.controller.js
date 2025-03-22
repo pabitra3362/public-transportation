@@ -4,10 +4,13 @@ import {
   createUser,
   loginUser,
   forgetPassword,
+  updateUserService,
+  getPaymentService,
+  getRidesService,
 } from "../services/user.service.js";
 import BlacklistedToken from "../models/blacklistToken.model.js";
 import { RES, FPES } from "../utils/emailSender.js";
-import emailVerify from '../utils/emailVerify.js';
+import { cloudinaryUpload } from '../utils/cloudinary.js';
 
 // controller for userRegister
 async function userRegister(req, res) {
@@ -21,11 +24,6 @@ async function userRegister(req, res) {
   
   
   try {
-    // const isReal = await emailVerify({email});
-
-    // if(!isReal){
-    //   return res.status(400).json({error:"Invalid email address"});
-    // }
 
     const user = await createUser({
       email,
@@ -131,6 +129,70 @@ async function setPassword(req, res) {
   }
 }
 
+
+async function updateUser(req, res) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  
+
+  const {id, email, name } = req.body;
+
+  const file = req.files?.length > 0 ? req.files[0] : null;
+
+  let uploadedUrl;
+
+  if(file){
+    uploadedUrl = await cloudinaryUpload(file);
+  }
+
+  try {
+    const updatedUser = await updateUserService({name,email,id,file:uploadedUrl});
+    res.status(200).json({ message: "User updated successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
+async function getPayments(req,res){
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { id } = req.query;
+
+  try {
+    
+    const payments = await getPaymentService({id})
+    res.status(200).json(payments);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
+async function getRides (req, res) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { id } = req.query;
+
+  try {
+    const rides = await getRidesService({id})
+    res.status(200).json(rides);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 export {
   userRegister,
   userLogin,
@@ -138,4 +200,7 @@ export {
   userLogout,
   forgetUserPassword,
   setPassword,
+  updateUser,
+  getPayments,
+  getRides
 };

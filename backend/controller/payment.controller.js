@@ -41,6 +41,7 @@ const makePayment = async (req, res) => {
       amount: fare,
       status: session.status,
       ride: ride,
+      user: req.user._id
     });
 
     return res.status(201).json({ id: session.id });
