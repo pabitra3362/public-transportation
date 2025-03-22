@@ -38,7 +38,7 @@ const LiveDirection = () => {
 
   // captain-location socket
   receiveMessage("captain-location", (data) => {
-    if(data.length > 0){
+    if(data){
       const { location } = data;
       setCurrentPosition({ lat: location.ltd, lng: location.lng }); 
     }
