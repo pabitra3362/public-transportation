@@ -21,7 +21,13 @@ const Navbar = () => {
   const driverToken = getDriverToken(); //get token from local storage
   const { sendMessage, receiveMessage } = useContext(SocketContext);
   const { driver } = useSelector(state => state.driver)
- 
+
+
+  let navArray = ["Drive","About", "Service", "Team", "News", "Contact"]
+
+  if(userToken || driverToken ){
+    navArray.push('Dashboard')
+  }
   
 
   const handleLogout = async () => {
@@ -86,7 +92,7 @@ const Navbar = () => {
                 Home
               </NavLink>
             </li>
-            {["Drive","About", "Service", "Team", "News", "Contact"].map((item) => (
+            {navArray.map((item) => (
               <li key={item}>
                 <NavLink
                   to={`/${item.toLowerCase()}`}
