@@ -49,9 +49,7 @@ export function initializeSocket(server) {
     socket.on('fetch-captain-location', async(data) =>{
 
       const { userId } = data;
-
       const location = await Captain.findOne({_id: userId});
-
       socket.emit('captain-location', location);
 
     })

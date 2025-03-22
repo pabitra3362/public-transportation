@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+// src/App.js
 import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -26,28 +27,27 @@ import { getDriverToken, getUserToken } from "./utils/token";
 import { useDispatch } from "react-redux";
 import { saveUser } from "./features/auth/userAuthSlice";
 import { saveDriver } from "./features/auth/driverAuthSlice";
-import PaymentResult from './pages/PaymentResult';
-
-
+import PaymentResult from "./pages/PaymentResult";
+import Dashboard from "./components/Dashboard";
 
 const App = () => {
-
   const dispatch = useDispatch();
   const userToken = getUserToken();
   const driverToken = getDriverToken();
-  useEffect(()=>{
-    const fetchUserData = async () =>{
-      if(userToken) {
-        const {user, token} = await getProfileData({token:userToken})
-         dispatch(saveUser({user, token}))
-       }else{
-         const {driver, token} = await getProfileData({token:driverToken})
-         dispatch(saveDriver({driver,token}))
-       }
-    }
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (userToken) {
+        const { user, token } = await getProfileData({ token: userToken });
+        dispatch(saveUser({ user, token }));
+      } else {
+        const { driver, token } = await getProfileData({ token: driverToken });
+        dispatch(saveDriver({ driver, token }));
+      }
+    };
 
     fetchUserData();
-  },[dispatch])
+  }, [dispatch]);
 
   return (
     <div>
@@ -56,20 +56,38 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/drive" element={<Drive />} />
-          <Route path="/driver-home" element={<DriverWrapper><DriverHome /></DriverWrapper>} />
+          <Route
+            path="/driver-home"
+            element={
+              <DriverWrapper>
+                <DriverHome />
+              </DriverWrapper>
+            }
+          />
           <Route path="/about" element={<About />} />
           <Route path="/service" element={<Service />} />
           <Route path="/team" element={<Team />} />
           <Route path="/news" element={<News />} />
           <Route path="/contact" element={<Contacts />} />
+          <Route path="/dashboard/*" element={<Dashboard />} /> {/* Dashboard route */}
           <Route path="/riding" element={<Riding />} />
-          <Route path="/driver-riding" element={<DriverWrapper><DriverRiding /></DriverWrapper>} />
+          <Route
+            path="/driver-riding"
+            element={
+              <DriverWrapper>
+                <DriverRiding />
+              </DriverWrapper>
+            }
+          />
           <Route path="/user-signup" element={<UserSignUp />} />
           <Route path="/user-login" element={<UserLogin />} />
           <Route path="/driver-signup" element={<DriverSignUp />} />
           <Route path="/driver-login" element={<DriverLogin />} />
           <Route path="/forgotpassword/:role" element={<ForgotPassword />} />
-          <Route path="/login/setNewPassword/:role/:id?" element={<ResetPassword />} />
+          <Route
+            path="/login/setNewPassword/:role/:id?"
+            element={<ResetPassword />}
+          />
           <Route path="/payment/:paymentResult" element={<PaymentResult />} />
         </Routes>
         <Footer />
