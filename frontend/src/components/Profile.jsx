@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg"; // Import the logo image
-import DefaultProfilePic from "../assets/defaultProfilePic.jpeg"; // Import the default profile picture
+import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg"; // Import the default profile picture
 
 function Profile() {
   const { register, handleSubmit } = useForm({
