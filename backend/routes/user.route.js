@@ -40,8 +40,8 @@ router.post('/setNewPassword',[
 
 // PUT request to update user details
 router.put('/updateUser',
-    authUser,
     upload.any(),
+    authUser,
     body('id').isString().withMessage(' Id is required'),
     body('name').isLength({ min: 3 }).withMessage('Name must be at least 3 characters long'),
     body('email').isEmail().withMessage('Email is not valid'),

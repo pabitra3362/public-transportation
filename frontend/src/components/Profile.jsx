@@ -1,44 +1,65 @@
 /* eslint-disable-next-line no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg"; // Import the logo image
 import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg"; // Import the default profile picture
+import { useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import { updateProfile } from "../services/user/user.services";
+import { Spinner } from "flowbite-react";
 
 function Profile() {
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      name: "John Doe",
-      email: "john@example.com",
-    },
-  });
+  const { user } = useSelector((state) => state.user);
 
-  const [image, setImage] = useState(null); // State to hold the uploaded image
-  const [savedData, setSavedData] = useState({
-    name: "John Doe",
-    email: "john@example.com",
-    image: null,
-  }); // This holds the saved data, persists after submitting
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const [image, setImage] = useState(null);
+  const [loader, setLoader] = useState(true);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
+  useEffect(() => {
+    setValue("name", user.name);
+    setValue("email", user.email);
+    setValue("file", user?.file || DefaultProfilePic);
+    setLoader(false);
+  }, [user]);
+
+  const handleImageChange = (event) => {
+    let file = event.target.files[0];
+    setValue("file", file);
     if (file) {
-      setImage(URL.createObjectURL(file)); // Generate the image URL for preview
+      setImage(URL.createObjectURL(file));
     }
   };
 
-  const onSubmit = (data) => {
-    // Update saved data with the newly submitted values
-    setSavedData({
-      name: data.name,
-      email: data.email,
-      image: image || savedData.image, // If image is null, keep the old image
-    });
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("id", user._id);
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("file", data.file);
 
-    alert(`Profile updated: ${data.name}, ${data.email}`);
+    try {
+      const response = await updateProfile(formData);
+
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.response?.data?.error || error.message);
+    }
   };
+
+  if (loader) {
+    <div className="text-center">
+      <Spinner aria-label="Center-aligned spinner example" size="xl" />
+    </div>;
+  }
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-2xl mx-auto mt-8 w-full sm:w-[80%] md:w-[60%] lg:w-[50%] h-auto sm:h-auto md:h-[95%]">
+      <ToastContainer theme="dark" autoClose={3000} draggable={true} />
       {/* Logo image */}
       <div className="text-center mb-4">
         <img src={Logo} alt="Logo" className="mx-auto h-40 rounded-full" />
@@ -46,26 +67,30 @@ function Profile() {
 
       <h2 className="text-2xl font-semibold text-center mb-6">Your Profile</h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        encType="multipart/form-data"
+        className="flex flex-col"
+      >
         {/* Image preview or default image */}
         <div className="w-32 h-32 mx-auto mb-4">
           <img
-            src={image || savedData.image || DefaultProfilePic} // Show uploaded image or saved image
+            src={image || user?.file || DefaultProfilePic} // Show uploaded image or saved image
             alt="Profile"
             className="w-full h-full object-cover rounded-full border-4 border-yellow-300 cursor-pointer"
-            onClick={() => document.getElementById("profileImageInput").click()} // Trigger file input on image click
+            onClick={() => document.getElementById("profileImageInput").click()}
           />
         </div>
 
         {/* Text showing until the user uploads an image */}
-        {!image && !savedData.image && (
+        {/* {!image && !savedData.image && (
           <p className="text-center text-gray-500 mb-4">Upload your Profile</p>
-        )}
+        )} */}
 
         {/* Image upload input field */}
         <input
           id="profileImageInput"
-          {...register("image")}
+          {...register("file")}
           type="file"
           accept="image/*"
           onChange={handleImageChange}
@@ -74,19 +99,17 @@ function Profile() {
 
         {/* Name input field */}
         <input
-          {...register("name")}
+          {...register("name", { require: true })}
           type="text"
           placeholder="Name"
-          defaultValue={savedData.name} // Show the saved name by default
           className="w-full p-3 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-yellow-300"
         />
 
         {/* Email input field */}
         <input
-          {...register("email")}
+          {...register("email", { require: true })}
           type="email"
           placeholder="Email"
-          defaultValue={savedData.email} // Show the saved email by default
           className="w-full p-3 border rounded mb-6 focus:outline-none focus:ring-2 focus:ring-yellow-300"
         />
 

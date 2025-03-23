@@ -1,12 +1,24 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom"; // Import Link for navigation
+import defaultProfilePic from '../assets/DefaultProfilePic.jpeg';
+import { RiCloseLargeLine } from "react-icons/ri";
 
 const Sidebar = ({ onSidebarItemClick }) => {
+
+  const {user} = useSelector(state => state.user);
+
   return (
-    <div className="w-64 bg-gray-800 text-white sm:min-h-screen  min-h-screen pt-10">
+    <div className="w-64 bg-gray-800 relative text-white sm:h-full  min-h-screen pt-0">
+      <button className="absolute -top-4 right-4" onClick={onSidebarItemClick}><RiCloseLargeLine className="text-lg"   /></button>
       <ul className="space-y-4">
+
+        <li className="text-xl mb-10">
+          <img className="rounded-full h-36 w-36 mx-auto border-2 border-yellow-300 object-cover" src={user?.file || defaultProfilePic} alt={defaultProfilePic} />
+        </li>
+
         <li className="text-xl">
           <Link
             to="/dashboard/profile"

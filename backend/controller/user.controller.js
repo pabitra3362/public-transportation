@@ -150,7 +150,7 @@ async function updateUser(req, res) {
 
   try {
     const updatedUser = await updateUserService({name,email,id,file:uploadedUrl});
-    res.status(200).json({ message: "User updated successfully" });
+    res.status(200).json({ message: "User details updated" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
