@@ -12,7 +12,7 @@ const Sidebar = ({ onSidebarItemClick }) => {
 
   return (
     <div className="w-64 bg-gray-800 relative text-white sm:h-full  min-h-screen pt-0">
-      <button className="absolute -top-4 right-4" onClick={onSidebarItemClick}><RiCloseLargeLine className="text-lg"   /></button>
+      <button className="absolute -top-4 right-4 md:hidden lg:hidden" onClick={onSidebarItemClick}><RiCloseLargeLine className="text-lg"   /></button>
       <ul className="space-y-4">
 
         <li className="text-xl mb-10">

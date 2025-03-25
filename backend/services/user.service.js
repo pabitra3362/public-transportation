@@ -60,7 +60,7 @@ async function getPaymentService ({id}) {
   if (!id) {
     throw new Error("All fields are required");
   }
-  const payment = await Payment.find({user: id});
+  const payment = await Payment.find({user: id, status: "complete"});
 
   return payment;
 }
@@ -71,7 +71,7 @@ async function getRidesService ({id}) {
     throw new Error("All fields are required");
   }
 
-  const rides = await Ride.find({user: id}).populate('captain');
+  const rides = await Ride.find({user: id, status:"completed"}).populate('captain');
 
   return rides;
 }
