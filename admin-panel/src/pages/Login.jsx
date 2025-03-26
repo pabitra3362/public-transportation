@@ -47,12 +47,11 @@ const Login = () => {
         dispatch(loginAdmin(admin));
         window.location.href= '/users';
       }
+      reset();
 
     } catch (error) {
       toast.error(error.message)
-    } finally {
-      reset();
-    }
+    } 
     
   };
 

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Logo from "../assets/Logo.jpg"; // Import the logo image
 import { useSelector } from "react-redux";
 import { Spinner } from "flowbite-react";
-import {toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
 import { fetchRideHistory } from "../services/user/user.services";
 
 function RideHistory() {
@@ -11,32 +11,23 @@ function RideHistory() {
   const [rides, setRides] = useState([]);
   const [loader, setLoader] = useState(true);
 
-
   // fetch all ride history on page load
-  useEffect(()=>{
-    async function getAllRides(){
-
+  useEffect(() => {
+    async function getAllRides() {
       try {
-        if(user._id){
-
+        if (user._id) {
           const response = await fetchRideHistory(user._id);
-          
+
           setRides(response);
           setLoader(false);
         }
       } catch (error) {
-        toast.error((error.response?.data?.error) || error.message)
+        toast.error(error.response?.data?.error || error.message);
       }
     }
 
     getAllRides();
-  },[user])
-
-  if (loader) {
-    return (<div className="text-center">
-      <Spinner aria-label="Center-aligned spinner example" size="xl" />
-    </div>);
-  }
+  }, [user]);
 
   return (
     <div className="bg-white p-4 sm:p-6 rounded-lg shadow-2xl mx-auto mt-8 w-full sm:w-[90%] md:w-[80%] lg:w-[70%] h-auto sm:h-auto md:h-[95%]">
@@ -55,47 +46,53 @@ function RideHistory() {
       </h2>
 
       {/* Ride History List */}
-      {rides.length > 0 ? (<ul className="space-y-4 sm:space-y-6">
-        {rides.map((ride, index) => (
-          <li
-            key={index}
-            className="p-4 sm:p-6 bg-gray-50 border border-gray-300 rounded-md shadow-md hover:shadow-lg transition-shadow duration-300"
-          >
-            <div className="space-y-3">
-              {/* Ride ID and Fare */}
-              <div className="flex justify-between items-center text-gray-800">
-                <span className="font-semibold text-base sm:text-xl">
-                  Ride ID: {ride._id}
-                </span>
-                <span className="text-green-600 font-bold text-base sm:text-lg">
-                  {ride.fare}
-                </span>
-              </div>
+      {loader ? (
+        <div className="text-center">
+          <Spinner aria-label="Center-aligned spinner example" size="xl" />
+        </div>
+      ) : rides.length > 0 ? (
+        <ul className="space-y-4 sm:space-y-6">
+          {rides.map((ride, index) => (
+            <li
+              key={index}
+              className="p-4 sm:p-6 bg-gray-50 border border-gray-300 rounded-md shadow-md hover:shadow-lg transition-shadow duration-300"
+            >
+              <div className="space-y-3">
+                {/* Ride ID and Fare */}
+                <div className="flex justify-between items-center text-gray-800">
+                  <span className="font-semibold text-base sm:text-xl">
+                    Ride ID: {ride._id}
+                  </span>
+                  <span className="text-green-600 font-bold text-base sm:text-lg">
+                    ₹{ride.fare}
+                  </span>
+                </div>
 
-              {/* Driver, Pickup, and Destination */}
-              <div className="flex justify-between text-xs sm:text-sm text-gray-600">
-                <span>Driver: {ride.captain?.name}</span>
-                <span>
-                  {ride.pickup} to {ride.destination}
-                </span>
-              </div>
+                {/* Driver, Pickup, and Destination */}
+                <div className="flex justify-between text-xs sm:text-sm text-gray-600">
+                  <span>Driver: {ride.captain?.name}</span>
+                  <span>
+                    {ride.pickup} to {ride.destination}
+                  </span>
+                </div>
 
-              {/* Date */}
-              <div className="text-xs sm:text-sm text-gray-500 mt-2">
-                <span className="font-semibold">Date: </span>
-                {ride.date?.split("T")[0] || Date.now()}
+                {/* Date */}
+                <div className="text-xs sm:text-sm text-gray-500 mt-2">
+                  <span className="font-semibold">Date: </span>
+                  {ride.date?.split("T")[0] || Date.now()}
+                </div>
               </div>
-            </div>
-          </li>
-        ))}
-      </ul>) : (
+            </li>
+          ))}
+        </ul>
+      ) : (
         <video
-        className="w-full h-96"
-        src="https://cdnl.iconscout.com/lottie/premium/preview-watermark/empty-14042396-11352619.mp4"
-        autoPlay
-        loop
-        muted
-      ></video>
+          className="w-full h-96"
+          src="https://cdnl.iconscout.com/lottie/premium/preview-watermark/empty-14042396-11352619.mp4"
+          autoPlay
+          loop
+          muted
+        ></video>
       )}
     </div>
   );

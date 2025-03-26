@@ -16,26 +16,20 @@ function PaymentHistory() {
   // Fetch payment results on page load
   useEffect(() => {
     async function getPaymentDetails() {
-      if(user._id){
+      if (user._id) {
         try {
           const response = await fetchPaymentHistory(user._id);
-  
+
           setPaymentHistory(response);
           setLoader(false);
         } catch (error) {
-          toast.error((error.response?.data?.error) || error.message);
+          toast.error(error.response?.data?.error || error.message);
         }
       }
     }
 
     getPaymentDetails();
   }, [user]);
-
-  if (loader) {
-    return (<div className="text-center">
-    <Spinner aria-label="Center-aligned spinner example" size="xl" />
-  </div>);
-  }
 
   return (
     <div className="bg-white p-3 sm:p-4 rounded-lg shadow-2xl mx-auto mt-4 w-full sm:w-[90%] md:w-[80%] lg:w-[70%] h-auto sm:h-auto md:h-[95%]">
@@ -54,7 +48,11 @@ function PaymentHistory() {
       </h2>
 
       {/* Payment History Table */}
-      {paymentHistory.length > 0 ? (
+      {loader ? (
+        <div className="text-center">
+          <Spinner aria-label="Center-aligned spinner example" size="xl" />
+        </div>
+      ) : paymentHistory.length > 0 ? (
         <div className="overflow-x-auto">
           <table className="w-full table-auto border-collapse text-xs sm:text-sm">
             <thead className="bg-yellow-300">

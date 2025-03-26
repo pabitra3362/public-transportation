@@ -52,3 +52,34 @@ export async function fetchRideHistory(id) {
     });
     return response.data;
 }
+
+
+// service to fetch current ride
+export async function fetchCurrentRide(id) {
+    const token = getUserToken();
+    
+    const response = await axios.get(`${config.baseUrl}/api/user/getCurrentRide`, {
+        headers: {
+            Authorization: `bearer ${token}`,
+        },
+        params: {
+            id
+        }
+    });
+    return response.data;
+}
+
+
+// service to cancel ride
+export async function cancelRide({ rideId }) {
+    const token = getUserToken();
+
+    const response = await axios.post(`${config.baseUrl}/api/user/cancelRide`,{rideId},{
+        headers: {
+            Authorization: `bearer ${token}`
+        }
+    });
+
+
+    return response.data;
+}

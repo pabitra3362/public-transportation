@@ -1,6 +1,6 @@
 import express from "express";
 import {body, query} from 'express-validator';
-import {userRegister, userLogin, getUserProfile, userLogout, forgetUserPassword, setPassword, updateUser, getPayments, getRides } from '../controller/user.controller.js';
+import {userRegister, userLogin, getUserProfile, userLogout, forgetUserPassword, setPassword, updateUser, getPayments, getRides, getCurrentRide, cancelRide } from '../controller/user.controller.js';
 import { authUser } from "../middlewares/auth.middleware.js";
 import upload from '../middlewares/multer.middleware.js';
 
@@ -60,6 +60,20 @@ router.get('/getAllRides',
     authUser,
     query('id').isString().withMessage(' Id is required'),
     getRides
+);
+
+// GET request to get current ride
+router.get('/getCurrentRide',
+    authUser,
+    query('id').isString().withMessage(' Id is required'),
+    getCurrentRide
+);
+
+// POST request to cancel ride
+router.post('/cancelRide',
+    body('rideId').isString().withMessage('Invalid ride id'),
+    authUser,
+    cancelRide
 )
 
 

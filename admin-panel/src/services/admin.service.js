@@ -16,7 +16,7 @@ export const loginAdminService = async ({ email, password })=>{
      return false;
       
     } catch (error) {
-      throw new Error((error?.response?.data?.message) || (error.message))
+      throw new Error((error?.response?.data?.error) || (error.message))
     }
   }
 
