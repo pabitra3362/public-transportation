@@ -1,13 +1,9 @@
-import react from 'react';
+import React from 'react'
 
-
-const DriverDashboard = () =>{
-    return (
-        <div>
-            hello i am driver dashboard...sehzad gaandu hai😭😭😭
-        </div>
-    )
+const DriverDashboard = () => {
+  return (
+    <div>hello i am driver dashboard...sehzad gaandu hai😭😭😭</div>
+  )
 }
 
-
-export default DriverDashboard;
+export default DriverDashboard
