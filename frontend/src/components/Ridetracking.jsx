@@ -33,20 +33,17 @@ function RideTracking() {
   const handleCancelRide = async () => {
     try {
       const response = await cancelRide({ rideId: ride?._id });
-
       toast.success(response.message);
     } catch (error) {
       toast.error(error.response?.data?.error || error.message);
     }
   };
 
-  // fetch all ride history on page load
   useEffect(() => {
     async function getCurrentRide() {
       try {
         if (user._id) {
           const response = await fetchCurrentRide(user._id);
-
           setRide(response);
           setLoader(false);
         }
@@ -54,7 +51,6 @@ function RideTracking() {
         toast.error(error.response?.data?.error || error.message);
       }
     }
-
     getCurrentRide();
   }, [user, handleCancelRide]);
 
@@ -62,18 +58,15 @@ function RideTracking() {
     const intervalId = setInterval(() => {
       sendMessage("fetch-captain-location", { userId: ride?.captain?._id });
 
-      // update user location
       window.navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
-
         setUserPosition({ lat: latitude, lng: longitude });
       });
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(intervalId);
   }, [ride]);
 
-  // captain-location socket
   receiveMessage("captain-location", (data) => {
     if (data) {
       const { location } = data;
@@ -102,8 +95,9 @@ function RideTracking() {
   }, [ride, googleLoaded]);
 
   return (
-    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-2xl mx-auto mt-8 w-full sm:w-[90%] md:w-[80%] lg:w-[70%] h-auto sm:h-auto md:h-[95%]">
+    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-2xl mx-auto mt-8 w-full max-w-screen-lg">
       <ToastContainer autoClose={3000} draggable={true} />
+
       {/* Logo image */}
       <div className="text-center mb-4 sm:mb-6">
         <img
@@ -122,7 +116,7 @@ function RideTracking() {
           <Spinner aria-label="Center-aligned spinner example" size="xl" />
         </div>
       ) : ride ? (
-        <div className="space-y-3 sm:space-y-4">
+        <div className="space-y-2 sm:space-y-2 flex flex-col gap-10">
           <div className="space-y-4 sm:space-y-6">
             <div className="p-4 sm:p-6 bg-gray-50 border border-gray-300 rounded-md shadow-md hover:shadow-lg transition-shadow duration-300">
               <div className="space-y-3">
@@ -154,7 +148,7 @@ function RideTracking() {
           </div>
 
           {/* Map placeholder */}
-          <div className="h-32 sm:h-48 bg-gray-200 rounded-md flex flex-col items-center justify-center">
+          <div className="h-96 sm:h-[500px] bg-gray-200 rounded-md flex flex-col items-center justify-center">
             <LoadScriptNext
               googleMapsApiKey={config.googleMapApiKey}
               onLoad={() => {
@@ -195,14 +189,15 @@ function RideTracking() {
             </LoadScriptNext>
           </div>
 
-          <div>
-            <Button
+          <div className="flex justify-center">
+            {" "}
+            {/* Center the button */}
+            <button
               onClick={handleCancelRide}
-              className="w-[50%] mx-auto my-5 font-bold"
-              gradientDuoTone="purpleToBlue"
+              className="w-[80%]  px-4 py-3 rounded-md font-semibold bg-yellow-300 hover:bg-black hover:text-white duration-500"
             >
               Cancel Ride
-            </Button>
+            </button>
           </div>
         </div>
       ) : (

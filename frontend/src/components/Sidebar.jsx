@@ -1,9 +1,10 @@
+/* eslint-disable no-irregular-whitespace */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom"; // Import Link for navigation
-import defaultProfilePic from "../assets/DefaultProfilePic.jpeg";
+import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg"; // Import the default profile picture
 import { RiCloseLargeLine } from "react-icons/ri";
 
 const Sidebar = ({ onSidebarItemClick }) => {
@@ -21,8 +22,8 @@ const Sidebar = ({ onSidebarItemClick }) => {
         <li className="text-xl mb-10">
           <img
             className="rounded-full h-36 w-36 mx-auto border-2 border-yellow-300 object-cover"
-            src={user?.file || defaultProfilePic}
-            alt={defaultProfilePic}
+            src={user?.file || DefaultProfilePic}
+            alt={DefaultProfilePic}
           />
         </li>
 

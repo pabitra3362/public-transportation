@@ -20,7 +20,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex md:h-full">
       {/* Sidebar */}
       <div
         className={`w-64 bg-gray-800 text-white h-full pt-10 transition-all duration-300 ease-in-out ${
