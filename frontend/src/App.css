@@ -1,5 +1,4 @@
-
-html{
+html {
   scroll-behavior: smooth;
 }
 
@@ -22,4 +21,14 @@ html{
   width: 100%;
   transition: all 0.3s linear;
   perspective: 1000px;
+}
+
+/* Hide scrollbar while still allowing scrolling */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
 }

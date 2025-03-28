@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <div className="bg-slate-900">
+    <div className="bg-slate-900 z-[60px] sticky">
       <div className=" text-white w-full md:w-[80vw] lg:w-[70vw] mx-auto py-12 px-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-start lg:justify-items-center md:px-8 items-start gap-12">
         {/* logo */}
         <div className="logo grid justify-items-start items-center gap-7">

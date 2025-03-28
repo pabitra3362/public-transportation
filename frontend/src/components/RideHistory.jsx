@@ -32,6 +32,7 @@ function RideHistory() {
   return (
     <div className="bg-white p-4 sm:p-6 rounded-lg shadow-2xl mx-auto mt-8 w-full sm:w-[90%] md:w-[80%] lg:w-[70%] h-auto sm:h-auto md:h-[95%]">
       <ToastContainer autoClose={3000} draggable={true} />
+      
       {/* Logo image */}
       <div className="text-center mb-4 sm:mb-6">
         <img
@@ -51,40 +52,42 @@ function RideHistory() {
           <Spinner aria-label="Center-aligned spinner example" size="xl" />
         </div>
       ) : rides.length > 0 ? (
-        <ul className="space-y-4 sm:space-y-6">
-          {rides.map((ride, index) => (
-            <li
-              key={index}
-              className="p-4 sm:p-6 bg-gray-50 border border-gray-300 rounded-md shadow-md hover:shadow-lg transition-shadow duration-300"
-            >
-              <div className="space-y-3">
-                {/* Ride ID and Fare */}
-                <div className="flex justify-between items-center text-gray-800">
-                  <span className="font-semibold text-base sm:text-xl">
-                    Ride ID: {ride._id}
-                  </span>
-                  <span className="text-green-600 font-bold text-base sm:text-lg">
-                    ₹{ride.fare}
-                  </span>
-                </div>
+        <div className="overflow-auto max-h-[80vh] hide-scrollbar">
+          <ul className="space-y-4 sm:space-y-6">
+            {rides.map((ride, index) => (
+              <li
+                key={index}
+                className="p-4 sm:p-6 bg-gray-50 border border-gray-300 rounded-md shadow-md hover:shadow-lg transition-shadow duration-300"
+              >
+                <div className="space-y-3">
+                  {/* Ride ID and Fare */}
+                  <div className="flex justify-between items-center text-gray-800">
+                    <span className="font-semibold text-base sm:text-xl">
+                      Ride ID: {ride._id}
+                    </span>
+                    <span className="text-green-600 font-bold text-base sm:text-lg">
+                      ₹{ride.fare}
+                    </span>
+                  </div>
 
-                {/* Driver, Pickup, and Destination */}
-                <div className="flex justify-between text-xs sm:text-sm text-gray-600">
-                  <span>Driver: {ride.captain?.name}</span>
-                  <span>
-                    {ride.pickup} to {ride.destination}
-                  </span>
-                </div>
+                  {/* Driver, Pickup, and Destination */}
+                  <div className="flex justify-between text-xs sm:text-sm text-gray-600">
+                    <span>Driver: {ride.captain?.name}</span>
+                    <span>
+                      {ride.pickup} to {ride.destination}
+                    </span>
+                  </div>
 
-                {/* Date */}
-                <div className="text-xs sm:text-sm text-gray-500 mt-2">
-                  <span className="font-semibold">Date: </span>
-                  {ride.date?.split("T")[0] || Date.now()}
+                  {/* Date */}
+                  <div className="text-xs sm:text-sm text-gray-500 mt-2">
+                    <span className="font-semibold">Date: </span>
+                    {ride.date?.split("T")[0] || Date.now()}
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : (
         <video
           className="w-full h-96"
