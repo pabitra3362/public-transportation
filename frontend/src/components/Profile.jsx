@@ -1,9 +1,10 @@
+/* eslint-disable no-irregular-whitespace */
 /* eslint-disable no-unused-vars */
 /* eslint-disable-next-line no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg"; // Import the logo image
-import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg"; // Import the default profile picture
+import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg"; // Import the default profile picture
 import { useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import { updateProfile } from "../services/user/user.services";
@@ -59,7 +60,7 @@ function Profile() {
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-2xl mx-auto mt-8 w-full sm:w-[80%] md:w-[60%] lg:w-[50%] h-auto sm:h-auto md:h-[95%]">
+    <div className="bg-white p-6 rounded-lg shadow-2xl mx-auto mt-8 w-full sm:w-[80%] md:w-[60%] lg:w-[50%] h-auto sm:h-auto md:h-[55%]">
       <ToastContainer theme="dark" autoClose={3000} draggable={true} />
       {/* Logo image */}
       <div className="text-center mb-4">

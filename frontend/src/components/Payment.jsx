@@ -32,7 +32,7 @@ function PaymentHistory() {
   }, [user]);
 
   return (
-    <div className="bg-white p-3 sm:p-4 rounded-lg shadow-2xl mx-auto mt-4 w-full sm:w-[90%] md:w-[80%] lg:w-[70%] h-auto sm:h-auto md:h-[95%]">
+    <div className="bg-white p-3 sm:p-4 rounded-lg shadow-2xl mx-auto mt-4 w-full sm:w-[90%] md:w-[80%] lg:w-[70%] h-auto sm:h-auto md:h-[60%]">
       <ToastContainer autoClose={3000} draggable={true} />
       {/* Logo image */}
       <div className="text-center mb-4">

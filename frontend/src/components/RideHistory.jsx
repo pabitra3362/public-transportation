@@ -30,9 +30,9 @@ function RideHistory() {
   }, [user]);
 
   return (
-    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-2xl mx-auto mt-8 w-full sm:w-[90%] md:w-[80%] lg:w-[70%] h-auto sm:h-auto md:h-[95%]">
+    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-2xl mx-auto mt-8 w-full sm:w-[90%] md:w-[75%] lg:w-[75%] h-auto sm:h-auto md:h-[80%]">
       <ToastContainer autoClose={3000} draggable={true} />
-      
+
       {/* Logo image */}
       <div className="text-center mb-4 sm:mb-6">
         <img
@@ -42,13 +42,13 @@ function RideHistory() {
         />
       </div>
 
-      <h2 className="text-xl sm:text-2xl font-semibold text-center mb-4 sm:mb-6 text-gray-800">
+      <h2 className="text-xl sm:text-2xl  font-semibold text-center mb-5 sm:mb-6 text-gray-800">
         Ride History
       </h2>
 
       {/* Ride History List */}
       {loader ? (
-        <div className="text-center">
+        <div className="text-center ">
           <Spinner aria-label="Center-aligned spinner example" size="xl" />
         </div>
       ) : rides.length > 0 ? (
@@ -71,9 +71,11 @@ function RideHistory() {
                   </div>
 
                   {/* Driver, Pickup, and Destination */}
-                  <div className="flex justify-between text-xs sm:text-sm text-gray-600">
-                    <span>Driver: {ride.captain?.name}</span>
-                    <span>
+                  <div className="flex justify-between w-[100%] sm:flex sm:w-[100%] text-xs sm:text-sm text-gray-600">
+                    <span className="w-[20%] sm:w-[40%]">
+                      Driver: {ride.captain?.name}
+                    </span>
+                    <span className="w-[80%] sm:w-[60%]">
                       {ride.pickup} to {ride.destination}
                     </span>
                   </div>
