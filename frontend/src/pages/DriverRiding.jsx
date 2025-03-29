@@ -1,4 +1,4 @@
-import React,{ useContext, useRef, useState } from "react";
+import React,{ useContext, useEffect, useRef, useState } from "react";
 import { MdOutlineLogout } from "react-icons/md";
 import { RiArrowUpWideFill } from "react-icons/ri";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { useGSAP } from "@gsap/react";
 import LiveDirection from "../components/LiveDirection";
 import { SocketContext } from '../context/SocketContext';
 import { toast , ToastContainer } from 'react-toastify';
+import { useSelector } from "react-redux";
 
 
 const DriverRiding = () => {
@@ -17,7 +18,33 @@ const DriverRiding = () => {
   const location = useLocation()
   const rideData = location.state?.ride
   const navigate = useNavigate()
-  const { receiveMessage } = useContext(SocketContext)
+  const { driver } = useSelector(state => state.driver)
+  const { receiveMessage, sendMessage } = useContext(SocketContext)
+
+
+
+  useEffect(()=>{
+      
+      const updateLocation = () => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          sendMessage("update-location-captain", {
+            userId: driver?._id,
+            location:{
+              ltd:latitude,
+              lng:longitude,
+            }
+          });
+        });
+      };
+  
+      const locationInterval = setInterval(updateLocation, 10000)
+  
+  
+    
+    return () => clearInterval(locationInterval)
+  }, [driver])
 
   useGSAP(()=>{
     if(finishRide){

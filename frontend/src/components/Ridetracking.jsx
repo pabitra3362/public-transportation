@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-import React, { useContext, useEffect, useState } from "react";
+
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import Logo from "../assets/Logo.jpg"; // Import the logo image
 import { useSelector } from "react-redux";
 import { Spinner, Button } from "flowbite-react";
@@ -56,7 +56,7 @@ function RideTracking() {
     }
 
     getCurrentRide();
-  }, [user, handleCancelRide]);
+  }, [user]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -68,7 +68,7 @@ function RideTracking() {
 
         setUserPosition({ lat: latitude, lng: longitude });
       });
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(intervalId);
   }, [ride]);
@@ -100,6 +100,13 @@ function RideTracking() {
       );
     }
   }, [ride, googleLoaded]);
+
+  const memoizedDirections = useMemo(() => {
+    if (directions) {
+      return <DirectionsRenderer directions={directions} />;
+    }
+    return null;
+  }, [directions]);
 
   return (
     <div className="bg-white p-4 sm:p-6 rounded-lg shadow-2xl mx-auto mt-8 w-full sm:w-[90%] md:w-[80%] lg:w-[70%] h-auto sm:h-auto md:h-[95%]">
@@ -190,7 +197,7 @@ function RideTracking() {
                   />
                 )}
 
-                {directions && <DirectionsRenderer directions={directions} />}
+                {memoizedDirections}
               </GoogleMap>
             </LoadScriptNext>
           </div>
