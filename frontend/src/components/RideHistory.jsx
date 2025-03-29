@@ -71,9 +71,11 @@ function RideHistory() {
                   </div>
 
                   {/* Driver, Pickup, and Destination */}
-                  <div className="flex justify-between  text-xs sm:text-sm text-gray-600">
-                    <span>Driver: {ride.captain?.name}</span>
-                    <span>
+                  <div className="flex justify-between w-[100%] sm:flex sm:w-[100%] text-xs sm:text-sm text-gray-600">
+                    <span className="w-[20%] sm:w-[40%]">
+                      Driver: {ride.captain?.name}
+                    </span>
+                    <span className="w-[80%] sm:w-[60%]">
                       {ride.pickup} to {ride.destination}
                     </span>
                   </div>
