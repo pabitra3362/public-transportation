@@ -8,7 +8,7 @@ const SidebarForDriver = ({ onSidebarItemClick }) => {
       <ul className="flex flex-col gap-5">
         <li>
           <Link
-            to="/dashboard/profile"
+            to="/driver/dashboard/profile"
             className="text-white block py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
             onClick={onSidebarItemClick}
           >
@@ -17,7 +17,7 @@ const SidebarForDriver = ({ onSidebarItemClick }) => {
         </li>
         <li>
           <Link
-            to="/dashboard/earnings"
+            to="/driver/dashboard/earnings"
             className="text-white block py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
             onClick={onSidebarItemClick}
           >
@@ -26,7 +26,7 @@ const SidebarForDriver = ({ onSidebarItemClick }) => {
         </li>
         <li>
           <Link
-            to="/dashboard/active-trip"
+            to="/driver/dashboard/active-trip"
             className="text-white block py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
             onClick={onSidebarItemClick}
           >
@@ -35,7 +35,7 @@ const SidebarForDriver = ({ onSidebarItemClick }) => {
         </li>
         <li>
           <Link
-            to="/dashboard/ride-request"
+            to="/driver/dashboard/ride-request"
             className="text-white block py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
             onClick={onSidebarItemClick}
           >
