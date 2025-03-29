@@ -52,7 +52,7 @@ const Sidebar = ({ onSidebarItemClick }) => {
 
         <li className="text-xl">
           <Link
-            to="/dashboard/profile"
+            to="/user/dashboard/profile"
             onClick={onSidebarItemClick} // Close sidebar when clicked
             className="block py-2 px-4 hover:bg-gray-700 transition"
           >
@@ -61,7 +61,7 @@ const Sidebar = ({ onSidebarItemClick }) => {
         </li>
         <li className="text-xl">
           <Link
-            to="/dashboard/payment"
+            to="/user/dashboard/payment"
             onClick={onSidebarItemClick} // Close sidebar when clicked
             className="block py-2 px-4 hover:bg-gray-700 transition"
           >
@@ -70,7 +70,7 @@ const Sidebar = ({ onSidebarItemClick }) => {
         </li>
         <li className="text-xl">
           <Link
-            to="/dashboard/ride-history"
+            to="/user/dashboard/ride-history"
             onClick={onSidebarItemClick} // Close sidebar when clicked
             className="block py-2 px-4 hover:bg-gray-700 transition"
           >
@@ -79,7 +79,7 @@ const Sidebar = ({ onSidebarItemClick }) => {
         </li>
         <li className="text-xl">
           <Link
-            to="/dashboard/ride-tracking"
+            to="/user/dashboard/ride-tracking"
             onClick={onSidebarItemClick} // Close sidebar when clicked
             className="block py-2 px-4 hover:bg-gray-700 transition"
           >
