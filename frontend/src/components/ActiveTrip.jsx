@@ -104,7 +104,7 @@ function RideTracking() {
     receiveMessage("user-location", (data) => {
       if (data) {
         const { location } = data;
-        setUserPosition({ lat: location.ltd, lng: location.lng });
+        setUserPosition({ lat: location?.ltd, lng: location?.lng });
       }
     });
 
