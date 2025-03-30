@@ -29,7 +29,7 @@ import { saveUser } from "./features/auth/userAuthSlice";
 import { saveDriver } from "./features/auth/driverAuthSlice";
 import PaymentResult from "./pages/PaymentResult";
 import Dashboard from "./components/Dashboard";
-import DriverDashboard from './components/DriverDashboard';
+import DriverDashboard from "./components/DriverDashboard";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -70,8 +70,13 @@ const App = () => {
           <Route path="/team" element={<Team />} />
           <Route path="/news" element={<News />} />
           <Route path="/contact" element={<Contacts />} />
-          <Route path="/user/dashboard/*" element={<Dashboard />} /> {/* Dashboard route */}
-          <Route path="/driver/dashboard/*" element={<DriverDashboard />} /> {/* Driver Dashboard route */}
+          <Route path="/user/dashboard/*" element={<Dashboard />} />{" "}
+          {/* Dashboard route */}
+          <Route
+            path="/driver/dashboard/*"
+            element={<DriverDashboard />}
+          />{" "}
+          {/* Driver Dashboard route */}
           <Route path="/riding" element={<Riding />} />
           <Route
             path="/driver-riding"

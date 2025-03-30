@@ -142,6 +142,27 @@ async function getCurrentRideService ({id}) {
   return rides;
 }
 
+// Service to cancel ride
+const cancelRideService = async ({ rideId }) => {
+  if (!rideId) {
+    throw new Error("Rid id is required");
+  }
+
+  const detailedRide = await Ride.findOne({_id: rideId }).populate('user');
+  
+
+  if (!detailedRide) {
+    throw new Error("Ride with this id does not exist");
+  }
+
+  if(detailedRide.status === 'cancelled'){
+    throw new Error("Ride is already cancelled");
+  }
+
+  await Ride.findOneAndUpdate({_id: rideId},{status: 'cancelled'});
+  return detailedRide;
+}
 
 
-export { createCaptain, loginCaptain, forgetPassword, updateCaptainService, getPaymentService, getCurrentRideService };
+
+export { createCaptain, loginCaptain, forgetPassword, updateCaptainService, getPaymentService, getCurrentRideService, cancelRideService };

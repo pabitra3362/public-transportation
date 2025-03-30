@@ -1,6 +1,6 @@
 import express from "express";
 import { body, query } from "express-validator";
-import { captainRegister , captainLogin , getCaptainProfile , logoutCaptain , forgetCaptainPassword , setPassword, updateCaptain, getPayments, getCurrentRide } from '../controller/captain.controller.js';
+import { captainRegister , captainLogin , getCaptainProfile , logoutCaptain , forgetCaptainPassword , setPassword, updateCaptain, getPayments, getCurrentRide, cancelRide } from '../controller/captain.controller.js';
 import { authCaptain } from "../middlewares/auth.middleware.js";
 import upload from '../middlewares/multer.middleware.js';
 
@@ -75,5 +75,13 @@ router.get('/getCurrentRide',
   query('id').isString().withMessage(' Id is required'),
   getCurrentRide
 );
+
+
+// POST request to cancel ride
+router.post('/cancelRide',
+  body('rideId').isString().withMessage('Invalid ride id'),
+  authCaptain,
+  cancelRide
+)
 
 export default router;

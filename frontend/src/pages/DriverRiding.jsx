@@ -62,7 +62,7 @@ const DriverRiding = () => {
 
   receiveMessage('ride-cancelled',(ride) => {
     setFinishRide(false)
-    toast.error('ride canceled by admin',{
+    toast.error('ride canceled',{
       onclose: () => {
         navigate('/driver-home')
         window.scrollTo(0,0)

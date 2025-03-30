@@ -37,7 +37,7 @@ const Sidebar = ({ onSidebarItemClick }) => {
     <div className="w-64 bg-gray-800 relative text-white  md:h-[100vw] md:min-h-screen  min-h-screen pt-0">
       <ToastContainer autoClose={3000} draggable={true} />
       <button
-        className="absolute -top-4 right-4 md:hidden lg:hidden"
+        className="absolute -top-4 right-4 md:hidden lg:hidden hover:bg-gray-600 p-2 rounded-full"
         onClick={onSidebarItemClick}
       >
         <RiCloseLargeLine className="text-lg" />

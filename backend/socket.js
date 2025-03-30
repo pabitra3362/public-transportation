@@ -46,11 +46,36 @@ export function initializeSocket(server) {
     });
 
 
+    socket.on("update-location-user", async (data) => {
+      const { userId, location } = data;
+
+      if (!location || !location.ltd || !location.lng) {
+        return socket.emit("error", { message: "Invalid location data" });
+      }
+
+      await User.findByIdAndUpdate(userId, {
+        location: {
+          ltd: location.ltd,
+          lng: location.lng,
+        },
+      });
+    });
+
+
     socket.on('fetch-captain-location', async(data) =>{
 
       const { userId } = data;
       const location = await Captain.findOne({_id: userId});
       socket.emit('captain-location', location);
+
+    })
+
+
+    socket.on('fetch-user-location', async(data) =>{
+
+      const { userId } = data;
+      const location = await User.findOne({_id: userId});
+      socket.emit('user-location', location);
 
     })
 

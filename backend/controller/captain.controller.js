@@ -1,10 +1,11 @@
 import Captain from "../models/captain.model.js";
 import BlacklistedToken from "../models/blacklistToken.model.js";
 import { validationResult } from "express-validator";
-import { createCaptain, loginCaptain, forgetPassword, updateCaptainService, getPaymentService, getCurrentRideService } from "../services/captain.service.js";
+import { createCaptain, loginCaptain, forgetPassword, updateCaptainService, getPaymentService, getCurrentRideService, cancelRideService } from "../services/captain.service.js";
 import { RES, FPES } from '../utils/emailSender.js';
 import emailVerify from "../utils/emailVerify.js";
 import { cloudinaryUpload } from '../utils/cloudinary.js'
+import { sendMessageToSocketId } from "../socket.js";
 
 // controller for captain registration
 const captainRegister = async (req, res) => {
@@ -224,5 +225,31 @@ async function getCurrentRide (req, res) {
   }
 }
 
+// controller to cancel ride
+async function cancelRide (req, res) {
+  const errors = validationResult(req);
 
-export { captainRegister , captainLogin , getCaptainProfile , logoutCaptain , forgetCaptainPassword , setPassword, updateCaptain, getPayments, getCurrentRide };
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { rideId } = req.body;
+
+  try {
+    const ride = await cancelRideService({ rideId });
+
+
+    sendMessageToSocketId(ride?.user?.socketId, {
+      event: "ride-cancelled",
+      data: ride,
+    });
+
+
+    res.status(200).json({ message: `Ride cancelled successfully` });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+export { captainRegister , captainLogin , getCaptainProfile , logoutCaptain , forgetCaptainPassword , setPassword, updateCaptain, getPayments, getCurrentRide, cancelRide };

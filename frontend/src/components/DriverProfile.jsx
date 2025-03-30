@@ -1,32 +1,77 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Logo from "../assets/Logo.jpg";
 import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg";
+import { useSelector } from "react-redux";
+import { Spinner } from "flowbite-react";
+import { updateProfile } from "../services/driver/driver.services";
+import { toast, ToastContainer } from 'react-toastify';
+
 
 const DriverProfile = () => {
-  const [profilePic, setProfilePic] = useState(DefaultProfilePic);
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [profilePic, setProfilePic] = useState(null);
+  const [loader, setLoader] = useState(true);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const { driver } = useSelector((state) => state.driver);
 
   const handleProfileClick = () => {
     document.getElementById("profileUpload").click();
   };
 
+  useEffect(() => {
+    setValue("fullName", driver.name);
+    setValue("email", driver.email);
+    setValue("userProfile", driver?.userProfile || DefaultProfilePic);
+    setValue("vehicleType", driver?.vehicle?.vehicleType);
+    setValue("licensePlate", driver?.vehicle?.plate);
+    setValue("phone", driver.phone);
+
+    setLoader(false);
+  }, [driver]);
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
+    setValue("file", file);
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setProfilePic(imageUrl);
     }
   };
 
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
-    alert("Profile Saved Successfully!");
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append('id', driver?._id);
+    formData.append('name', data.fullName);
+    formData.append('email', data.email);
+    formData.append('vehicleType', data.vehicleType);
+    formData.append('phone', data.phone);
+    formData.append('plate', data.licensePlate);
+    formData.append('file', data.file)
+
+    try {
+          const response = await updateProfile(formData);
+    
+          toast.success(response.message);
+        } catch (error) {
+          toast.error(error.response?.data?.error || error.message);
+        }
   };
+
+  if (loader) {
+    <div className="text-center">
+      <Spinner aria-label="Center-aligned spinner example" size="xl" />
+    </div>;
+  }
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col justify-center items-center p-6">
+      <ToastContainer theme="dark" autoClose={3000} draggable={true} />
       <div className="max-w-2xl w-full bg-white rounded-lg shadow-md p-8">
         {/* Logo */}
         <div className="mb-4 flex justify-center">
@@ -46,21 +91,33 @@ const DriverProfile = () => {
             className="w-24 h-24 rounded-full border-4 border-yellow-300 overflow-hidden cursor-pointer hover:opacity-80"
             onClick={handleProfileClick}
           >
-            <img src={profilePic} alt="Driver" className="w-full h-full object-cover" />
+            <img
+              src={profilePic || driver?.userProfile || DefaultProfilePic}
+              alt="Driver"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
 
         {/* Form Fields */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          encType="multipart/form-data"
+          className="space-y-4"
+        >
           <div>
-            <label className="block text-gray-700 font-semibold">Full Name</label>
+            <label className="block text-gray-700 font-semibold">
+              Full Name
+            </label>
             <input
               type="text"
               {...register("fullName", { required: "Full Name is required" })}
               className="w-full border rounded-md p-2"
               placeholder="Enter your full name"
             />
-            {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName.message}</p>}
+            {errors.fullName && (
+              <p className="text-red-500 text-sm">{errors.fullName.message}</p>
+            )}
           </div>
 
           <div>
@@ -71,48 +128,73 @@ const DriverProfile = () => {
               className="w-full border rounded-md p-2"
               placeholder="Enter your email"
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
           </div>
 
           {/* Vehicle Type Dropdown */}
           <div>
-            <label className="block text-gray-700 font-semibold">Vehicle Type</label>
+            <label className="block text-gray-700 font-semibold">
+              Vehicle Type
+            </label>
             <select
-              {...register("vehicleType", { required: "Vehicle Type is required" })}
+              {...register("vehicleType", {
+                required: "Vehicle Type is required",
+              })}
               className="w-full border rounded-md p-2 bg-white"
             >
               <option value="">Select Vehicle Type</option>
-              <option value="Car">Car</option>
-              <option value="Bike">Bike</option>
-              <option value="Autorickshaw">Autorickshaw</option>
+              <option value="car">Car</option>
+              <option value="motorcycle">Bike</option>
+              <option value="rickshaw">Autorickshaw</option>
             </select>
-            {errors.vehicleType && <p className="text-red-500 text-sm">{errors.vehicleType.message}</p>}
+            {errors.vehicleType && (
+              <p className="text-red-500 text-sm">
+                {errors.vehicleType.message}
+              </p>
+            )}
           </div>
 
           <div>
-            <label className="block text-gray-700 font-semibold">License Plate</label>
+            <label className="block text-gray-700 font-semibold">
+              License Plate
+            </label>
             <input
               type="text"
-              {...register("licensePlate", { required: "License Plate is required" })}
+              {...register("licensePlate", {
+                required: "License Plate is required",
+              })}
               className="w-full border rounded-md p-2"
               placeholder="Enter license plate"
             />
-            {errors.licensePlate && <p className="text-red-500 text-sm">{errors.licensePlate.message}</p>}
+            {errors.licensePlate && (
+              <p className="text-red-500 text-sm">
+                {errors.licensePlate.message}
+              </p>
+            )}
           </div>
 
           <div>
-            <label className="block text-gray-700 font-semibold">Phone Number</label>
+            <label className="block text-gray-700 font-semibold">
+              Phone Number
+            </label>
             <input
-              type="text"
+              type="number"
               {...register("phone", { required: "Phone Number is required" })}
               className="w-full border rounded-md p-2"
               placeholder="Enter phone number"
             />
-            {errors.phone && <p className="text-red-500 text-sm">{errors.phone.message}</p>}
+            {errors.phone && (
+              <p className="text-red-500 text-sm">{errors.phone.message}</p>
+            )}
           </div>
 
           {/* Save Button */}
-          <button type="submit" className="w-full bg-yellow-300 text-white px-4 py-2 rounded-md mt-4 font-semibold hover:bg-black hover:text-white">
+          <button
+            type="submit"
+            className="w-full bg-yellow-300 text-white px-4 py-2 rounded-md mt-4 font-semibold hover:bg-black hover:text-white"
+          >
             Save
           </button>
         </form>

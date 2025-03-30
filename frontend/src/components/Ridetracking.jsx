@@ -79,6 +79,15 @@ function RideTracking() {
         setDriverPosition({ lat: location.ltd, lng: location.lng });
       }
     });
+
+    receiveMessage('ride-cancelled', (ride) => {
+       toast.error("ride cancelled", {
+        onclose: () => {
+          setRide({});
+          window.scrollTo(0, 0);
+        }
+       })
+      })
   },[receiveMessage])
 
   useEffect(() => {
