@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import Logo from "../assets/Logo.jpg"; // Import the logo image
 import { useSelector } from "react-redux";
 import { Spinner, Button } from "flowbite-react";
@@ -33,7 +32,11 @@ function RideTracking() {
   const handleCancelRide = async () => {
     try {
       const response = await cancelRide({ rideId: ride?._id });
-      toast.success(response.message);
+      toast.success(response.message,{
+        onClose: ()=>{
+          window.location.reload;
+        }
+      });
     } catch (error) {
       toast.error(error.response?.data?.error || error.message);
     }
@@ -52,27 +55,40 @@ function RideTracking() {
       }
     }
     getCurrentRide();
-  }, [user, handleCancelRide]);
+  }, [user]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    function fetchLocation() {
       sendMessage("fetch-captain-location", { userId: ride?.captain?._id });
 
       window.navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
         setUserPosition({ lat: latitude, lng: longitude });
       });
-    }, 10000);
+    }
+
+    const intervalId = setInterval(fetchLocation, 10000);
 
     return () => clearInterval(intervalId);
   }, [ride]);
 
-  receiveMessage("captain-location", (data) => {
-    if (data) {
-      const { location } = data;
-      setDriverPosition({ lat: location.ltd, lng: location.lng });
-    }
-  });
+  useEffect(()=>{
+    receiveMessage("captain-location", (data) => {
+      if (data) {
+        const { location } = data;
+        setDriverPosition({ lat: location.ltd, lng: location.lng });
+      }
+    });
+
+    receiveMessage('ride-cancelled', (ride) => {
+       toast.error("ride cancelled", {
+        onclose: () => {
+          setRide({});
+          window.scrollTo(0, 0);
+        }
+       })
+      })
+  },[receiveMessage])
 
   useEffect(() => {
     if (googleLoaded && ride && ride?.pickup && ride?.destination) {
@@ -93,6 +109,13 @@ function RideTracking() {
       );
     }
   }, [ride, googleLoaded]);
+
+  const memoizedDirections = useMemo(() => {
+    if (directions) {
+      return <DirectionsRenderer directions={directions} />;
+    }
+    return null;
+  }, [directions]);
 
   return (
     <div className="bg-white p-4 sm:p-6 rounded-lg shadow-2xl mx-auto mt-8 w-full max-w-screen-lg">
@@ -184,7 +207,7 @@ function RideTracking() {
                   />
                 )}
 
-                {directions && <DirectionsRenderer directions={directions} />}
+                {memoizedDirections}
               </GoogleMap>
             </LoadScriptNext>
           </div>

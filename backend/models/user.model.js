@@ -28,6 +28,14 @@ const userSchema = new mongoose.Schema({
   file: {
     type: String
   },
+  location: {
+    ltd: {
+      type: Number,
+    },
+    lng: {
+      type: Number,
+    },
+  },
   socketId: {
     type: String,
   },
