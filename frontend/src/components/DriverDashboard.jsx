@@ -5,6 +5,7 @@ import DriverProfile from "./DriverProfile";
 import DriverEarnings from "./DriverEarnings";
 import ActiveTrip from "./ActiveTrip";
 import RideRequest from "./RideRequest";
+import DriverRideHistory from "./DriverRideHistory";
 import SidebarForDriver from "./SidebarForDriver";
 
 const DriverDashboard = () => {
@@ -83,6 +84,7 @@ const DriverDashboard = () => {
           <Route path="earnings" element={<DriverEarnings />} />
           <Route path="active-trip" element={<ActiveTrip />} />
           <Route path="ride-request" element={<RideRequest />} />
+          <Route path="driver-ride-history" element={<DriverRideHistory />} />
         </Routes>
       </div>
     </div>

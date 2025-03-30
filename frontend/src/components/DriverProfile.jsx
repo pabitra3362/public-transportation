@@ -6,8 +6,7 @@ import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg";
 import { useSelector } from "react-redux";
 import { Spinner } from "flowbite-react";
 import { updateProfile } from "../services/driver/driver.services";
-import { toast, ToastContainer } from 'react-toastify';
-
+import { toast, ToastContainer } from "react-toastify";
 
 const DriverProfile = () => {
   const [profilePic, setProfilePic] = useState(null);
@@ -46,21 +45,21 @@ const DriverProfile = () => {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-    formData.append('id', driver?._id);
-    formData.append('name', data.fullName);
-    formData.append('email', data.email);
-    formData.append('vehicleType', data.vehicleType);
-    formData.append('phone', data.phone);
-    formData.append('plate', data.licensePlate);
-    formData.append('file', data.file)
+    formData.append("id", driver?._id);
+    formData.append("name", data.fullName);
+    formData.append("email", data.email);
+    formData.append("vehicleType", data.vehicleType);
+    formData.append("phone", data.phone);
+    formData.append("plate", data.licensePlate);
+    formData.append("file", data.file);
 
     try {
-          const response = await updateProfile(formData);
-    
-          toast.success(response.message);
-        } catch (error) {
-          toast.error(error.response?.data?.error || error.message);
-        }
+      const response = await updateProfile(formData);
+
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.response?.data?.error || error.message);
+    }
   };
 
   if (loader) {
@@ -111,7 +110,13 @@ const DriverProfile = () => {
             </label>
             <input
               type="text"
-              {...register("fullName", { required: "Full Name is required" })}
+              {...register("fullName", {
+                required: "Full Name is required",
+                maxLength: {
+                  value: 50,
+                  message: "Full Name must be less than 50 characters",
+                },
+              })}
               className="w-full border rounded-md p-2"
               placeholder="Enter your full name"
             />
@@ -124,7 +129,13 @@ const DriverProfile = () => {
             <label className="block text-gray-700 font-semibold">Email</label>
             <input
               type="email"
-              {...register("email", { required: "Email is required" })}
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+                  message: "Email must end with @gmail.com",
+                },
+              })}
               className="w-full border rounded-md p-2"
               placeholder="Enter your email"
             />
@@ -164,6 +175,18 @@ const DriverProfile = () => {
               type="text"
               {...register("licensePlate", {
                 required: "License Plate is required",
+                pattern: {
+                  value: /^[A-Za-z]{2}[0-9]{2}[A-Za-z]{2}[0-9]{4}$/,
+                  message: "License Plate must be in the format XX00XX0000",
+                },
+                minLength: {
+                  value: 10,
+                  message: "License Plate must be 10 characters",
+                },
+                maxLength: {
+                  value: 10,
+                  message: "License Plate must be 10 characters",
+                },
               })}
               className="w-full border rounded-md p-2"
               placeholder="Enter license plate"
@@ -181,7 +204,26 @@ const DriverProfile = () => {
             </label>
             <input
               type="number"
-              {...register("phone", { required: "Phone Number is required" })}
+              {...register("phone", {
+                required: "Phone Number is required",
+                pattern: {
+                  value: /^[0-9]{10}$/, // Ensuring 10 digits without spaces
+                  message: "Phone Number must be a 10-digit number",
+                },
+                minLength: {
+                  value: 10,
+                  message: "Phone Number must be exactly 10 digits",
+                },
+                maxLength: {
+                  value: 10,
+                  message: "Phone Number must be exactly 10 digits",
+                },
+                validate: {
+                  noSpaces: (value) =>
+                    value.replace(/\s+/g, "").length === 10 ||
+                    "Phone Number must be exactly 10 digits without spaces.",
+                },
+              })}
               className="w-full border rounded-md p-2"
               placeholder="Enter phone number"
             />

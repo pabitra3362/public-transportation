@@ -4,13 +4,12 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg"; // Import the default profile picture
+import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg";
 import { logoutDriver } from "../services/auth/driverAuth.service";
 import { getDriverToken } from "../utils/token";
 import { useDispatch } from "react-redux";
-import { removeDriver } from '../features/auth/driverAuthSlice'
-import { toast, ToastContainer } from 'react-toastify';
-
+import { removeDriver } from "../features/auth/driverAuthSlice";
+import { toast, ToastContainer } from "react-toastify";
 
 const SidebarForDriver = ({ onSidebarItemClick }) => {
   const { driver } = useSelector((state) => state.driver);
@@ -18,19 +17,17 @@ const SidebarForDriver = ({ onSidebarItemClick }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
   const handleLogout = async () => {
-      try {
-        const result = await logoutDriver({ token:driverToken });
-        dispatch(removeDriver());
-        localStorage.removeItem('driverToken');
-        onSidebarItemClick();
-        navigate('/drive');
-      } catch (error) {
-        toast.error(error.response?.data?.error || error.message)
-      }
-  
+    try {
+      const result = await logoutDriver({ token: driverToken });
+      dispatch(removeDriver());
+      localStorage.removeItem("driverToken");
+      onSidebarItemClick();
+      navigate("/drive");
+    } catch (error) {
+      toast.error(error.response?.data?.error || error.message);
     }
+  };
 
   return (
     <div className="py-6 relative min-h-screen md:h-full">
@@ -86,6 +83,17 @@ const SidebarForDriver = ({ onSidebarItemClick }) => {
             Ride Request
           </Link>
         </li>
+
+        <li>
+          <Link
+            to="/driver/dashboard/driver-ride-history"
+            className="text-white block py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
+            onClick={onSidebarItemClick}
+          >
+            Ride History
+          </Link>
+        </li>
+
         {/* Logout button inside the UL */}
         <li>
           <button

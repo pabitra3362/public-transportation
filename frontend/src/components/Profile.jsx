@@ -101,19 +101,37 @@ function Profile() {
 
         {/* Name input field */}
         <input
-          {...register("name", { require: true })}
+          {...register("name", {
+            required: "Name is required",
+            maxLength: {
+              value: 50,
+              message: "Name cannot exceed 50 characters",
+            },
+            pattern: {
+              value: /^[a-zA-Z\s]+$/,
+              message: "Name should only contain letters and spaces",
+            },
+          })}
           type="text"
           placeholder="Name"
           className="w-full p-3 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-yellow-300"
         />
+        {errors.name && <p className="text-red-500">{errors.name.message}</p>}
 
         {/* Email input field */}
         <input
-          {...register("email", { require: true })}
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+              message: "Email must end with @gmail.com",
+            },
+          })}
           type="email"
           placeholder="Email"
           className="w-full p-3 border rounded mb-6 focus:outline-none focus:ring-2 focus:ring-yellow-300"
         />
+        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
 
         {/* Save button */}
         <button
