@@ -29,7 +29,7 @@ const Navbar = () => {
         const result = await logoutUser({ token: userToken });
         if (result) {
           localStorage.removeItem("userToken"); // remove token from localstorage
-          dispatch(removeUser); // remove user info from store
+          dispatch(removeUser()); // remove user info from store
           navigate("/");
         }
       } else {
@@ -37,7 +37,7 @@ const Navbar = () => {
 
         if (result) {
           localStorage.removeItem("driverToken"); // remove token from localstorage
-          dispatch(removeDriver); // remove driver info from store
+          dispatch(removeDriver()); // remove driver info from store
           sendMessage("update-captain-status", {
             userType: "captain",
             userId: driver?._id,

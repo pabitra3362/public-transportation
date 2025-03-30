@@ -1,7 +1,7 @@
 import Captain from "../models/captain.model.js";
 import BlacklistedToken from "../models/blacklistToken.model.js";
 import { validationResult } from "express-validator";
-import { createCaptain, loginCaptain, forgetPassword } from "../services/captain.service.js";
+import { createCaptain, loginCaptain, forgetPassword, updateCaptainService, getPaymentService, getCurrentRideService } from "../services/captain.service.js";
 import { RES, FPES } from '../utils/emailSender.js';
 import emailVerify from "../utils/emailVerify.js";
 import { cloudinaryUpload } from '../utils/cloudinary.js'
@@ -82,8 +82,6 @@ const captainLogin = async (req, res) => {
   }
 };
 
-
-
 // controller for getCaptainProfile
 async function getCaptainProfile( req , res ) {
 
@@ -160,4 +158,71 @@ async function setPassword( req, res ){
   }
 }
 
-export { captainRegister , captainLogin , getCaptainProfile , logoutCaptain , forgetCaptainPassword , setPassword };
+// controller for update captain details
+async function updateCaptain(req, res) {
+  const error = validationResult(req);
+
+  if(!error.isEmpty()){
+    return res.status(400).json({error:error.array()});
+  }
+
+  const {id, name, email, plate, phone, vehicleType } = req.body;
+
+  const file = req.files?.length > 0 ? req.files[0] : null;
+
+  let uploadedUrl;
+
+  if(file){
+    uploadedUrl = await cloudinaryUpload(file);
+  }
+
+  try {
+    const captain = await updateCaptainService({ id, name, email, plate, phone, vehicleType, file: uploadedUrl });
+    
+    res.status(200).json({message: 'Driver details updated' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+// controller for fetch all payment history
+async function getPayments(req,res){
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { id } = req.query;
+
+  try {
+    
+    const payments = await getPaymentService({id})
+    res.status(200).json(payments);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+// controller to get current ride
+async function getCurrentRide (req, res) {
+  const errors = validationResult(req);
+
+  if(!errors.isEmpty()){
+    return res.status(400).json({errors: errors.array() })
+  }
+
+
+  const {id} = req.query;
+
+  try {
+    const currentRide = await getCurrentRideService({id})
+
+    res.status(200).json(currentRide)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+}
+
+
+export { captainRegister , captainLogin , getCaptainProfile , logoutCaptain , forgetCaptainPassword , setPassword, updateCaptain, getPayments, getCurrentRide };

@@ -23,6 +23,14 @@ const captainSchema = new mongoose.Schema({
     select: false,
   },
 
+  userProfile: {
+    type: String
+  },
+
+  phone: {
+    type: Number
+  },
+
   role: {
     type: String,
     default: "captain",

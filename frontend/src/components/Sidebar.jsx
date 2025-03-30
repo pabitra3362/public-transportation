@@ -22,7 +22,7 @@ const Sidebar = ({ onSidebarItemClick }) => {
   const handleLogout = async () => {
     try {
       const result = await logoutUser({ token:userToken });
-      dispatch(removeUser);
+      dispatch(removeUser());
       localStorage.removeItem('userToken');
       onSidebarItemClick();
       navigate('/');
