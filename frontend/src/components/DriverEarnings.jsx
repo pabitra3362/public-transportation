@@ -1,35 +1,34 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../assets/Logo.jpg"; // Ensure the logo path is correct
 import { Spinner } from "flowbite-react";
+import { useSelector } from "react-redux";
+import { fetchPaymentHistory } from "../services/driver/driver.services";
 
 const DriverEarnings = () => {
   // Sample data for the earnings table
-  const [earningsData, setEarningsData] = useState([
-    { paymentId: "EARN12345", pickup: "123 Main St, City A", drop: "456 Oak Rd, City B", amount: "$100", date: "2023-10-01" },
-    { paymentId: "EARN12346", pickup: "789 Pine Ave, City C", drop: "101 Maple Dr, City D", amount: "$120", date: "2023-10-02" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-    { paymentId: "EARN12347", pickup: "567 Birch Blvd, City E", drop: "890 Cedar Ln, City F", amount: "$150", date: "2023-10-03" },
-  ]);
+  const [earningsData, setEarningsData] = useState([]);
   const [loader, setLoader] = useState(false);
+  const { driver } =  useSelector(state => state.driver);
+
+
+  useEffect(()=>{
+    async function getAllEarnings() {
+          try {
+            if (driver._id) {
+              const response = await fetchPaymentHistory(driver._id);
+    
+              setEarningsData(response);
+            }
+          } catch (error) {
+            toast.error(error.response?.data?.error || error.message);
+          } finally {
+            setLoader(false);
+          }
+        }
+    
+        getAllEarnings();
+  },[driver])
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 overflow-auto">
@@ -76,10 +75,10 @@ const DriverEarnings = () => {
                   {earningsData.map((earning, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"} hover:bg-gray-200 transition duration-300`}> 
                       <td className="px-2 sm:px-4 py-3 border-b">{earning.paymentId}</td>
-                      <td className="px-2 sm:px-4 py-3 border-b">{earning.pickup}</td>
-                      <td className="px-2 sm:px-4 py-3 border-b">{earning.drop}</td>
+                      <td className="px-2 sm:px-4 py-3 border-b">{earning.ride?.pickup}</td>
+                      <td className="px-2 sm:px-4 py-3 border-b">{earning.ride?.destination}</td>
                       <td className="px-2 sm:px-4 py-3 border-b">{earning.amount}</td>
-                      <td className="px-2 sm:px-4 py-3 border-b">{earning.date}</td>
+                      <td className="px-2 sm:px-4 py-3 border-b">{earning.paymentDate.split("T")[0] || Date.now()}</td>
                     </tr>
                   ))}
                 </tbody>

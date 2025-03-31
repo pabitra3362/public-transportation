@@ -1,58 +1,59 @@
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
 import { RiArrowDownWideFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 import { confirmRide } from "../services/ride/ride.service";
 import { useSelector } from "react-redux";
 import { getDistanceAndTime } from "../services/map/map.service";
 
-const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride }) => {
+const ConfirmRidePopup = ({
+  setRidePopupPanel,
+  setConfirmRidePopupPanel,
+  ride,
+}) => {
   const navigate = useNavigate();
-  const { driver } = useSelector(state => state.driver)
-  const [distanceTime, setDistanceTime]=  useState(null)
+  const { driver } = useSelector((state) => state.driver);
+  const [distanceTime, setDistanceTime] = useState(null);
 
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
-    useEffect(() => {
-      async function callMe (){
-        const response =  await getDistanceAndTime({
-          pickup: ride?.pickup,
-          destination: ride?.destination
-        });
-  
-        if(response){
-          const distance = response.distance.value / 1000;
-          setDistanceTime(distance)
-        }else{
-          setDistanceTime(null)
-        }
+  useEffect(() => {
+    async function callMe() {
+      const response = await getDistanceAndTime({
+        pickup: ride?.pickup,
+        destination: ride?.destination,
+      });
+
+      if (response) {
+        const distance = response.distance.value / 1000;
+        setDistanceTime(distance);
+      } else {
+        setDistanceTime(null);
       }
-  
-  
-      callMe();
-    },[ride])
+    }
 
+    callMe();
+  }, [ride]);
 
-  const onSubmit =async (data) => {
+  const onSubmit = async (data) => {
+    try {
+      const response = await confirmRide({ rideId: ride?._id, otp: data.otp });
 
-    
-      const response = await confirmRide({rideId: ride?._id, otp: data.otp})
-
-      if(response){
+      if (response) {
         setConfirmRidePopupPanel(false);
         setRidePopupPanel(false);
-        navigate('/driver-riding',{ state : { ride }})
+        navigate("/driver-riding", { state: { ride } });
       }
-    
-    
-  }
-  
+    } catch (error) {
+      toast.error(error.response?.data?.error || error.message);
+    }
+  };
 
   return (
     <div className="py-2">
@@ -123,22 +124,26 @@ const ConfirmRidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride })
             className="w-full rounded my-2 placeholder:font-semibold pl-5"
             type="number"
             placeholder="Enter OTP"
-            {...register('otp',{
+            {...register("otp", {
               required: "OTP is required",
               pattern: {
                 value: /^[0-9]{6}$/,
-                message: "OTP should be exactly 6 digits"
-              }
+                message: "OTP should be exactly 6 digits",
+              },
             })}
           />
 
           <div>
-            {errors.otp && <span className="text-red-500 font-custom">{errors.otp.message}</span>}
+            {errors.otp && (
+              <span className="text-red-500 font-custom">
+                {errors.otp.message}
+              </span>
+            )}
           </div>
 
           {/* Confirm Button */}
           <button
-          type='submit'
+            type="submit"
             className="w-full bg-green-500 text-black py-2 rounded hover:bg-black hover:text-white duration-300 font-bold my-2"
           >
             Confirm

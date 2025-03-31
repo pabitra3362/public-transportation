@@ -52,3 +52,19 @@ export async function cancelRide({ rideId }) {
 
     return response.data;
 }
+
+
+// service to fetch payment history
+export async function fetchPaymentHistory(id) {
+    const token = getDriverToken();
+    
+    const response = await axios.get(`${config.baseUrl}/api/captain/getPaymentDetails`, {
+        headers: {
+            Authorization: `bearer ${token}`,
+        },
+        params: {
+            id
+        }
+    });
+    return response.data;
+}

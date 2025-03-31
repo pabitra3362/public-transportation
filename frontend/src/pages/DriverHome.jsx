@@ -56,14 +56,18 @@ const DriverHome = () => {
   })
 
   async function confirmRide (){
-    const response = await axios.post(`${config.baseUrl}/ride/confirm`,{
-      rideId: ride?._id,
-      captainId: driver?._id
-    },{
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    try {
+      const response = await axios.post(`${config.baseUrl}/ride/confirm`,{
+        rideId: ride?._id,
+        captainId: driver?._id
+      },{
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+    } catch (error) {
+      toast.error(error.response?.data?.error || error.message);
+    }
     
 
     // setRidePopupPanel(false)

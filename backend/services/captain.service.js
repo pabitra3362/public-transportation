@@ -126,7 +126,7 @@ async function getPaymentService ({id}) {
   if (!id) {
     throw new Error("All fields are required");
   }
-  const payment = await Payment.find({user: id, status: "complete"});
+  const payment = await Payment.find({captain: id, status: "complete"});
 
   return payment;
 }
@@ -163,6 +163,17 @@ const cancelRideService = async ({ rideId }) => {
   return detailedRide;
 }
 
+// Service to get all rides
+async function getRidesService ({id}) {
+  if (!id) {
+    throw new Error("All fields are required");
+  }
+
+  const rides = await Ride.find({captain: id, status:"completed"}).populate('user');
+
+  return rides;
+}
 
 
-export { createCaptain, loginCaptain, forgetPassword, updateCaptainService, getPaymentService, getCurrentRideService, cancelRideService };
+
+export { createCaptain, loginCaptain, forgetPassword, updateCaptainService, getPaymentService, getCurrentRideService, cancelRideService, getRidesService };

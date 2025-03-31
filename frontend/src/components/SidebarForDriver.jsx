@@ -33,7 +33,7 @@ const SidebarForDriver = ({ onSidebarItemClick }) => {
     <div className="py-6 relative min-h-screen md:h-full">
       <ToastContainer autoClose={3000} draggable={true} />
       <button
-        className="absolute -top-4 right-4 md:hidden lg:hidden hover:bg-slate-600 p-2 rounded-full"
+        className="absolute -top-4 right-4 lg:hidden hover:bg-slate-600 p-2 rounded-full"
         onClick={onSidebarItemClick}
       >
         <RiCloseLargeLine className="text-lg" />

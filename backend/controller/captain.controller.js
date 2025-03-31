@@ -1,7 +1,7 @@
 import Captain from "../models/captain.model.js";
 import BlacklistedToken from "../models/blacklistToken.model.js";
 import { validationResult } from "express-validator";
-import { createCaptain, loginCaptain, forgetPassword, updateCaptainService, getPaymentService, getCurrentRideService, cancelRideService } from "../services/captain.service.js";
+import { createCaptain, loginCaptain, forgetPassword, updateCaptainService, getPaymentService, getCurrentRideService, cancelRideService, getRidesService } from "../services/captain.service.js";
 import { RES, FPES } from '../utils/emailSender.js';
 import emailVerify from "../utils/emailVerify.js";
 import { cloudinaryUpload } from '../utils/cloudinary.js'
@@ -251,5 +251,23 @@ async function cancelRide (req, res) {
   }
 };
 
+// controller for fetch all rides
+async function getRides (req, res) {
+  const errors = validationResult(req);
 
-export { captainRegister , captainLogin , getCaptainProfile , logoutCaptain , forgetCaptainPassword , setPassword, updateCaptain, getPayments, getCurrentRide, cancelRide };
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { id } = req.query;
+
+  try {
+    const rides = await getRidesService({id})
+    res.status(200).json(rides);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
+export { captainRegister , captainLogin , getCaptainProfile , logoutCaptain , forgetCaptainPassword , setPassword, updateCaptain, getPayments, getCurrentRide, cancelRide, getRides };

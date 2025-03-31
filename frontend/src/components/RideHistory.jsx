@@ -19,10 +19,11 @@ function RideHistory() {
           const response = await fetchRideHistory(user._id);
 
           setRides(response);
-          setLoader(false);
         }
       } catch (error) {
         toast.error(error.response?.data?.error || error.message);
+      } finally {
+        setLoader(false);
       }
     }
 
