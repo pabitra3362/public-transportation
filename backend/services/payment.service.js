@@ -12,6 +12,21 @@ export const savePayment = async ({paymentId, paymentMethod, amount, status, rid
     return newPayment;
 }
 
+// Service to get payment details
+export const getPaymentDetailsService = async ({paymentId}) => {
+    if(!paymentId) {
+        throw new Error("Missing required fields");
+    }
+
+    const payment = await Payment.findOne({paymentId});
+
+    if(!payment){
+        throw new Error("Payment not found");
+    }
+
+    return payment;
+}
+
 
 // Service to update payment status
 export const updatePaymentStatusService = async ({paymentId, status}) => {

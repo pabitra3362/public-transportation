@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import config from "../config/config";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +6,19 @@ import { getUserToken } from "../utils/token";
 import jsPDF from "jspdf";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoCloseCircle } from "react-icons/io5";
+import { toast, ToastContainer } from 'react-toastify';
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import ReviewPanel from '../components/ReviewPanel';
+
+
 
 const PaymentResult = () => {
-  const [paymentInfo, setPaymentInfo] = useState(true);
+  const [paymentInfo, setPaymentInfo] = useState({});
+  const [rideInfo, setRideInfo] = useState({});
+  const [reviewPanel, setReviewPanel] = useState(false)
+  const reviewPanelRef = useRef(null);
+  const toastShown = useRef(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const sessionId = sessionStorage.getItem("sessionId");
@@ -32,6 +42,19 @@ const PaymentResult = () => {
           }
         );
         setPaymentInfo(response.data.session);
+        setRideInfo(response.data.paymentDetails?.ride);
+
+        if (!toastShown.current) {
+          toast.dismiss();
+          toast.success("Click here to rate your ride", {
+            onClick: () => {
+              setReviewPanel(true);
+              toast.dismiss();
+            },
+            autoClose: false,
+          });
+          toastShown.current = true; // Prevents multiple toasts
+        }
 
         await axios.post(
           `${config.baseUrl}/api/payment/updatePaymentStatus`,
@@ -52,6 +75,19 @@ const PaymentResult = () => {
     fetchPaymentInfo();
   }, [sessionId]);
 
+
+  useGSAP(() => {
+      if (reviewPanel) {
+        gsap.to(reviewPanelRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(reviewPanelRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    }, [reviewPanel]);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
@@ -66,6 +102,7 @@ const PaymentResult = () => {
 
   return (
     <div className="min-h-screen flex justify-center items-center ">
+      <ToastContainer theme="dark" autoClose={false} draggable={true} />
       <div className="box flex flex-col justify-center items-center gap-5 shadow-2xl rounded-lg p-5 w-[90%] md:w-96">
         <div className="icon">
           {paymentInfo.status === 'complete' ? <FaCheckCircle className="size-16 text-[#2ee237]" /> : <IoCloseCircle className="size-16 text-red-500" />}
@@ -108,6 +145,13 @@ const PaymentResult = () => {
             Back To Home
           </button>
         </div>
+      </div>
+
+      <div
+      ref={reviewPanelRef}
+      className="fixed lg:sticky w-full z-10 bottom-0 translate-y-full bg-white px-3 py-5 pt-1"
+      >
+        <ReviewPanel />
       </div>
     </div>
   );
