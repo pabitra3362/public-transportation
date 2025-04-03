@@ -10,6 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { updateProfile } from "../services/user/user.services";
 import { Spinner } from "flowbite-react";
 
+
 function Profile() {
   const { user } = useSelector((state) => state.user);
 

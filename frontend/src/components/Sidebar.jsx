@@ -10,7 +10,12 @@ import { logoutUser } from "../services/auth/userAuth.service";
 import { removeUser } from "../features/auth/userAuthSlice";
 import { useDispatch } from "react-redux";
 import { getUserToken } from "../utils/token";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
+import { CgProfile } from "react-icons/cg";
+import { GiMoneyStack } from "react-icons/gi";
+import { IoMapOutline } from "react-icons/io5";
+import { LuMapPinned } from "react-icons/lu";
+import { BiLogOutCircle } from "react-icons/bi";
 
 const Sidebar = ({ onSidebarItemClick }) => {
   const { user } = useSelector((state) => state.user);
@@ -18,20 +23,17 @@ const Sidebar = ({ onSidebarItemClick }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
   const handleLogout = async () => {
     try {
-      const result = await logoutUser({ token:userToken });
+      const result = await logoutUser({ token: userToken });
       dispatch(removeUser());
-      localStorage.removeItem('userToken');
+      localStorage.removeItem("userToken");
       onSidebarItemClick();
-      navigate('/');
+      navigate("/");
     } catch (error) {
-      toast.error(error.response?.data?.error || error.message)
+      toast.error(error.response?.data?.error || error.message);
     }
-
-  }
-  
+  };
 
   return (
     <div className="w-64 bg-gray-800 relative text-white  md:h-[100vw] md:min-h-screen  min-h-screen pt-0">
@@ -55,36 +57,36 @@ const Sidebar = ({ onSidebarItemClick }) => {
           <Link
             to="/user/dashboard/profile"
             onClick={onSidebarItemClick} // Close sidebar when clicked
-            className="block py-2 px-4 hover:bg-gray-700 transition"
+            className="flex items-center gap-2 py-2 px-4 hover:bg-gray-700 transition"
           >
-            Profile
+            <CgProfile className="text-2xl" /> Profile
           </Link>
         </li>
         <li className="text-xl">
           <Link
             to="/user/dashboard/payment"
             onClick={onSidebarItemClick} // Close sidebar when clicked
-            className="block py-2 px-4 hover:bg-gray-700 transition"
+            className="flex items-center gap-2 py-2 px-4 hover:bg-gray-700 transition"
           >
-            Payment
+          <GiMoneyStack className="text-2xl" />  Payment
           </Link>
         </li>
         <li className="text-xl">
           <Link
             to="/user/dashboard/ride-history"
             onClick={onSidebarItemClick} // Close sidebar when clicked
-            className="block py-2 px-4 hover:bg-gray-700 transition"
+            className="flex items-center gap-2 py-2 px-4 hover:bg-gray-700 transition"
           >
-            Ride History
+          <IoMapOutline className="text-2xl" /> Ride History
           </Link>
         </li>
         <li className="text-xl">
           <Link
             to="/user/dashboard/ride-tracking"
             onClick={onSidebarItemClick} // Close sidebar when clicked
-            className="block py-2 px-4 hover:bg-gray-700 transition"
+            className="flex items-center gap-2 py-2 px-4 hover:bg-gray-700 transition"
           >
-            Ride Tracking
+         <LuMapPinned className="text-2xl"/>   Ride Tracking
           </Link>
         </li>
       </ul>
@@ -93,9 +95,9 @@ const Sidebar = ({ onSidebarItemClick }) => {
       <div className="text-xl mt-4">
         <button
           onClick={handleLogout} // Close sidebar when clicked
-          className="w-full py-2 text-left pl-4 text-white hover:bg-gray-700 transition duration-300"
+          className="w-full flex items-center gap-2 py-2 text-left pl-4 text-white hover:bg-gray-700 transition duration-300"
         >
-          Logout
+        <BiLogOutCircle className="text-2xl" />  Logout
         </button>
       </div>
     </div>

@@ -10,6 +10,12 @@ import { getDriverToken } from "../utils/token";
 import { useDispatch } from "react-redux";
 import { removeDriver } from "../features/auth/driverAuthSlice";
 import { toast, ToastContainer } from "react-toastify";
+import { VscAccount } from "react-icons/vsc";
+import { FaRupeeSign } from "react-icons/fa";
+import { FaCarTunnel } from "react-icons/fa6";
+import { LuMapPinPlus } from "react-icons/lu";
+import { TbMapPinCheck } from "react-icons/tb";
+import { BiLogOutCircle } from "react-icons/bi";
 
 const SidebarForDriver = ({ onSidebarItemClick }) => {
   const { driver } = useSelector((state) => state.driver);
@@ -50,47 +56,47 @@ const SidebarForDriver = ({ onSidebarItemClick }) => {
         <li>
           <Link
             to="/driver/dashboard/profile"
-            className="text-white block py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
+            className="text-white flex items-center gap-2  py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
             onClick={onSidebarItemClick}
           >
-            Profile
+        <VscAccount className="text-2xl" />    Profile
           </Link>
         </li>
         <li>
           <Link
             to="/driver/dashboard/earnings"
-            className="text-white block py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
+            className="text-white flex items-center gap-2 py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
             onClick={onSidebarItemClick}
           >
-            Earnings
+         <FaRupeeSign  className="text-2xl"/>   Earnings
           </Link>
         </li>
         <li>
           <Link
             to="/driver/dashboard/active-trip"
-            className="text-white block py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
+            className="text-white flex items-center gap-2 py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
             onClick={onSidebarItemClick}
           >
-            Active Trip
+          <FaCarTunnel className="text-2xl"/>  Active Trip
           </Link>
         </li>
         <li>
           <Link
             to="/driver/dashboard/ride-request"
-            className="text-white block py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
+            className="text-white flex items-center gap-2 py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
             onClick={onSidebarItemClick}
           >
-            Ride Request
+           <LuMapPinPlus className="text-2xl" /> Ride Request
           </Link>
         </li>
 
         <li>
           <Link
             to="/driver/dashboard/driver-ride-history"
-            className="text-white block py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
+            className="text-white flex items-center gap-2 py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
             onClick={onSidebarItemClick}
           >
-            Ride History
+          <TbMapPinCheck className="text-2xl" />  Ride History
           </Link>
         </li>
 
@@ -98,9 +104,9 @@ const SidebarForDriver = ({ onSidebarItemClick }) => {
         <li>
           <button
             onClick={handleLogout}
-            className="w-full py-2 px-4 text-white font-semibold hover:bg-gray-700 text-left text-xl"
+            className="w-full py-2 flex items-center gap-2 px-4 text-white font-semibold hover:bg-gray-700 text-left text-xl"
           >
-            Logout
+         <BiLogOutCircle />   Logout
           </button>
         </li>
       </ul>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useContext, useState } from "react";
 import Logo from "../assets/Logo.jpg"; // Ensure the logo path is correct
 import { SocketContext } from "../context/SocketContext";
@@ -96,10 +97,13 @@ const RideRequest = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await confirmRide({ rideId: RideRequest?._id, otp: data.otp });
+      const response = await confirmRide({
+        rideId: RideRequest?._id,
+        otp: data.otp,
+      });
 
       if (response) {
-        navigate("/driver-riding", { state: { ride:RideRequest } });
+        navigate("/driver-riding", { state: { ride: RideRequest } });
       }
     } catch (error) {
       toast.error(error.response?.data?.error || error.message);
@@ -215,8 +219,9 @@ const RideRequest = () => {
                   Accept
                 </button>
                 <button
-                onClick={()=>setRideRequest(null)}
-                className="bg-red-600 text-white text-xl px-6 py-2 rounded-md font-semibold hover:bg-black hover:text-white duration-500">
+                  onClick={() => setRideRequest(null)}
+                  className="bg-red-600 text-white text-xl px-6 py-2 rounded-md font-semibold hover:bg-black hover:text-white duration-500"
+                >
                   Reject
                 </button>
               </div>

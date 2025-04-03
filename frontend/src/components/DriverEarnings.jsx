@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import Logo from "../assets/Logo.jpg"; // Ensure the logo path is correct

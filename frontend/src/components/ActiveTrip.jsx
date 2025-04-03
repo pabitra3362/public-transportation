@@ -200,7 +200,7 @@ function RideTracking() {
           </div>
 
           {/* Map placeholder */}
-          <div className="h-80 sm:h-[300px] bg-gray-200 rounded-md flex flex-col items-center justify-center mb-6">
+          <div className="h-64 sm:h-[300px] bg-gray-200 rounded-md flex flex-col items-center justify-center mb-6">
             <LoadScriptNext
               googleMapsApiKey={config.googleMapApiKey}
               onLoad={() => {
@@ -242,7 +242,7 @@ function RideTracking() {
           </div>
 
           {/* Button Section */}
-          <div className="flex flex-col items-center gap-4 sm:gap-6 mt-8 mb-8">
+          <div className="flex flex-col items-center gap-4 sm:gap-6 mt-8 mb-8    ">
             {/* Cancel Ride Button */}
             <button
               onClick={handleCancelRide}
