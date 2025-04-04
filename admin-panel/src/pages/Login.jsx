@@ -49,7 +49,7 @@ const Login = () => {
       reset();
 
     } catch (error) {
-      toast.error(error.message)
+      toast.error( error.response?.data?.error || error.message )
     } 
     
   };
@@ -195,11 +195,24 @@ const Login = () => {
               </p>
             )}
           </div>
+
+          {/* forget password */}
           <div className="text-center p-3">
             Forgot Your Password ?
             <span
               onClick={navigateToForgotPassword}
-              className="font-semibold mx-2 underline cursor-pointer whitespace-nowrap"
+              className="font-semibold mx-2 underline underline-offset-2 cursor-pointer whitespace-nowrap"
+            >
+              Click Here
+            </span>
+          </div>
+
+            {/* admin registration */}
+          <div className="text-center p-3 py-1">
+            Don't have an account ?
+            <span
+              onClick={()=> navigate('/register')}
+              className="font-semibold mx-2 underline underline-offset-2 cursor-pointer whitespace-nowrap"
             >
               Click Here
             </span>

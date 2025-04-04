@@ -205,8 +205,8 @@ const RideRequest = () => {
                 <p className="text-xl font-semibold text-gray-900">
                   Estimated Fare
                 </p>
-                <p className="text-3xl font-bold text-black mt-2 flex justify-center">
-                  <FaRupeeSign /> {RideRequest?.fare}
+                <p className="text-3xl font-bold text-black mt-2 flex justify-center items-center">
+                  <FaRupeeSign className="size-6" /> {RideRequest?.fare}
                 </p>
               </div>
 
