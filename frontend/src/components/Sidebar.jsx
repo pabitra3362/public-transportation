@@ -53,51 +53,51 @@ const Sidebar = ({ onSidebarItemClick }) => {
           />
         </li>
 
-        <li className="text-xl">
+        <li className="text-lg">
           <Link
             to="/user/dashboard/profile"
             onClick={onSidebarItemClick} // Close sidebar when clicked
-            className="flex items-center gap-2 py-2 px-4 hover:bg-gray-700 transition"
+            className="flex items-center gap-2 py-2 px-4 hover:bg-gray-700 hover:text-yellow-300 transition"
           >
-            <CgProfile className="text-2xl" /> Profile
+            <CgProfile className="text-lg" /> Profile
           </Link>
         </li>
-        <li className="text-xl">
+        <li className="text-lg">
           <Link
             to="/user/dashboard/payment"
             onClick={onSidebarItemClick} // Close sidebar when clicked
-            className="flex items-center gap-2 py-2 px-4 hover:bg-gray-700 transition"
+            className="flex items-center gap-2 py-2 px-4 hover:bg-gray-700 hover:text-yellow-300 transition"
           >
-          <GiMoneyStack className="text-2xl" />  Payment
+          <GiMoneyStack className="text-lg" />  Payment
           </Link>
         </li>
-        <li className="text-xl">
+        <li className="text-lg">
           <Link
             to="/user/dashboard/ride-history"
             onClick={onSidebarItemClick} // Close sidebar when clicked
-            className="flex items-center gap-2 py-2 px-4 hover:bg-gray-700 transition"
+            className="flex items-center gap-2 py-2 px-4 hover:bg-gray-700 hover:text-yellow-300 transition"
           >
-          <IoMapOutline className="text-2xl" /> Ride History
+          <IoMapOutline className="text-lg" /> Ride History
           </Link>
         </li>
-        <li className="text-xl">
+        <li className="text-lg">
           <Link
             to="/user/dashboard/ride-tracking"
             onClick={onSidebarItemClick} // Close sidebar when clicked
-            className="flex items-center gap-2 py-2 px-4 hover:bg-gray-700 transition"
+            className="flex items-center gap-2 py-2 px-4 hover:bg-gray-700 hover:text-yellow-300 transition"
           >
-         <LuMapPinned className="text-2xl"/>   Ride Tracking
+         <LuMapPinned className="text-lg"/>   Ride Tracking
           </Link>
         </li>
       </ul>
 
       {/* Logout Button */}
-      <div className="text-xl mt-4">
+      <div className="text-lg mt-4">
         <button
           onClick={handleLogout} // Close sidebar when clicked
-          className="w-full flex items-center gap-2 py-2 text-left pl-4 text-white hover:bg-gray-700 transition duration-300"
+          className="w-full flex items-center gap-2 py-2 text-left pl-4 text-white hover:bg-gray-700 hover:text-yellow-300 transition duration-300"
         >
-        <BiLogOutCircle className="text-2xl" />  Logout
+        <BiLogOutCircle className="text-lg" />  Logout
         </button>
       </div>
     </div>

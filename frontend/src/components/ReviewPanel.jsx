@@ -3,6 +3,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FaStar } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
+import { registerReview } from "../services/review/review.services";
+import { FaChevronDown } from "react-icons/fa6";
 
 const schema = yup.object().shape({
   title: yup.string().required("Title is required"),
@@ -13,7 +16,7 @@ const schema = yup.object().shape({
     .min(1, "Please select a rating"),
 });
 
-const ReviewPanel = () => {
+const ReviewPanel = ({ ride, setReviewPanel }) => {
   const [rating, setRating] = useState(0);
   const {
     register,
@@ -30,11 +33,28 @@ const ReviewPanel = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
+    try {
+      const response = await registerReview({
+        title: data.title,
+        description: data.review,
+        rating: data.rating,
+        rideId: ride._id,
+      });
+
+      toast.dismiss()
+      toast.success("Thanks for your valuable time",{
+        onClose: ()=>{
+          setReviewPanel(false);
+        }
+      });
+    } catch (error) {
+      toast.error(error.response?.data?.error || error.message);
+    }
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 mt-10 bg-white rounded-md shadow-md">
+    <div className="w-full mx-auto p-4 mt-10 bg-white rounded-md shadow-md">
+      <ToastContainer autoClose={3000} draggable={true} />
       <h2 className="text-lg font-bold mb-4">Write a Review</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">
@@ -45,6 +65,7 @@ const ReviewPanel = () => {
             Title
           </label>
           <input
+            placeholder="Enter title..."
             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
               errors.title ? "border-red-500" : ""
             }`}
@@ -64,9 +85,10 @@ const ReviewPanel = () => {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="review"
           >
-            Review
+            Description
           </label>
           <textarea
+            placeholder="Enter Description..."
             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
               errors.review ? "border-red-500" : ""
             }`}
@@ -103,12 +125,22 @@ const ReviewPanel = () => {
           )}
         </div>
 
+        
+
+        <div className="flex justify-start items-center">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           type="submit"
         >
           Submit
         </button>
+        <button
+          onClick={() => setReviewPanel(false)}
+          className="w-fit h-10 px-10 py-2 rounded-md hover:bg-[#d36262]"
+        >
+          Close
+        </button>
+      </div>
       </form>
     </div>
   );

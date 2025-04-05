@@ -19,7 +19,6 @@ router.post(
       .isLength({ min: 7 })
       .withMessage("Password must be atleast 7 characters long"),
   ],
-  authAdmin,
   registerAdmin
 );
 

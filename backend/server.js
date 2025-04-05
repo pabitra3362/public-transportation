@@ -9,6 +9,7 @@ import mapRoutes from './routes/map.route.js';
 import rideRoutes from './routes/ride.route.js';
 import paymentRoutes from './routes/payment.route.js';
 import complaintRoutes from './routes/complaint.route.js';
+import reviewRoutes from './routes/review.route.js';
 import cookieParser from 'cookie-parser';
 import { initializeSocket } from './socket.js';
 import http from 'http';
@@ -42,8 +43,9 @@ app.use('/api/captain',captainRoutes);
 app.use('/api/admin',adminRoutes);
 app.use('/maps',mapRoutes);
 app.use('/ride',rideRoutes);
-app.use("/api/payment",paymentRoutes)
-app.use('/api/complaint',complaintRoutes)
+app.use("/api/payment",paymentRoutes);
+app.use('/api/complaint',complaintRoutes);
+app.use('/api/review',reviewRoutes);
 
 
 

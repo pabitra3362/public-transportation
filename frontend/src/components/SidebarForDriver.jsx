@@ -56,47 +56,47 @@ const SidebarForDriver = ({ onSidebarItemClick }) => {
         <li>
           <Link
             to="/driver/dashboard/profile"
-            className="text-white flex items-center gap-2  py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
+            className="text-white flex items-center gap-2  py-2 px-4 font-semibold hover:bg-gray-700 hover:text-yellow-300 text-lg"
             onClick={onSidebarItemClick}
           >
-        <VscAccount className="text-2xl" />    Profile
+        <VscAccount className="text-lg" />    Profile
           </Link>
         </li>
         <li>
           <Link
             to="/driver/dashboard/earnings"
-            className="text-white flex items-center gap-2 py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
+            className="text-white flex items-center gap-2 py-2 px-4 font-semibold hover:bg-gray-700 hover:text-yellow-300 text-lg"
             onClick={onSidebarItemClick}
           >
-         <FaRupeeSign  className="text-2xl"/>   Earnings
+         <FaRupeeSign  className="text-lg"/>   Earnings
           </Link>
         </li>
         <li>
           <Link
             to="/driver/dashboard/active-trip"
-            className="text-white flex items-center gap-2 py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
+            className="text-white flex items-center gap-2 py-2 px-4 font-semibold hover:bg-gray-700 hover:text-yellow-300 text-lg"
             onClick={onSidebarItemClick}
           >
-          <FaCarTunnel className="text-2xl"/>  Active Trip
+          <FaCarTunnel className="text-lg"/>  Active Trip
           </Link>
         </li>
         <li>
           <Link
             to="/driver/dashboard/ride-request"
-            className="text-white flex items-center gap-2 py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
+            className="text-white flex items-center gap-2 py-2 px-4 font-semibold hover:bg-gray-700 hover:text-yellow-300 text-lg"
             onClick={onSidebarItemClick}
           >
-           <LuMapPinPlus className="text-2xl" /> Ride Request
+           <LuMapPinPlus className="text-lg" /> Ride Request
           </Link>
         </li>
 
         <li>
           <Link
             to="/driver/dashboard/driver-ride-history"
-            className="text-white flex items-center gap-2 py-2 px-4 font-semibold hover:bg-gray-700 text-xl"
+            className="text-white flex items-center gap-2 py-2 px-4 font-semibold hover:bg-gray-700 hover:text-yellow-300 text-lg"
             onClick={onSidebarItemClick}
           >
-          <TbMapPinCheck className="text-2xl" />  Ride History
+          <TbMapPinCheck className="text-lg" />  Ride History
           </Link>
         </li>
 
@@ -104,7 +104,7 @@ const SidebarForDriver = ({ onSidebarItemClick }) => {
         <li>
           <button
             onClick={handleLogout}
-            className="w-full py-2 flex items-center gap-2 px-4 text-white font-semibold hover:bg-gray-700 text-left text-xl"
+            className="w-full py-2 flex items-center gap-2 px-4 text-white font-semibold hover:bg-gray-700 hover:text-yellow-300 text-left text-lg"
           >
          <BiLogOutCircle />   Logout
           </button>

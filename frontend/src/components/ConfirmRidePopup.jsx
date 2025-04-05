@@ -83,7 +83,7 @@ const ConfirmRidePopup = ({
           />
           <h2 className="font-bold text-lg capitalize">{ride?.user.name}</h2>
         </div>
-        <div className="font-bold text-lg">{distanceTime} KM</div>
+        <div className="font-bold text-lg">Phone: {ride?.phone}</div>
       </div>
 
       {/* <hr className="w-full bg-black h-[3px] opacity-20" /> */}
