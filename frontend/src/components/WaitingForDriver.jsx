@@ -48,9 +48,9 @@ const WaitingForDriver = ({ confirmedCar, ride }) => {
 
             <div className="text-right">
                 <h2 className="capitalize font-semibold text-lg">{ride?.captain.name}</h2>
-                <p className="font-bold text-lg">{ride?.captain.vehicle.plate}</p>
-                {/* <p className="">Maruti Suzuki</p> */}
+                <p className="font-bold text-sm">{ride?.captain.vehicle.plate}</p>
                 <h1 className="font-bold">OTP: {ride?.otp}</h1>
+                <p className="font-bold text-sm">Phone: {ride?.captain?.phone}</p>
             </div>
           </div>
     

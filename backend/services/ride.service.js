@@ -64,8 +64,10 @@ const createRideService = async ({
   pickup,
   destination,
   vehicleType,
+  phone,
+  name
 }) => {
-  if (!user || !pickup || !destination || !vehicleType) {
+  if (!user || !pickup || !destination || !vehicleType, !phone, !name) {
     throw new Error("All fields are required");
   }
 
@@ -75,6 +77,8 @@ const createRideService = async ({
     user,
     pickup,
     destination,
+    phone,
+    name,
     otp: getOTP(6),
     fare: fare[vehicleType],
   });
