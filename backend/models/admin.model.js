@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 
 
 const adminSchema = new mongoose.Schema({
-    name: {
+      name: {
         type: String,
         require: true,
         minlength: [3, "Name must be atleast 3 charcters long"],

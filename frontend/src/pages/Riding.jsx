@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
@@ -84,7 +85,7 @@ const Riding = () => {
   return (
     <div className="min-h-screen flex justify-center items-center">
     <ToastContainer />
-      <div className="h-screen lg:h-[70vh] w-full lg:w-[70%] lg:my-12 relative lg:rounded-2xl lg:overflow-hidden lg:hover:shadow-2xl lg:hover:-translate-y-8 duration-300 overflow-y-scroll">
+      <div className="h-screen lg:h-[70vh] w-full lg:w-[70%] lg:my-12 relative lg:rounded-2xl lg:overflow-y-scroll lg:hover:shadow-2xl lg:hover:-translate-y-8 duration-300 overflow-y-scroll">
         <div className=" flex justify-between items-center w-full absolute top-3 px-4">
           <h1 className="bg-transparent text-black tracking-[0.25rem] w-fit font-custom text-2xl ">
             Safar
@@ -116,11 +117,14 @@ const Riding = () => {
                 <h2 className="capitalize font-semibold text-lg">
                   {ride?.captain?.name}
                 </h2>
-                <p className="font-bold text-lg">
+                <p className="font-bold text-sm">
                   {ride?.captain?.vehicle.plate}
                 </p>
                 {/* <p className="">Maruti Suzuki</p> */}
-                <h1 className="font-bold">OTP: {ride?.otp}</h1>
+                <h1 className="font-bold text-sm">OTP: {ride?.otp}</h1>
+                <p className="font-bold text-sm">
+                  Phone: {ride?.captain?.phone}
+                </p>
               </div>
             </div>
 

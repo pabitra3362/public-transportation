@@ -1,55 +1,49 @@
+/* eslint-disable no-unused-vars */
 import { Button, Drawer } from "flowbite-react";
 import { useState } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getDriverToken, getUserToken } from "../utils/token";
 import { logoutUser } from "../services/auth/userAuth.service";
 import { logoutDriver } from "../services/auth/driverAuth.service";
 import { removeDriver } from "../features/auth/driverAuthSlice";
 import { removeUser } from "../features/auth/userAuthSlice";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
-
 
 export function MyDrawer() {
   const userToken = getUserToken();
-  const driverToken =  getDriverToken();
+  const driverToken = getDriverToken();
 
-  
   const navigate = useNavigate();
-  
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => setIsOpen(false);
 
-
-
   const handleLogout = async () => {
-      try {
-        if(userToken.length > 0){
-  
-          const result = await logoutUser({token:userToken})
-          if(result){
-            localStorage.removeItem('userToken') // remove token from localstorage 
-            removeUser(); // remove user info from store
-          }
-          
-          navigate('/')
+    try {
+      if (userToken.length > 0) {
+        const result = await logoutUser({ token: userToken });
+        if (result) {
+          localStorage.removeItem("userToken"); // remove token from localstorage
+          removeUser(); // remove user info from store
         }
-        else {
-          const result = await logoutDriver({token:driverToken})
-  
-          if(result){
-            localStorage.removeItem('driverToken') // remove token from localstorage
-            removeDriver(); // remove driver info from store
-          }
-  
-          navigate('/drive')
+
+        navigate("/");
+      } else {
+        const result = await logoutDriver({ token: driverToken });
+
+        if (result) {
+          localStorage.removeItem("driverToken"); // remove token from localstorage
+          removeDriver(); // remove driver info from store
         }
-  
-      } catch (error) {
-        toast.error(error.message)
+
+        navigate("/drive");
       }
+    } catch (error) {
+      toast.error(error.message);
     }
+  };
 
   const menuArr = [
     { text: "Home", link: "/" },
@@ -103,32 +97,41 @@ export function MyDrawer() {
                 <Link to={item.link}>{item.text}</Link>
               </div>
             ))}
+            {(userToken || driverToken) && (
+              <div onClick={handleClose}>
+                <Link
+                  to={`${userToken ? "/user/dashboard" : "/driver/dashboard"}`}
+                >
+                  Dashboard
+                </Link>
+              </div>
+            )}
             <div className="flex justify-center items-center gap-1 text-lg font-bold">
               <div className="text-yellow-400">+91 123</div>
               <div className="text-black">4567890</div>
             </div>
             <div>
-            {userToken.length == 0 && driverToken.length == 0 ? (
-            <button
-              onClick={() => {
-                handleClose()
-                navigate("/user-signup")
-              }}
-              className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 lg:block"
-            >
-              Sign-Up
-            </button>
-          ) : (
-            <button
-              onClick={()=>{
-                handleLogout()
-                handleClose()
-              }}
-              className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 lg:block"
-            >
-              Logout
-            </button>
-          )}
+              {userToken.length == 0 && driverToken.length == 0 ? (
+                <button
+                  onClick={() => {
+                    handleClose();
+                    navigate("/user-signup");
+                  }}
+                  className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 lg:block"
+                >
+                  Sign-Up
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    handleClose();
+                  }}
+                  className="border border-black border-opacity-60 px-3 py-2 rounded-lg font-bold hover:bg-black hover:text-white duration-200 lg:block"
+                >
+                  Logout
+                </button>
+              )}
             </div>
           </div>
         </Drawer.Items>

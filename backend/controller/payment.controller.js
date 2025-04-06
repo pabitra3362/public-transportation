@@ -1,7 +1,7 @@
 import { validationResult } from "express-validator";
 import stripe from "stripe";
 import config from "../config/config.js";
-import { savePayment, updatePaymentStatusService } from "../services/payment.service.js";
+import { getPaymentDetailsService, savePayment, updatePaymentStatusService } from "../services/payment.service.js";
 
 const stripeInstance = new stripe(config.stripeSecret);
 
@@ -41,7 +41,8 @@ const makePayment = async (req, res) => {
       amount: fare,
       status: session.status,
       ride: ride,
-      user: req.user._id
+      user: req.user._id,
+      captain: ride.captain._id
     });
 
     return res.status(201).json({ id: session.id });
@@ -61,9 +62,10 @@ const fetchPaymentInfo = async (req, res) => {
   const { sessionId } = req.query;
 
   try {
-    const session = await stripeInstance.checkout.sessions.retrieve(sessionId);
+    const paymentDetails = await getPaymentDetailsService({paymentId: sessionId});
+    const session = await stripeInstance.checkout.sessions.retrieve(sessionId)
 
-    return res.status(200).json({ session });
+    return res.status(200).json({ paymentDetails, session });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

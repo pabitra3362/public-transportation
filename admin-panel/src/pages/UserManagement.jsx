@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { deleteUser, getUsers } from "../services/userManagement.service";
 import { toast, ToastContainer } from "react-toastify";
 import CustomModal from "../components/Modal";
+import { Spinner } from "flowbite-react";
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -14,9 +16,10 @@ const UserManagement = () => {
         setUsers(response);
       } catch (error) {
         toast.error(error.message);
+      } finally {
+        setLoading(false);
       }
     };
-
     fetchUsers();
   }, []);
 
@@ -49,34 +52,49 @@ const UserManagement = () => {
         onChange={(e) => setSearchUser(e.target.value)}
         className="border p-2 mb-4 w-full"
       />
-      <table className="min-w-full border border-gray-300">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border px-4 py-2">User ID</th>
-            <th className="border px-4 py-2">Name</th>
-            <th className="border px-4 py-2">Email</th>
-            <th className="border px-4 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredUsers.map((user) => (
-            <tr key={user._id}>
-              <td className="border px-4 py-2">{user._id}</td>
-              <td className="border px-4 py-2">{user.name}</td>
-              <td className="border px-4 py-2">{user.email}</td>
-              <td className="border px-4 py-2 flex items-center gap-2">
-                <CustomModal user={user} />
-                <button
-                  onClick={() => handleBanBtn(user._id)}
-                  className="bg-red-500 text-white px-2 w-28 py-2 rounded ml-2"
-                >
-                  Ban
-                </button>
-              </td>
+
+      {loading ? (
+        <div className="text-center py-10">
+          <Spinner size="xl" />
+        </div>
+      ) : users.length === 0 ? (
+        <video
+          className="w-full h-96"
+          src="https://cdnl.iconscout.com/lottie/premium/preview-watermark/empty-14042396-11352619.mp4"
+          autoPlay
+          loop
+          muted
+        ></video>
+      ) : (
+        <table className="min-w-full border border-gray-300">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="border px-4 py-2">User ID</th>
+              <th className="border px-4 py-2">Name</th>
+              <th className="border px-4 py-2">Email</th>
+              <th className="border px-4 py-2">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredUsers.map((user) => (
+              <tr key={user._id}>
+                <td className="border px-4 py-2">{user._id}</td>
+                <td className="border px-4 py-2">{user.name}</td>
+                <td className="border px-4 py-2">{user.email}</td>
+                <td className="border px-4 py-2 flex items-center gap-2">
+                  <CustomModal user={user} />
+                  <button
+                    onClick={() => handleBanBtn(user._id)}
+                    className="bg-red-500 text-white px-2 w-28 py-2 rounded ml-2"
+                  >
+                    Ban
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

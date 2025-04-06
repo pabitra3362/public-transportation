@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext } from "react";
 import { FaMoneyBillWave, FaRupeeSign } from "react-icons/fa";
 import { GiJourney } from "react-icons/gi";
@@ -16,7 +17,7 @@ const CarConfirmPanel = ({ confirmedCar, setLookingDriverPanel, setCarConfirmPan
           destination: journeyDetails.destination,
           vehicleType: confirmedCar.vehicleType,
           phone: journeyDetails.phone,
-          name: journeyDetails.name,
+          name: journeyDetails.name
     })
     
     

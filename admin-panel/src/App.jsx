@@ -12,6 +12,7 @@ import ForgetPassword from './components/ForgetPassword';
 import TokenWrapper from './components/TokenWrapper';
 import ResetPassword from './components/ResetPassword';
 import LiveDirection from './components/LiveDirection';
+import SignUp from './pages/SignUp';
 
 
 
@@ -27,6 +28,7 @@ function App() {
         <div className="flex-grow p-4">
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path='/register' element={<SignUp />} />
             <Route path="/forgetPassword" element={<ForgetPassword />} />
             <Route path="/login/setNewPassword/admin/:id?" element={<ResetPassword />} />
             <Route path="/users" element={<TokenWrapper><UserManagement /></TokenWrapper>} />

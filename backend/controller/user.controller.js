@@ -7,10 +7,13 @@ import {
   updateUserService,
   getPaymentService,
   getRidesService,
+  getCurrentRideService,
+  cancelRideService
 } from "../services/user.service.js";
 import BlacklistedToken from "../models/blacklistToken.model.js";
 import { RES, FPES } from "../utils/emailSender.js";
 import { cloudinaryUpload } from '../utils/cloudinary.js';
+import { sendMessageToSocketId } from '../socket.js';
 
 // controller for userRegister
 async function userRegister(req, res) {
@@ -90,7 +93,7 @@ async function userLogout(req, res) {
  }
 }
 
-
+// controller for user forget password
 async function forgetUserPassword(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -107,7 +110,7 @@ async function forgetUserPassword(req, res) {
   }
 }
 
-
+// controller for set password
 async function setPassword(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -129,7 +132,7 @@ async function setPassword(req, res) {
   }
 }
 
-
+// controller for update user details
 async function updateUser(req, res) {
   const errors = validationResult(req);
 
@@ -150,13 +153,13 @@ async function updateUser(req, res) {
 
   try {
     const updatedUser = await updateUserService({name,email,id,file:uploadedUrl});
-    res.status(200).json({ message: "User updated successfully" });
+    res.status(200).json({ message: "User details updated" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 }
 
-
+// controller for fetch all payment history
 async function getPayments(req,res){
   const errors = validationResult(req);
 
@@ -175,7 +178,7 @@ async function getPayments(req,res){
   }
 }
 
-
+// controller for fetch all rides
 async function getRides (req, res) {
   const errors = validationResult(req);
 
@@ -193,6 +196,54 @@ async function getRides (req, res) {
   }
 }
 
+
+// controller to get current ride
+async function getCurrentRide (req, res) {
+  const errors = validationResult(req);
+
+  if(!errors.isEmpty()){
+    return res.status(400).json({errors: errors.array() })
+  }
+
+
+  const {id} = req.query;
+
+  try {
+    const currentRide = await getCurrentRideService({id})
+
+    res.status(200).json(currentRide)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+}
+
+
+// controller to cancel ride
+async function cancelRide (req, res) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { rideId } = req.body;
+
+  try {
+    const ride = await cancelRideService({ rideId });
+
+
+    sendMessageToSocketId(ride?.captain?.socketId, {
+      event: "ride-cancelled",
+      data: ride,
+    });
+
+
+    res.status(200).json({ message: `Ride cancelled successfully` });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export {
   userRegister,
   userLogin,
@@ -202,5 +253,7 @@ export {
   setPassword,
   updateUser,
   getPayments,
-  getRides
+  getRides,
+  getCurrentRide,
+  cancelRide
 };

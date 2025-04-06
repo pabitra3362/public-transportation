@@ -23,7 +23,7 @@ const createRide = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { pickup, destination, vehicleType } = req.body;
+  const { pickup, destination, vehicleType, phone, name } = req.body;
 
   try {
     const ride = await createRideService({
@@ -31,6 +31,8 @@ const createRide = async (req, res) => {
       pickup,
       destination,
       vehicleType,
+      phone,
+      name
     });
     res.status(201).json(ride);
 

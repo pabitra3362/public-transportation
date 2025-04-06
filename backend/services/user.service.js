@@ -60,7 +60,7 @@ async function getPaymentService ({id}) {
   if (!id) {
     throw new Error("All fields are required");
   }
-  const payment = await Payment.find({user: id});
+  const payment = await Payment.find({user: id, status: "complete"});
 
   return payment;
 }
@@ -71,13 +71,47 @@ async function getRidesService ({id}) {
     throw new Error("All fields are required");
   }
 
-  const rides = await Ride.find({user: id}).populate('captain');
+  const rides = await Ride.find({user: id, status:"completed"}).populate('captain');
 
   return rides;
+}
+
+
+// Service to get current ride
+async function getCurrentRideService ({id}) {
+  if (!id) {
+    throw new Error("All fields are required");
+  }
+
+  const rides = await Ride.findOne({user: id, status:"ongoing"}).sort({_id:-1}).populate('captain');
+
+  return rides;
+}
+
+
+// Service to cancel ride
+const cancelRideService = async ({ rideId }) => {
+  if (!rideId) {
+    throw new Error("Rid id is required");
+  }
+
+  const detailedRide = await Ride.findOne({_id: rideId }).populate('captain');
+  
+
+  if (!detailedRide) {
+    throw new Error("Ride with this id does not exist");
+  }
+
+  if(detailedRide.status === 'cancelled'){
+    throw new Error("Ride is already cancelled");
+  }
+
+  await Ride.findOneAndUpdate({_id: rideId},{status: 'cancelled'});
+  return detailedRide;
 }
 
 
 
 
 
-export {createUser, loginUser, forgetPassword, updateUserService, getPaymentService, getRidesService }
+export {createUser, loginUser, forgetPassword, updateUserService, getPaymentService, getRidesService, getCurrentRideService, cancelRideService }

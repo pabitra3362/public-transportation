@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { FaRupeeSign } from "react-icons/fa";
 import { FaRegClock } from "react-icons/fa6";

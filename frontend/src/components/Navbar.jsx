@@ -3,56 +3,52 @@ import React, { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { MyDrawer } from "./Drawer";
 import Logo from "../assets/Logo.jpg";
-import {toast, ToastContainer} from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
 import { logoutUser } from "../services/auth/userAuth.service";
 import { logoutDriver } from "../services/auth/driverAuth.service";
-import { removeUser } from '../features/auth/userAuthSlice'
-import { removeDriver } from '../features/auth/driverAuthSlice'
+import { removeUser } from "../features/auth/userAuthSlice";
+import { removeDriver } from "../features/auth/driverAuthSlice";
 import { jwtDecode } from "jwt-decode";
 import { getDriverToken, getUserToken } from "../utils/token";
 import { SocketContext } from "../context/SocketContext";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
-  
   const navigate = useNavigate();
   const userToken = getUserToken(); //get token from local storage
   const driverToken = getDriverToken(); //get token from local storage
   const { sendMessage, receiveMessage } = useContext(SocketContext);
-  const { driver } = useSelector(state => state.driver)
- 
-  
+  const { driver } = useSelector((state) => state.driver);
+  const dispatch = useDispatch();
+
+  let navArray = ["Drive", "About", "Service", "Team", "News", "Contact"];
 
   const handleLogout = async () => {
     try {
-      if(userToken.length > 0){
-
-        const result = await logoutUser({token:userToken})
-        if(result){
-          localStorage.removeItem('userToken') // remove token from localstorage 
-          removeUser(); // remove user info from store
-          navigate('/');
+      if (userToken.length > 0) {
+        const result = await logoutUser({ token: userToken });
+        if (result) {
+          localStorage.removeItem("userToken"); // remove token from localstorage
+          dispatch(removeUser()); // remove user info from store
+          navigate("/");
         }
-        
-      }
-      else {
-        const result = await logoutDriver({token:driverToken})
+      } else {
+        const result = await logoutDriver({ token: driverToken });
 
-        if(result){
-          localStorage.removeItem('driverToken') // remove token from localstorage
-          removeDriver(); // remove driver info from store
-          sendMessage('update-captain-status',{ userType: 'captain', userId: driver?._id })
-          navigate('/drive');
+        if (result) {
+          localStorage.removeItem("driverToken"); // remove token from localstorage
+          dispatch(removeDriver()); // remove driver info from store
+          sendMessage("update-captain-status", {
+            userType: "captain",
+            userId: driver?._id,
+          });
+          navigate("/drive");
         }
-
       }
-
     } catch (error) {
-      console.error(error.message)
+      console.error(error.message);
     }
-  }
-  
+  };
 
   return (
     <nav className="nav w-full bg-yellow-300 h-16 md:h-20 lg:h-24 flex items-center sticky top-0 z-40">
@@ -76,7 +72,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 to={`/`}
-                onClick={()=>window.scrollTo(0,0)}
+                onClick={() => window.scrollTo(0, 0)}
                 className={({ isActive }) =>
                   `font-bold text text-black hover:text-white transition duration-500 text-lg ${
                     isActive ? "border-b-2 border-white text-white" : ""
@@ -86,11 +82,11 @@ const Navbar = () => {
                 Home
               </NavLink>
             </li>
-            {["Drive","About", "Service", "Team", "News", "Contact"].map((item) => (
+            {navArray.map((item) => (
               <li key={item}>
                 <NavLink
                   to={`/${item.toLowerCase()}`}
-                  onClick={()=>window.scrollTo(0,0)}
+                  onClick={() => window.scrollTo(0, 0)}
                   className={({ isActive }) =>
                     `font-bold text text-black hover:text-white transition duration-500 text-lg ${
                       isActive ? "border-b-2 border-white text-white" : ""
@@ -101,6 +97,19 @@ const Navbar = () => {
                 </NavLink>
               </li>
             ))}
+            {(userToken || driverToken) && (<li>
+              <NavLink
+                to={`${userToken ? "/user/dashboard" : "/driver/dashboard"}`}
+                onClick={() => window.scrollTo(0, 0)}
+                className={({ isActive }) =>
+                  `font-bold text text-black hover:text-white transition duration-500 text-lg ${
+                    isActive ? "border-b-2 border-white text-white" : ""
+                  }`
+                }
+              >
+                Dashboard
+              </NavLink>
+            </li>)}
           </ul>
         </div>
 
@@ -127,7 +136,6 @@ const Navbar = () => {
               Logout
             </button>
           )}
-
         </div>
 
         {/* Drawer for Mobile */}

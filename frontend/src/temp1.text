@@ -1,0 +1,107 @@
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import DashboardNavbar from "./component/DashboardNavbar"; // Make sure path is correct
+import Profile from "./component/Profile"; 
+import RideTracking from "./component/RideTracking";
+import Payment from "./component/Payment";
+import RideHistory from "./component/RideHistory";
+import { useDispatch } from "react-redux";
+import { saveUser } from "./features/auth/userAuthSlice";
+import { saveDriver } from "./features/auth/driverAuthSlice";
+import getProfileData from "./utils/getProfileData";
+import { getDriverToken, getUserToken } from "./utils/token";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Service from "./pages/Service";
+import Team from "./pages/Team";
+import News from "./pages/News";
+import Contacts from "./pages/Contacts";
+import UserSignUp from "./pages/UserSignUp";
+import UserLogin from "./pages/UserLogin";
+import ForgotPassword from "./pages/ForgotPassword";
+import DriverSignUp from "./pages/DriverSignUp";
+import DriverLogin from "./pages/DriverLogin";
+import ResetPassword from "./pages/ResetPassword";
+import Drive from "./pages/Drive";
+import Riding from "./pages/Riding";
+import DriverHome from "./pages/DriverHome";
+import DriverRiding from "./pages/DriverRiding";
+import DriverWrapper from "./components/DriverWrapper";
+import PaymentResult from "./pages/PaymentResult";
+import Dashboard from "./components/Dashboard";
+
+const App = () => {
+  const dispatch = useDispatch();
+  const userToken = getUserToken();
+  const driverToken = getDriverToken();
+
+  const [currentPage, setCurrentPage] = useState("profile");
+
+  const handleLogout = () => {
+    // Logic to handle logout (you can clear session, redirect, etc.)
+    console.log("User logged out");
+    // Example: Redirect to login page or clear session data
+  };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (userToken) {
+        const { user, token } = await getProfileData({ token: userToken });
+        dispatch(saveUser({ user, token }));
+      } else {
+        const { driver, token } = await getProfileData({ token: driverToken });
+        dispatch(saveDriver({ driver, token }));
+      }
+    };
+
+    fetchUserData();
+  }, [dispatch]);
+
+  return (
+    <Router>
+      <div>
+        <Navbar />
+        <div className="App flex">
+          <div className="w-[20%]">
+            {/* Pass the current page and handle logout */}
+            <DashboardNavbar setCurrentPage={setCurrentPage} onLogout={handleLogout} />
+          </div>
+          <div className="content w-[80%] bg-gray-200">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/service" element={<Service />} />
+              <Route path="/team" element={<Team />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/contact" element={<Contacts />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/riding" element={<Riding />} />
+              <Route path="/drive" element={<Drive />} />
+              <Route path="/driver-home" element={<DriverWrapper><DriverHome /></DriverWrapper>} />
+              <Route path="/driver-riding" element={<DriverWrapper><DriverRiding /></DriverWrapper>} />
+              <Route path="/user-signup" element={<UserSignUp />} />
+              <Route path="/user-login" element={<UserLogin />} />
+              <Route path="/driver-signup" element={<DriverSignUp />} />
+              <Route path="/driver-login" element={<DriverLogin />} />
+              <Route path="/forgotpassword/:role" element={<ForgotPassword />} />
+              <Route path="/login/setNewPassword/:role/:id?" element={<ResetPassword />} />
+              <Route path="/payment/:paymentResult" element={<PaymentResult />} />
+              
+              {/* Add dashboard specific routes */}
+              <Route path="/tracking" element={<RideTracking />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route path="/history" element={<RideHistory />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    </Router>
+  );
+};
+
+export default App;

@@ -2,6 +2,20 @@ import axios from 'axios';
 import config from '../config/config';
 
 
+// Service for admin registration
+export const registerAdminService = async ({ name, email, password }) => {
+  try {
+    const admin = await axios.post(`${config.baseUrl}/api/admin/registerAdmin`, { name, email, password })
+
+    if (admin.status === 201) {
+      return admin.data;
+    }
+
+    return false;
+  } catch (error) {
+    throw new Error((error?.response?.data?.error) || (error.message))
+  }
+}
 
 // Service for admin login
 export const loginAdminService = async ({ email, password })=>{
@@ -16,7 +30,7 @@ export const loginAdminService = async ({ email, password })=>{
      return false;
       
     } catch (error) {
-      throw new Error((error?.response?.data?.message) || (error.message))
+      throw new Error((error?.response?.data?.error) || (error.message))
     }
   }
 

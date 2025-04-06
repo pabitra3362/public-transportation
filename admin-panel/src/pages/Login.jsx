@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -47,12 +46,11 @@ const Login = () => {
         dispatch(loginAdmin(admin));
         window.location.href= '/users';
       }
+      reset();
 
     } catch (error) {
-      toast.error(error.message)
-    } finally {
-      reset();
-    }
+      toast.error( error.response?.data?.error || error.message )
+    } 
     
   };
 
@@ -197,11 +195,24 @@ const Login = () => {
               </p>
             )}
           </div>
+
+          {/* forget password */}
           <div className="text-center p-3">
             Forgot Your Password ?
             <span
               onClick={navigateToForgotPassword}
-              className="font-semibold mx-2 underline cursor-pointer whitespace-nowrap"
+              className="font-semibold mx-2 underline underline-offset-2 cursor-pointer whitespace-nowrap"
+            >
+              Click Here
+            </span>
+          </div>
+
+            {/* admin registration */}
+          <div className="text-center p-3 py-1">
+            Don't have an account ?
+            <span
+              onClick={()=> navigate('/register')}
+              className="font-semibold mx-2 underline underline-offset-2 cursor-pointer whitespace-nowrap"
             >
               Click Here
             </span>

@@ -11,16 +11,20 @@ const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel, ride, confirmR
 
   useEffect(() => {
     async function callMe (){
-      const response =  await getDistanceAndTime({
-        pickup: ride?.pickup,
-        destination: ride?.destination
-      });
-
-      if(response){
-        const distance = response.distance.value / 1000;
-        setDistanceTime(distance)
-      }else{
-        setDistanceTime(null)
+      try {
+        const response =  await getDistanceAndTime({
+          pickup: ride?.pickup,
+          destination: ride?.destination
+        });
+  
+        if(response){
+          const distance = response.distance.value / 1000;
+          setDistanceTime(distance)
+        }else{
+          setDistanceTime(null)
+        }
+      } catch (error) {
+        toast.error(error.response?.data?.error || error.message);
       }
     }
 

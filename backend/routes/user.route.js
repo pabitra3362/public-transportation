@@ -1,6 +1,6 @@
 import express from "express";
 import {body, query} from 'express-validator';
-import {userRegister, userLogin, getUserProfile, userLogout, forgetUserPassword, setPassword, updateUser, getPayments, getRides } from '../controller/user.controller.js';
+import {userRegister, userLogin, getUserProfile, userLogout, forgetUserPassword, setPassword, updateUser, getPayments, getRides, getCurrentRide, cancelRide } from '../controller/user.controller.js';
 import { authUser } from "../middlewares/auth.middleware.js";
 import upload from '../middlewares/multer.middleware.js';
 
@@ -40,8 +40,8 @@ router.post('/setNewPassword',[
 
 // PUT request to update user details
 router.put('/updateUser',
-    authUser,
     upload.any(),
+    authUser,
     body('id').isString().withMessage(' Id is required'),
     body('name').isLength({ min: 3 }).withMessage('Name must be at least 3 characters long'),
     body('email').isEmail().withMessage('Email is not valid'),
@@ -60,6 +60,20 @@ router.get('/getAllRides',
     authUser,
     query('id').isString().withMessage(' Id is required'),
     getRides
+);
+
+// GET request to get current ride
+router.get('/getCurrentRide',
+    authUser,
+    query('id').isString().withMessage(' Id is required'),
+    getCurrentRide
+);
+
+// POST request to cancel ride
+router.post('/cancelRide',
+    body('rideId').isString().withMessage('Invalid ride id'),
+    authUser,
+    cancelRide
 )
 
 
