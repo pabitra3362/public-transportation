@@ -81,7 +81,7 @@ const ConfirmRidePopup = ({
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_ar6WjHrFQVRAlywciRUAbIn1iqVQGdyJYQ&s"
             alt="driver-image"
           />
-          <h2 className="font-bold text-lg capitalize">{ride?.user.name}</h2>
+          <h2 className="font-bold text-lg capitalize">{ride?.name}</h2>
         </div>
         <div className="font-bold text-lg">Phone: {ride?.phone}</div>
       </div>
