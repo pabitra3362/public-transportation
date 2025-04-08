@@ -218,11 +218,7 @@ const DriverProfile = () => {
                   value: 10,
                   message: "Phone Number must be exactly 10 digits",
                 },
-                validate: {
-                  noSpaces: (value) =>
-                    value.replace(/\s+/g, "").length === 10 ||
-                    "Phone Number must be exactly 10 digits without spaces.",
-                },
+                
               })}
               className="w-full border rounded-md p-2"
               placeholder="Enter phone number"
