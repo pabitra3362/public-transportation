@@ -29,7 +29,7 @@ const DriverEarnings = () => {
   }, [driver]);
 
   return (
-    <div className="bg-white p-3 sm:p-4 rounded-lg shadow-2xl mx-auto mt-4 w-full sm:w-[50%] md:w-[80%] lg:w-[70%] h-[55rem]">
+    <div className="bg-white overflow-y-auto p-3 sm:p-4 rounded-lg shadow-2xl mx-auto mt-4 w-full sm:w-[50%] md:w-[80%] lg:w-[70%] h-[55rem]">
       {/* Logo image */}
       <div className="text-center mb-4">
         <img

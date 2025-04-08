@@ -28,7 +28,7 @@ function PaymentHistory() {
   }, [user]);
 
   return (
-    <div className="bg-white p-3 sm:p-4 rounded-lg shadow-2xl mx-auto mt-4 w-full sm:w-[50%] md:w-[80%] lg:w-[70%] h-auto sm:h-auto md:h-[60%]">
+    <div className="bg-white overflow-y-auto p-3 sm:p-4 rounded-lg shadow-2xl mx-auto mt-4 w-full sm:w-[50%] md:w-[80%] lg:w-[70%] h-auto sm:h-auto md:h-[60%]">
       <ToastContainer autoClose={3000} draggable={true} />
       <div className="text-center mb-4">
         <img
@@ -48,7 +48,7 @@ function PaymentHistory() {
         </div>
       ) : paymentHistory.length > 0 ? (
         <div className="overflow-x-auto">
-          <table className="w-full table-fixed border-collapse text-xs sm:text-sm">
+          <table className="w-full table-fixed  border-collapse text-xs sm:text-sm">
             <thead className="bg-yellow-300">
               <tr>
                 <th className="px-2 sm:px-4 py-2 border-b text-left font-semibold text-black w-[20%]">
