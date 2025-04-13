@@ -24,7 +24,9 @@ const app = express()
 const server = http.createServer(app);
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin:["https://public-transportation.vercel.app","https://console.cron-job.org/"]
+}));
 app.use(helmet({
     contentSecurityPolicy: false,
 }));
